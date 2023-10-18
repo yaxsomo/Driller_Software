@@ -38,3 +38,14 @@ Exemple with a known file name :
 cd build
  ./client P1_TITRE.drg 
 ```
+
+### Executing the driller_frames.cpp file only 
+If you want to test the driller_frames.cpp file only, you can build it separately and execute it using the following commands :
+##### Building
+```bash
+g++ -std=c++11 -o driller_frames driller_frames.cpp
+```
+#### Executing
+```bash
+./driller_frames [filename.drg]
+```
