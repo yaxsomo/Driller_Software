@@ -2,7 +2,7 @@
 This Repository is reserved for LUCAS's Smart Driller Robot Software developement
 
 
-# Adding the open62541pp
+### Adding the open62541pp library
 In order to use the open62541pp library, we have to build it first. Here's the commands to execute in order :
 ```bash
 git clone --recursive https://github.com/open62541pp/open62541pp.git
@@ -14,6 +14,7 @@ cmake --build .
 cmake --install .        
 ```
 
+### Building the project
 Then we can go into the project root location and use the following commands to build the entire project :
 
 ```bash
@@ -24,7 +25,7 @@ make
 
 Now the project is built successfully!
 
-# Executing the main program
+### Executing the main program
 
 In order to execute the program, we have to go into the build folder and launch the client file :
 
