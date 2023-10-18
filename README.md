@@ -15,7 +15,7 @@ cmake --install .
 ```
 
 ### Building the project
-Then we can go into the project root location and use the following commands to build the entire project :
+Use the following commands to build the entire project :
 
 ```bash
 cmake .
@@ -29,11 +29,11 @@ Now the project is built successfully!
 
 In order to execute the program, we have to go into the build folder and launch the client file :
 
-Usage 
+##### Usage 
 ```
 ./client [filename.drg]
 ```
-Exemple with a known file name : 
+##### Exemple with a known file name 
 ```bash
 cd build
  ./client P1_TITRE.drg 
@@ -45,7 +45,7 @@ If you want to test the driller_frames.cpp file only, you can build it separatel
 ```bash
 g++ -std=c++11 -o driller_frames driller_frames.cpp
 ```
-#### Executing
+##### Executing
 ```bash
 ./driller_frames [filename.drg]
 ```
