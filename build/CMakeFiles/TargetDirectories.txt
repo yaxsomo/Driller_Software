@@ -1,0 +1,3 @@
+/mnt/c/Users/yohan/Downloads/Archive/build/CMakeFiles/client.dir
+/mnt/c/Users/yohan/Downloads/Archive/build/CMakeFiles/edit_cache.dir
+/mnt/c/Users/yohan/Downloads/Archive/build/CMakeFiles/rebuild_cache.dir
