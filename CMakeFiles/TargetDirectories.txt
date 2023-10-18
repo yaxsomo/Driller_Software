@@ -1,3 +1,3 @@
-/mnt/c/Users/yohan/Downloads/Archive/CMakeFiles/client.dir
-/mnt/c/Users/yohan/Downloads/Archive/CMakeFiles/edit_cache.dir
-/mnt/c/Users/yohan/Downloads/Archive/CMakeFiles/rebuild_cache.dir
+/mnt/c/Users/yohan/Downloads/Driller_Software/CMakeFiles/client.dir
+/mnt/c/Users/yohan/Downloads/Driller_Software/CMakeFiles/edit_cache.dir
+/mnt/c/Users/yohan/Downloads/Driller_Software/CMakeFiles/rebuild_cache.dir

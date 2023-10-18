@@ -8,8 +8,8 @@ set(CMAKE_DEPENDS_LANGUAGES
 
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
-  "/mnt/c/Users/yohan/Downloads/Archive/client.cpp" "CMakeFiles/client.dir/client.cpp.o" "gcc" "CMakeFiles/client.dir/client.cpp.o.d"
-  "/mnt/c/Users/yohan/Downloads/Archive/driller_frames.cpp" "CMakeFiles/client.dir/driller_frames.cpp.o" "gcc" "CMakeFiles/client.dir/driller_frames.cpp.o.d"
+  "/mnt/c/Users/yohan/Downloads/Driller_Software/client.cpp" "CMakeFiles/client.dir/client.cpp.o" "gcc" "CMakeFiles/client.dir/client.cpp.o.d"
+  "/mnt/c/Users/yohan/Downloads/Driller_Software/driller_frames.cpp" "CMakeFiles/client.dir/driller_frames.cpp.o" "gcc" "CMakeFiles/client.dir/driller_frames.cpp.o.d"
   )
 
 # Targets to which this target links.
