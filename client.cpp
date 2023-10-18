@@ -13,6 +13,7 @@
 #include <algorithm>      // Inclut la bibliothèque pour utiliser la fonction std::sort
 #include <cstdlib>
 #include "open62541pp/open62541pp.h"
+
 #include "driller_frames.h"
 
 extern std::vector<Outil> toolBank;
@@ -200,8 +201,18 @@ int main(int argc, char* argv[]) {
 
 */
 
-
-
+//TO FIX :
+std::string numero_alarme;
+UA_NodeId etat_alarme = UA_NODEID_STRING(4, ("UHX65A.Application.Alarm_Global.Alarm.Active_Alarm[" + numero_alarme + "].Active").c_str());
+UA_NodeId texte_alarme = UA_NODEID_STRING(4, ("UHX65A.Application.Alarm_Global.Alarm.Active_Alarm[" + numero_alarme + "].Text").c_str());
+UA_NodeId vitesse_obot = UA_NODEID_STRING(4, "UHX65A.Application.GVL_Config.Speed");
+UA_NodeId etat_robot = UA_NODEID_STRING(4, "UHX65A.Application.User_PRG.Robot_Cantilever.OUT.State");
+UA_NodeId position_robot = UA_NODEID_STRING(4, "UHX65A.Application.User_PRG.Robot_Cantilever.OUT.Position");
+UA_NodeId repere_tole_opcua = UA_NODEID_STRING(4, "UHX65A.Application.User_PRG.Robot_Cantilever.Repere_tole");
+UA_NodeId reception_mission = UA_NODEID_STRING(4, "UHX65A.Application.User_PRG.Trame_IN_Akeros");
+UA_NodeId echo_fin_mission = UA_NODEID_STRING(4, "UHX65A.Application.User_PRG.Trame_OUT_Akeros");
+UA_NodeId lancement_mission = UA_NODEID_STRING(4, "UHX65A.Application.User_PRG.RAZ_Trame_IN_Akeros");
+//--------------------
 
 
 
@@ -209,12 +220,51 @@ int main(int argc, char* argv[]) {
     
     //------------------------------------------------------------------------
     //OPCUA SECTION
-    opcua::Client client;
+    opcua::Client client; //Création d'un nouveau objet de type opcua::Client
     std::cout << "Client Object Created!" << std::endl;
-    client.connect("opc.tcp://localhost:4840");
+    client.connect("opc.tcp://192.168.100.14:4840"); // Tentative de connexion au client via son addresse tcp
 
-    opcua::Node node = client.getNode(opcua::VariableId::Server_ServerStatus_CurrentTime);
+    opcua::Node node = client.getNode(opcua::VariableId::Server_ServerStatus_CurrentTime); //
     const auto dt = node.readValueScalar<opcua::DateTime>();
 
-    std::cout << "Server date (UTC): " << dt.format("%Y-%m-%d %H:%M:%S") << std::endl;
+    std::cout << "Server date from the PLC (UTC): " << dt.format("%Y-%m-%d %H:%M:%S") << std::endl;
+
+
+    //TEST ENVOI COMMANDE
+    /*
+    UA_Variant commandValue;
+    UA_Variant_init(&commandValue);
+    
+    char* commandString = "YourStringCommandHere";
+    UA_String myString = UA_STRING(commandString);
+    UA_Variant_setScalarCopy(&commandValue, &myString, &UA_TYPES[UA_TYPES_STRING]);
+
+
+    UA_StatusCode writeStatus = UA_Client_write(client, etat_robot, commandValue);
+    if (writeStatus != UA_STATUSCODE_GOOD) {
+        // Handle write error
+    }
+    */
+
+   //STATUS INFORMATION GATHERING SECTION (UA_Client_readValueAttribute TO FIX)
+    UA_DataValue dataValue;
+    UA_StatusCode readStatus = UA_Client_readValueAttribute(&client, etat_robot, &dataValue);
+
+    if (readStatus == UA_STATUSCODE_GOOD) {
+        // Successfully read the value. You can access the value using dataValue.data.
+        if (dataValue.hasValue) {
+            UA_String valueString = *(UA_String*)dataValue.data;
+            printf("Value of etat_robot: %.*s\n", (int)valueString.length, valueString.data);
+        }
+    } else {
+        // Handle read error.
+        printf("Error reading etat_robot: %s\n", UA_StatusCode_name(readStatus));
+    }
+    //---------------------
+
+
+
+    
+
+    
 }

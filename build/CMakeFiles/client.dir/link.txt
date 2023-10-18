@@ -1,1 +1,0 @@
-/usr/bin/c++ CMakeFiles/client.dir/client.cpp.o CMakeFiles/client.dir/driller_frames.cpp.o -o client  /usr/local/lib/libopen62541pp.a /usr/local/lib/libopen62541.a -lm -lrt 
