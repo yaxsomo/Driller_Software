@@ -23,7 +23,6 @@ Use the following commands to build the entire project :
 
 ```bash
 cmake .
-cd build
 make
 ```
 
@@ -39,7 +38,6 @@ In order to execute the program, we have to go into the build folder and launch 
 ```
 ##### Exemple with a known file name 
 ```bash
-cd build
  ./client P1_TITRE.drg 
 ```
 
