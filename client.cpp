@@ -13,6 +13,9 @@
 #include <algorithm>      // Inclut la bibliothèque pour utiliser la fonction std::sort
 #include <cstdlib>
 #include "open62541pp/open62541pp.h"
+#include <open62541/client_config_default.h>
+#include <open62541/client_highlevel.h>
+#include <open62541/plugin/log_stdout.h>
 
 #include "driller_frames.h"
 
@@ -201,17 +204,21 @@ int main(int argc, char* argv[]) {
 
 */
 
-//TO FIX :
-std::string numero_alarme;
-UA_NodeId etat_alarme = UA_NODEID_STRING(4, ("UHX65A.Application.Alarm_Global.Alarm.Active_Alarm[" + numero_alarme + "].Active").c_str());
-UA_NodeId texte_alarme = UA_NODEID_STRING(4, ("UHX65A.Application.Alarm_Global.Alarm.Active_Alarm[" + numero_alarme + "].Text").c_str());
-UA_NodeId vitesse_obot = UA_NODEID_STRING(4, "UHX65A.Application.GVL_Config.Speed");
-UA_NodeId etat_robot = UA_NODEID_STRING(4, "UHX65A.Application.User_PRG.Robot_Cantilever.OUT.State");
-UA_NodeId position_robot = UA_NODEID_STRING(4, "UHX65A.Application.User_PRG.Robot_Cantilever.OUT.Position");
-UA_NodeId repere_tole_opcua = UA_NODEID_STRING(4, "UHX65A.Application.User_PRG.Robot_Cantilever.Repere_tole");
-UA_NodeId reception_mission = UA_NODEID_STRING(4, "UHX65A.Application.User_PRG.Trame_IN_Akeros");
-UA_NodeId echo_fin_mission = UA_NODEID_STRING(4, "UHX65A.Application.User_PRG.Trame_OUT_Akeros");
-UA_NodeId lancement_mission = UA_NODEID_STRING(4, "UHX65A.Application.User_PRG.RAZ_Trame_IN_Akeros");
+//VARIABLES AKEROS
+std::string numero_alarme = "1"; // Replace with the actual alarm number as a string
+std::string etat_alarme_str = "UHX65A.Application.Alarm_Global.Alarm.Active_Alarm[" + numero_alarme + "].Active";
+std::string texte_alarme_str = "UHX65A.Application.Alarm_Global.Alarm.Active_Alarm[" + numero_alarme + "].Text";
+
+UA_NodeId etat_alarme = UA_NODEID_STRING(4, const_cast<char*>(etat_alarme_str.c_str()));
+UA_NodeId texte_alarme = UA_NODEID_STRING(4, const_cast<char*>(texte_alarme_str.c_str()));
+UA_NodeId vitesse_robot = UA_NODEID_STRING(4, const_cast<char*>("UHX65A.Application.GVL_Config.Speed"));
+UA_NodeId etat_robot = UA_NODEID_STRING(4, const_cast<char*>("UHX65A.Application.User_PRG.Robot_Cantilever.OUT.State"));
+UA_NodeId position_robot = UA_NODEID_STRING(4, const_cast<char*>("UHX65A.Application.User_PRG.Robot_Cantilever.OUT.Position"));
+UA_NodeId repere_tole_opcua = UA_NODEID_STRING(4, const_cast<char*>("UHX65A.Application.User_PRG.Robot_Cantilever.Repere_tole"));
+UA_NodeId reception_mission = UA_NODEID_STRING(4, const_cast<char*>("UHX65A.Application.User_PRG.Trame_IN_Akeros"));
+UA_NodeId echo_fin_mission = UA_NODEID_STRING(4, const_cast<char*>("UHX65A.Application.User_PRG.Trame_OUT_Akeros"));
+UA_NodeId lancement_mission = UA_NODEID_STRING(4, const_cast<char*>("UHX65A.Application.User_PRG.RAZ_Trame_IN_Akeros"));
+
 //--------------------
 
 
@@ -220,6 +227,7 @@ UA_NodeId lancement_mission = UA_NODEID_STRING(4, "UHX65A.Application.User_PRG.R
     
     //------------------------------------------------------------------------
     //OPCUA SECTION
+    /*
     opcua::Client client; //Création d'un nouveau objet de type opcua::Client
     std::cout << "Client Object Created!" << std::endl;
     client.connect("opc.tcp://192.168.100.14:4840"); // Tentative de connexion au client via son addresse tcp
@@ -228,7 +236,21 @@ UA_NodeId lancement_mission = UA_NODEID_STRING(4, "UHX65A.Application.User_PRG.R
     const auto dt = node.readValueScalar<opcua::DateTime>();
 
     std::cout << "Server date from the PLC (UTC): " << dt.format("%Y-%m-%d %H:%M:%S") << std::endl;
+*/
+    // Create a client instance
+    UA_Client *client = UA_Client_new();
+    UA_ClientConfig *clientConfig = UA_Client_getConfig(client);
+    UA_ClientConfig_setDefault(clientConfig);
 
+    // Connect to the server
+    const char *serverUrl = "opc.tcp://192.168.100.14:4840";
+    UA_StatusCode connectStatus = UA_Client_connect(client, serverUrl);
+
+    if (connectStatus != UA_STATUSCODE_GOOD) {
+        // Handle connection error
+        UA_Client_delete(client); // Clean up the client if the connection fails
+        return -1; // Or some other error handling
+    }
 
     //TEST ENVOI COMMANDE
     /*
@@ -247,19 +269,26 @@ UA_NodeId lancement_mission = UA_NODEID_STRING(4, "UHX65A.Application.User_PRG.R
     */
 
    //STATUS INFORMATION GATHERING SECTION (UA_Client_readValueAttribute TO FIX)
-    UA_DataValue dataValue;
-    UA_StatusCode readStatus = UA_Client_readValueAttribute(&client, etat_robot, &dataValue);
+//STATUS INFORMATION GATHERING SECTION (UA_Client_readValueAttribute TO FIX)
+UA_DataValue dataValue;
+UA_StatusCode readStatus = UA_Client_readValueAttribute(client, etat_robot, &dataValue.value);
 
-    if (readStatus == UA_STATUSCODE_GOOD) {
-        // Successfully read the value. You can access the value using dataValue.data.
-        if (dataValue.hasValue) {
-            UA_String valueString = *(UA_String*)dataValue.data;
+if (readStatus == UA_STATUSCODE_GOOD) {
+    // Successfully read the value. You can access the value using dataValue.value.
+    if (dataValue.hasValue) {
+        UA_Variant variantValue = dataValue.value;
+        if (variantValue.type == &UA_TYPES[UA_TYPES_STRING]) {
+            UA_String valueString = *(UA_String*)variantValue.data;
             printf("Value of etat_robot: %.*s\n", (int)valueString.length, valueString.data);
+        } else {
+            // Handle data type mismatch or other cases as needed.
         }
-    } else {
-        // Handle read error.
-        printf("Error reading etat_robot: %s\n", UA_StatusCode_name(readStatus));
     }
+} else {
+    // Handle read error.
+    printf("Error reading etat_robot: %s\n", UA_StatusCode_name(readStatus));
+}
+
     //---------------------
 
 

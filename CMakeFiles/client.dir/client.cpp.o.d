@@ -328,4 +328,15 @@ CMakeFiles/client.dir/client.cpp.o: \
  /usr/local/include/open62541pp/ValueBackend.h \
  /usr/local/include/open62541pp/services/services.h \
  /usr/local/include/open62541pp/services/View.h \
+ /usr/local/include/open62541/client_config_default.h \
+ /usr/local/include/open62541/client.h \
+ /usr/local/include/open62541/types_generated_handling.h \
+ /usr/local/include/open62541/types_generated.h \
+ /usr/local/include/open62541/plugin/log.h \
+ /usr/local/include/open62541/plugin/network.h \
+ /usr/local/include/open62541/util.h \
+ /usr/local/include/open62541/plugin/securitypolicy.h \
+ /usr/local/include/open62541/plugin/pki.h \
+ /usr/local/include/open62541/client_highlevel.h \
+ /usr/local/include/open62541/plugin/log_stdout.h \
  /mnt/c/Users/yohan/Downloads/Driller_Software/driller_frames.h

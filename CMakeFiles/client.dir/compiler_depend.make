@@ -400,6 +400,17 @@ CMakeFiles/client.dir/client.cpp.o: client.cpp \
   /usr/local/include/open62541pp/ValueBackend.h \
   /usr/local/include/open62541pp/services/services.h \
   /usr/local/include/open62541pp/services/View.h \
+  /usr/local/include/open62541/client_config_default.h \
+  /usr/local/include/open62541/client.h \
+  /usr/local/include/open62541/types_generated_handling.h \
+  /usr/local/include/open62541/types_generated.h \
+  /usr/local/include/open62541/plugin/log.h \
+  /usr/local/include/open62541/plugin/network.h \
+  /usr/local/include/open62541/util.h \
+  /usr/local/include/open62541/plugin/securitypolicy.h \
+  /usr/local/include/open62541/plugin/pki.h \
+  /usr/local/include/open62541/client_highlevel.h \
+  /usr/local/include/open62541/plugin/log_stdout.h \
   driller_frames.h
 
 CMakeFiles/client.dir/driller_frames.cpp.o: driller_frames.cpp \
@@ -696,6 +707,14 @@ CMakeFiles/client.dir/driller_frames.cpp.o: driller_frames.cpp \
 
 driller_frames.cpp:
 
+/usr/local/include/open62541/plugin/pki.h:
+
+/usr/local/include/open62541/util.h:
+
+/usr/local/include/open62541/plugin/network.h:
+
+/usr/local/include/open62541/types_generated_handling.h:
+
 /usr/local/include/open62541pp/ValueBackend.h:
 
 /usr/local/include/open62541pp/Session.h:
@@ -888,6 +907,8 @@ driller_frames.cpp:
 
 /usr/include/x86_64-linux-gnu/bits/sockaddr.h:
 
+/usr/local/include/open62541/client_highlevel.h:
+
 /usr/local/include/open62541pp/types/NodeId.h:
 
 /usr/include/x86_64-linux-gnu/bits/socket_type.h:
@@ -1024,6 +1045,8 @@ driller_frames.cpp:
 
 /usr/include/x86_64-linux-gnu/bits/types/wint_t.h:
 
+/usr/local/include/open62541/plugin/securitypolicy.h:
+
 /usr/include/wchar.h:
 
 /usr/include/c++/11/bits/cxxabi_init_exception.h:
@@ -1043,6 +1066,8 @@ driller_frames.cpp:
 /usr/include/x86_64-linux-gnu/c++/11/bits/cpu_defines.h:
 
 /usr/include/c++/11/exception:
+
+/usr/local/include/open62541/client.h:
 
 /usr/include/asm-generic/socket.h:
 
@@ -1122,6 +1147,8 @@ driller_frames.cpp:
 
 /usr/include/x86_64-linux-gnu/sys/single_threaded.h:
 
+/usr/local/include/open62541/plugin/log_stdout.h:
+
 /usr/include/c++/11/pstl/pstl_config.h:
 
 /usr/include/c++/11/cmath:
@@ -1168,6 +1195,8 @@ driller_frames.cpp:
 
 /usr/include/c++/11/bits/unique_ptr.h:
 
+/usr/local/include/open62541/client_config_default.h:
+
 /usr/include/poll.h:
 
 /usr/include/x86_64-linux-gnu/bits/types/struct_timeval.h:
@@ -1189,6 +1218,8 @@ driller_frames.cpp:
 /usr/include/c++/11/cwchar:
 
 /usr/lib/gcc/x86_64-linux-gnu/11/include/stdint.h:
+
+/usr/local/include/open62541/plugin/log.h:
 
 /usr/include/unistd.h:
 
