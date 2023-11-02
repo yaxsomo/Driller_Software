@@ -16,242 +16,155 @@
 #include <open62541/client_config_default.h>
 #include <open62541/client_highlevel.h>
 #include <open62541/plugin/log_stdout.h>
+#include <open62541/client.h>
+
+
 
 #include "driller_frames.h"
 
 extern std::vector<Outil> toolBank;
-
-int main(int argc, char* argv[]) {
-
-    //---------------------------------------------------------------------
-/*
-        // Déclaration de deux vecteurs pour stocker les coordonnées transformées
-    std::vector<SymValue> Transformation_Repere_Tole, Transformation_Repere_Robot;
-    std::string epaisseur_tole;
-    Outil currentTool = {};
-    std::string imageData;
-    unsigned width = 640; // Set the width of your image
-    unsigned height = 480; // Set the height of your image
-    std::string image_filename = "output.png"; // Set the desired output filename
-
-
-    // Création d'une structure de coordonnées pour le repère de la tôle
-    Coordinates repere_tole;
-    repere_tole.x = 4000.0;
-    repere_tole.y = 2000.0;
-    repere_tole.theta = 180.0;
-
-    // Vérification du nombre d'arguments de la ligne de commande
-    if (argc != 2) {
-        // Affiche un message d'erreur si l'argument n'est pas correct
-        std::cerr << "Usage: " << argv[0] << " filename.drg" << std::endl;
-        return 1; // Quitte le programme avec un code d'erreur
-    }
-
-
-    std::vector<Outil> toolMagasine;
-
-    // Check s'il y a au moins 20 outils dans la banque
-    if (toolBank.size() >= 20) {
-        // Recupere les 20 premiers outils dans la banque
-        toolMagasine.assign(toolBank.begin(), toolBank.begin() + 20);
-    } else {
-        // Pas assez d'outils dans la banque d'outils
-        std::cerr << "Error: Not enough tools in the toolBank." << std::endl;
-        return 2; // Quitte le programme avec un code d'erreur
-        
-    }
-
-    // Récupération du nom de fichier à partir des arguments de la ligne de commande
-    std::string filename(argv[1]);
-
-    // Ouverture du fichier en lecture
-    std::ifstream file(filename);
-    if (!file) {
-        // Affiche un message d'erreur si l'ouverture du fichier échoue
-        std::cerr << "Error opening file: " << filename << std::endl;
-        return 1; // Quitte le programme avec un code d'erreur
-    }
-
-    epaisseur_tole = getThickness(filename);
-    if (epaisseur_tole != "ERR") {
-        std::cout << "Epaisseur: " << epaisseur_tole << std::endl;
-    } else {
-        std::cerr << "Epaisseur not found or an error occurred." << std::endl;
-    }
-
-    // Lecture du contenu complet du fichier dans une chaîne de caractères
-    std::string fileContent((std::istreambuf_iterator<char>(file)), std::istreambuf_iterator<char>());
-
-
-// Extract the first <Image> section with image-type="png"
-    std::string imageSection = extractImageSection(fileContent);
-
-    if (!imageSection.empty()) {
-        //std::cout << "Found Image Section:" << std::endl;
-        //std::cout << imageSection << std::endl;
-
-        // Extract the CDATA content from the Image section
-        imageData = extractImageData(imageSection);
-        if (!imageData.empty()) {
-            std::cout << "Found CDATA Content:" << std::endl;
-            //std::cout << imageData.length() << std::endl;
-
-            std::string imageData_cleaned = cleanString(imageData);
-
-            std::cout << imageData_cleaned.length() << std::endl;
-
-            std::cout << "Last 10 characters of imageData: ";
-            std::string::size_type length = imageData_cleaned.length();
-            if (length >= 10) {
-                std::cout.write(imageData.c_str() + length - 10, 10);
-            } else {
-                std::cout << imageData; // Print the entire string if it's less than 10 characters
-            }
-            std::cout << std::endl;
-            // Decode base64-encoded image data
-            //std::string decodedImageData = base64_decode(imageData);
-
-            //std::string decodedImageData = b64decode(imageData, imageData.size());
-
-            std::vector<BYTE> decodedImageData = base64_decode(imageData_cleaned);
-
-            // Print the size of the decodedImageData vector
-            std::cout << "Size of decodedImageData: " << decodedImageData.size() << " bytes" << std::endl;
-
-                // Save the image data as a PNG file
-                saveImageToPNG(decodedImageData, width, height, image_filename);
-
-
-
-                        
-        } else {
-            std::cout << "No CDATA content found in the Image section." << std::endl;
-        }
-    } else {
-        std::cout << "No image section with image-type=\"png\" found in the file." << std::endl;
-    }
-
-
-
-
-
-
-
-    // Extraction des chemins et des coordonnées à partir du contenu du fichier
-    std::vector<PathCoordinates> pathCoordinatesList = extractPathAndCoordinates(fileContent);
-
-    // Vérification si la liste des coordonnées est vide
-    if (pathCoordinatesList.empty()) {
-        std::cout << "Aucun contenu dans la section 200." << std::endl;
-        return 1; // Quitte le programme avec un code d'erreur
-    }
-
-    // Affichage des chemins et des coordonnées
-    printPathCoordinates(pathCoordinatesList);
-
-    // Boucle pour gérer les fichiers .sym
-    for (const PathCoordinates& pathCoordinates : pathCoordinatesList) {
-        // Vérifie si le chemin se termine par ".sym"
-        if (pathCoordinates.path.substr(pathCoordinates.path.size() - 4) == ".sym") {
-            // Extraction des données brutes du fichier .sym
-            std::vector<SymValue> raw_holes_data = extractSymData(pathCoordinates.path);
-            
-            // Vérifie si les données brutes ne sont pas vides
-            if (!raw_holes_data.empty()) {
-
-
-
-                // Transformation 1 : Transformation des coordonnées dans le repère de la tôle
-                for (const Coordinates& coordinate : pathCoordinates.coordinates) {
-                    for (const SymValue& value : raw_holes_data) {
-                        // Applique la transformation dans le repère de la tôle
-                        SymValue transformedValue = transformation_repere_rad(value, coordinate);
-                        // Ajoute les coordonnées transformées au vecteur Transformation_Repere_Tole
-                        Transformation_Repere_Tole.push_back(transformedValue);
-                    }
-                }
-
-                // Transformation 2 : Transformation des coordonnées dans le repère du robot
-                for (const SymValue& value : Transformation_Repere_Tole) {
-                    // Applique la transformation dans le repère du robot
-                    SymValue transformedValue = transformation_repere_rad(value, repere_tole);
-                    // Ajoute les coordonnées transformées au vecteur Transformation_Repere_Robot
-                    Transformation_Repere_Robot.push_back(transformedValue);
-                }
-
-                // Tri des données transformées dans le repère robot
-                std::vector<int> customTypeOrder = {1, 4, 2, 3, 5};
-                std::vector<SymValueGroup> final_values = sortAndGroupByType(Transformation_Repere_Robot, customTypeOrder);
-                for (SymValueGroup& group : final_values) {
-                std::sort(group.values.begin(), group.values.end(), sortByRayonAndDistance);
-                }
-
-
-                // Affichage des données transformées (test)
-                //for (SymValueGroup& group : final_values) {
-                //printStructure(group.values);
-                //}
-
-                // Call the generateCommands function
-                generateCommands(final_values, epaisseur_tole);
-
-                
-            }
-        }
-    }
-
-
-*/
-
 //VARIABLES AKEROS
+const int N_ALARMES = 50;
 std::string numero_alarme = "1"; // Replace with the actual alarm number as a string
 std::string etat_alarme_str = "UHX65A.Application.Alarm_Global.Alarm.Active_Alarm[" + numero_alarme + "].Active";
 std::string texte_alarme_str = "UHX65A.Application.Alarm_Global.Alarm.Active_Alarm[" + numero_alarme + "].Text";
 
-UA_NodeId etat_alarme = UA_NODEID_STRING(4, const_cast<char*>(etat_alarme_str.c_str()));
-UA_NodeId texte_alarme = UA_NODEID_STRING(4, const_cast<char*>(texte_alarme_str.c_str()));
-UA_NodeId vitesse_robot = UA_NODEID_STRING(4, const_cast<char*>("UHX65A.Application.GVL_Config.Speed"));
-UA_NodeId etat_robot = UA_NODEID_STRING(4, const_cast<char*>("UHX65A.Application.User_PRG.Robot_Cantilever.OUT.State"));
-UA_NodeId position_robot = UA_NODEID_STRING(4, const_cast<char*>("UHX65A.Application.User_PRG.Robot_Cantilever.OUT.Position"));
-UA_NodeId repere_tole_opcua = UA_NODEID_STRING(4, const_cast<char*>("UHX65A.Application.User_PRG.Robot_Cantilever.Repere_tole"));
-UA_NodeId reception_mission = UA_NODEID_STRING(4, const_cast<char*>("UHX65A.Application.User_PRG.Trame_IN_Akeros"));
-UA_NodeId echo_fin_mission = UA_NODEID_STRING(4, const_cast<char*>("UHX65A.Application.User_PRG.Trame_OUT_Akeros"));
-UA_NodeId lancement_mission = UA_NODEID_STRING(4, const_cast<char*>("UHX65A.Application.User_PRG.RAZ_Trame_IN_Akeros"));
-
-//--------------------
+UA_NodeId etat_alarme = UA_NODEID_STRING(4, const_cast<char*>(etat_alarme_str.c_str())); //Etat de l'alarme (1 = Active | 0 = Inactive)
+UA_NodeId texte_alarme = UA_NODEID_STRING(4, const_cast<char*>(texte_alarme_str.c_str())); // Texte de l'alarme
+UA_NodeId vitesse_robot = UA_NODEID_STRING(4, const_cast<char*>("UHX65A.Application.GVL_Config.Speed")); // Vitesse du robot (Exprime en %)
+UA_NodeId etat_robot = UA_NODEID_STRING(4, const_cast<char*>("UHX65A.Application.User_PRG.Robot_Cantilever.OUT.State")); // Etat actuel du robot
+UA_NodeId position_robot = UA_NODEID_STRING(4, const_cast<char*>("UHX65A.Application.User_PRG.Robot_Cantilever.OUT.Position")); // Position actuelle du robot (Repere ROBOT)
+UA_NodeId repere_tole_opcua = UA_NODEID_STRING(4, const_cast<char*>("UHX65A.Application.User_PRG.Robot_Cantilever.Repere_tole")); // Repere TOLE
+UA_NodeId reception_mission = UA_NODEID_STRING(4, const_cast<char*>("UHX65A.Application.User_PRG.Trame_IN_Akeros")); // Reception de la mission
+UA_NodeId echo_fin_mission = UA_NODEID_STRING(4, const_cast<char*>("UHX65A.Application.User_PRG.Trame_OUT_Akeros")); // Envoi de l'Echo | Envoi de fin de mission
+UA_NodeId lancement_mission = UA_NODEID_STRING(4, const_cast<char*>("UHX65A.Application.User_PRG.RAZ_Trame_IN_Akeros")); // Bit de lancement de mission
 
 
+void software_intro_section(){
+
+    std::string asciiArt = R"(
+██████╗ ██████╗ ██╗██╗     ██╗     ███████╗██████╗     ███████╗ ██████╗ ███████╗████████╗██╗    ██╗ █████╗ ██████╗ ███████╗
+██╔══██╗██╔══██╗██║██║     ██║     ██╔════╝██╔══██╗    ██╔════╝██╔═══██╗██╔════╝╚══██╔══╝██║    ██║██╔══██╗██╔══██╗██╔════╝
+██║  ██║██████╔╝██║██║     ██║     █████╗  ██████╔╝    ███████╗██║   ██║█████╗     ██║   ██║ █╗ ██║███████║██████╔╝█████╗  
+██║  ██║██╔══██╗██║██║     ██║     ██╔══╝  ██╔══██╗    ╚════██║██║   ██║██╔══╝     ██║   ██║███╗██║██╔══██║██╔══██╗██╔══╝  
+██████╔╝██║  ██║██║███████╗███████╗███████╗██║  ██║    ███████║╚██████╔╝██║        ██║   ╚███╔███╔╝██║  ██║██║  ██║███████╗
+╚═════╝ ╚═╝  ╚═╝╚═╝╚══════╝╚══════╝╚══════╝╚═╝  ╚═╝    ╚══════╝ ╚═════╝ ╚═╝        ╚═╝    ╚══╝╚══╝ ╚═╝  ╚═╝╚═╝  ╚═╝╚══════╝                                                                                   
+)";
+    std::cout << asciiArt << std::endl;
+
+}
 
 
-    
-    //------------------------------------------------------------------------
-    //OPCUA SECTION
-    /*
-    opcua::Client client; //Création d'un nouveau objet de type opcua::Client
-    std::cout << "Client Object Created!" << std::endl;
-    client.connect("opc.tcp://192.168.100.14:4840"); // Tentative de connexion au client via son addresse tcp
+void getCurrentDateTime(UA_Client *client, UA_NodeId node) {
+    UA_DataValue dataValue;
+    UA_StatusCode readStatus = UA_Client_readValueAttribute(client, node, &dataValue.value);
 
-    opcua::Node node = client.getNode(opcua::VariableId::Server_ServerStatus_CurrentTime); //
-    const auto dt = node.readValueScalar<opcua::DateTime>();
+    if (readStatus == UA_STATUSCODE_GOOD) {
+        // Successfully read the value. You can access the value using dataValue.value.
+        if (dataValue.hasValue) {
+            UA_Variant variantValue = dataValue.value;
+            if (variantValue.type == &UA_TYPES[UA_TYPES_DATETIME]) {
+                UA_DateTime dateTimeValue = *(UA_DateTime*)variantValue.data;
 
-    std::cout << "Server date from the PLC (UTC): " << dt.format("%Y-%m-%d %H:%M:%S") << std::endl;
-*/
-    // Create a client instance
-    UA_Client *client = UA_Client_new();
-    UA_ClientConfig *clientConfig = UA_Client_getConfig(client);
-    UA_ClientConfig_setDefault(clientConfig);
+                UA_DateTimeStruct dtStruct = UA_DateTime_toStruct(dateTimeValue);
 
-    // Connect to the server
-    const char *serverUrl = "opc.tcp://192.168.100.14:4840";
-    UA_StatusCode connectStatus = UA_Client_connect(client, serverUrl);
+                printf("Date and Time: %d-%02d-%02d %02d:%02d:%02d\n",
+                       dtStruct.year, dtStruct.month, dtStruct.day,
+                       dtStruct.hour, dtStruct.min, dtStruct.sec);
+                // TODO : Clean up the allocated memory
+            } else {
+                // Handle data type mismatch or other cases as needed.
+                printf("The variable is not of DateTime type.\n");
+            }
+        }
+    } else {
+        // Handle read error.
+        printf("Error reading %.*s: %s\n ", node.namespaceIndex, node.identifier.string.data, UA_StatusCode_name(readStatus));
+    }
+}
 
-    if (connectStatus != UA_STATUSCODE_GOOD) {
-        // Handle connection error
-        UA_Client_delete(client); // Clean up the client if the connection fails
-        return -1; // Or some other error handling
+
+
+void etat_robot_get(UA_Client *client, UA_NodeId node) {
+    UA_DataValue dataValue;
+    UA_StatusCode readStatus = UA_Client_readValueAttribute(client, node, &dataValue.value);
+
+    if (readStatus == UA_STATUSCODE_GOOD) {
+        // Successfully read the value. You can access the value using dataValue.value.
+        if (dataValue.hasValue) {
+            UA_Variant variantValue = dataValue.value;
+            if (variantValue.type == &UA_TYPES[UA_TYPES_STRING]) {
+                UA_String valueString = *(UA_String*)variantValue.data;
+                printf("Value of %.*s: %.*s\n", node.namespaceIndex, node.identifier.string.data,
+                       (int)valueString.length, valueString.data);
+            } else {
+                // Handle data type mismatch or other cases as needed.
+            }
+        }
+    } else {
+        // Handle read error.
+        printf("Error reading %.*s: %s\n ", node.namespaceIndex, node.identifier.string.data, UA_StatusCode_name(readStatus));
+    }
+}
+
+
+void etat_alarmes_get(UA_Client *client) {
+    std::vector<int> activeAlarms; // Store the numbers of active alarms
+
+    for (int i = 1; i <= N_ALARMES; ++i) {
+        // Update numero_alarme
+        numero_alarme = std::to_string(i);
+
+        // Recreate etat_alarme_str with the updated numero_alarme
+        etat_alarme_str = "UHX65A.Application.Alarm_Global.Alarm.Active_Alarm[" + numero_alarme + "].Active";
+        etat_alarme = UA_NODEID_STRING(4, const_cast<char*>(etat_alarme_str.c_str()));
+
+        UA_Variant variantValue;
+        UA_StatusCode readStatus = UA_Client_readValueAttribute(client, etat_alarme, &variantValue);
+        if (readStatus == UA_STATUSCODE_GOOD) {
+            if (variantValue.type == &UA_TYPES[UA_TYPES_BOOLEAN]) {
+                UA_Boolean valueBoolean = *(UA_Boolean*)variantValue.data;
+                if (valueBoolean) {
+                    activeAlarms.push_back(i); // Alarm is active, store the number
+                }
+            } else {
+                // Handle data type mismatch or other cases as needed.
+            }
+        } else {
+            // Handle read error.
+            std::cout << "Error reading etat_alarme: " << UA_StatusCode_name(readStatus) << std::endl;
+        }
     }
 
+    // Print the numbers of active alarms
+    if (!activeAlarms.empty()) {
+        std::cout << "Active alarms: ";
+        for (int alarmNumber : activeAlarms) {
+            std::cout << alarmNumber << ", ";
+        }
+        std::cout << "." << std::endl;
+    } else {
+        std::cout << "No active alarms." << std::endl;
+    }
+}
+
+void texte_alarme_get(UA_Client *client){
+    printf("TEXTE_ALARME : Not handled yet.");
+}
+
+void vitesse_robot_get(UA_Client *client){
+    printf("VITESSE_ROBOT : Not handled yet.");
+}
+void position_robot_get(UA_Client *client){
+    printf("POSISION_ROBOT : Not handled yet.");
+}
+
+void repere_tole_get(UA_Client *client){
+    printf("REPERE_TOLE : Not handled yet.");
+}
+
+void lancement_mission_send(UA_Client *client){
+    printf("LANCEMENT_MISSION : Not handled yet.");
     //TEST ENVOI COMMANDE
     /*
     UA_Variant commandValue;
@@ -267,31 +180,134 @@ UA_NodeId lancement_mission = UA_NODEID_STRING(4, const_cast<char*>("UHX65A.Appl
         // Handle write error
     }
     */
-
-   //STATUS INFORMATION GATHERING SECTION (UA_Client_readValueAttribute TO FIX)
-//STATUS INFORMATION GATHERING SECTION (UA_Client_readValueAttribute TO FIX)
-UA_DataValue dataValue;
-UA_StatusCode readStatus = UA_Client_readValueAttribute(client, etat_robot, &dataValue.value);
-
-if (readStatus == UA_STATUSCODE_GOOD) {
-    // Successfully read the value. You can access the value using dataValue.value.
-    if (dataValue.hasValue) {
-        UA_Variant variantValue = dataValue.value;
-        if (variantValue.type == &UA_TYPES[UA_TYPES_STRING]) {
-            UA_String valueString = *(UA_String*)variantValue.data;
-            printf("Value of etat_robot: %.*s\n", (int)valueString.length, valueString.data);
-        } else {
-            // Handle data type mismatch or other cases as needed.
-        }
-    }
-} else {
-    // Handle read error.
-    printf("Error reading etat_robot: %s\n", UA_StatusCode_name(readStatus));
 }
 
-    //---------------------
+
+int runMenu(UA_Client *client) {
+    bool running = true;
+    int choice = 0;
+
+    // Create a vector to store menu items
+    std::vector<std::string> menuItems = {
+        "État des alarmes                                   ",
+        "Texte de l'alarme                                  ",
+        "Vitesse du robot (en %)                            ",
+        "État du robot                                      ",
+        "Position du robot                                  ",
+        "Repere Tôle                                        ",
+        "Lancement de mission (Une trame)                   ",
+        "QUIT PROGRAM                                       " // Doit imperativement rester en derniere position
+    };
+
+    // Create a vector of function pointers
+    std::vector<std::function<void()>> menuFunctions = {
+        [&] {etat_alarmes_get(client); },
+        [&] { texte_alarme_get(client); },
+        [&] { vitesse_robot_get(client); },
+        [&] { etat_robot_get(client, etat_robot); },
+        [&] { position_robot_get(client); },
+        [&] { repere_tole_get(client); },
+        [&] { lancement_mission_send(client); }
+    };
+
+    while (running) {
+        // Display the menu
+        std::cout << "\n------------------------------------------------------------" << std::endl;
+        std::cout << "|                       MENU PRINCIPAL                     |" << std::endl;
+        std::cout << "------------------------------------------------------------" << std::endl;
+
+        // Display menu items dynamically
+        for (size_t i = 0; i < menuItems.size(); i++) {
+            std::cout << "|    "<< i + 1 << ". " << menuItems[i] << "|" <<std::endl;
+        }
+
+        std::cout << "------------------------------------------------------------" << std::endl;
+        std::cout << "Selection: ";
+
+        std::cin >> choice;
+
+        if (choice >= 1 && static_cast<size_t>(choice) <= menuItems.size()) {
+            // Handle the selected menu item based on the choice
+            if (choice == menuItems.size()) {
+                // Quit the program
+                running = false;
+            } else {
+                // Call the corresponding function
+                menuFunctions[choice - 1]();
+            }
+        } else {
+            std::cout << "Invalid choice. Please select a valid task." << std::endl;
+        }
+    }
+
+    return 0; // Return 0 to indicate successful exit
+}
 
 
+
+
+
+int main(int argc, char* argv[]) {
+
+    software_intro_section();
+
+/*
+    // ------------------------------ OPCUA CLIENT AND LOGGER SECTION --------------------------------------
+    // Set up the logger to print log messages to the console
+    const UA_Logger logger = UA_Log_Stdout_;
+
+    // Create a client instance
+    UA_Client *client = UA_Client_new();
+    UA_ClientConfig *clientConfig = UA_Client_getConfig(client);
+    UA_ClientConfig_setDefault(clientConfig);
+    clientConfig->logger = logger;
+
+    // Connect to the server
+    const char *serverUrl = "opc.tcp://192.168.100.14:4840";
+    UA_StatusCode connectStatus = UA_Client_connect(client, serverUrl);
+
+    if (connectStatus != UA_STATUSCODE_GOOD) {
+        UA_LOG_ERROR(&logger, UA_LOGCATEGORY_SERVER, "Probleme de connexion à la PLC");
+        // Handle connection error
+        UA_Client_delete(client); // Clean up the client if the connection fails
+        return -1; // Or some other error handling
+    }
+
+    
+    // Specify the NodeId for the current time variable (Node 2258)
+    opcua::NodeId currentTimeNodeId(opcua::VariableId::Server_ServerStatus_CurrentTime);
+    getCurrentDateTime(client, currentTimeNodeId);
+
+    // ------------------------------ END OPCUA CLIENT AND LOGGER SECTION --------------------------------------
+
+*/
+
+
+//------------------------------------------- TEST ENV FOR FUNCTIONS -----------------------
+
+    const UA_Logger logger = UA_Log_Stdout_;
+    UA_Client *client = UA_Client_new();
+    UA_ClientConfig *clientConfig = UA_Client_getConfig(client);
+    UA_ClientConfig_setDefault(clientConfig);
+    clientConfig->logger = logger;
+    int menu_exit_code = runMenu(client); // Lancement du menu DRILLER
+
+//------------------------------------------- END TEST ENV FOR FUNCTIONS -----------------------
+    
+
+
+
+   switch(menu_exit_code){
+    case 0:
+        UA_LOG_INFO(&logger, UA_LOGCATEGORY_SERVER, "Sortie du programme | CODE : %d", menu_exit_code);
+        break;
+    default:
+        UA_LOG_ERROR(&logger, UA_LOGCATEGORY_SERVER, "Erreur en sortie du programme | CODE : %d", menu_exit_code);
+        break;
+   }
+   
+
+   return menu_exit_code;
 
     
 
