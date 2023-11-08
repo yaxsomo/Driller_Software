@@ -49,9 +49,7 @@ std::map<int, std::string> EN_Robot_State = {
 
 UA_NodeId vitesse_robot = UA_NODEID_STRING(4, const_cast<char *>("UHX65A.Application.GVL_Config.Speed"));                          // Vitesse du robot (Exprime en %)
 UA_NodeId repere_tole_opcua = UA_NODEID_STRING(4, const_cast<char *>("UHX65A.Application.User_PRG.Robot_Cantilever.Repere_tole")); // Repere TOLE
-UA_NodeId reception_mission = UA_NODEID_STRING(4, const_cast<char *>("UHX65A.Application.User_PRG.Trame_IN_Akeros"));              // Reception de la mission
-UA_NodeId echo_fin_mission = UA_NODEID_STRING(4, const_cast<char *>("UHX65A.Application.User_PRG.Trame_OUT_Akeros"));              // Envoi de l'Echo | Envoi de fin de mission
-UA_NodeId lancement_mission = UA_NODEID_STRING(4, const_cast<char *>("UHX65A.Application.User_PRG.RAZ_Trame_IN_Akeros"));          // Bit de lancement de mission
+
 
 void software_intro_section()
 {
@@ -260,10 +258,41 @@ void position_robot_get(opcua::Client &client) {
 
         if (!variantValue.isEmpty()) {
             if (variantValue.getDataType()->typeKind == UA_DATATYPEKIND_EXTENSIONOBJECT) {
-                //UA_ExtensionObject* eo = reinterpret_cast<UA_ExtensionObject*>(input->data);
                 opcua::ExtensionObject* eo = reinterpret_cast<opcua::ExtensionObject*>(variantValue.data());
-                std::cout << eo->isDecoded() << std::endl;
-                
+
+                if (eo->isDecoded()) {
+                    const UA_DataType* dataType = eo->getDecodedDataType();
+                    if (dataType != nullptr) {
+                        if (dataType->typeKind == UA_DATATYPEKIND_DOUBLE) {
+                            double* data = static_cast<double*>(eo->getDecodedData());
+                            if (data != nullptr) {
+                                if (eo->getEncodedBody()) {
+                                    // Do something with the encoded body if needed
+                                }
+
+                                // Assuming the decoded data is an array of length 3
+                    
+                                    std::array<double, 3> position;
+                                    for (size_t i = 0; i < 3; ++i) {
+                                        position[i] = data[i];
+                                    }
+
+                                    std::stringstream logMessage;
+                                    logMessage << "Robot Position: X=" << position[0] << " Y=" << position[1] << " Z=" << position[2];
+                                    log(client, opcua::LogLevel::Debug, opcua::LogCategory::Server, logMessage.str());
+
+                            }
+                        } else {
+                            std::stringstream logMessage;
+                            logMessage << "Invalid data type for position data.";
+                            log(client, opcua::LogLevel::Error, opcua::LogCategory::Server, logMessage.str());
+                        }
+                    }
+                } else {
+                    std::stringstream logMessage;
+                    logMessage << "Failed to decode ExtensionObject.";
+                    log(client, opcua::LogLevel::Error, opcua::LogCategory::Server, logMessage.str());
+                }
             } else {
                 std::stringstream logMessage;
                 logMessage << "Variant is not a UA_DATATYPEKIND_EXTENSIONOBJECT.";
@@ -285,6 +314,7 @@ void position_robot_get(opcua::Client &client) {
 
 
 
+
 void repere_tole_get(opcua::Client &client)
 {
     printf("REPERE_TOLE : Not handled yet.");
@@ -293,6 +323,14 @@ void repere_tole_get(opcua::Client &client)
 void lancement_mission_send(opcua::Client &client)
 {
     printf("LANCEMENT_MISSION : Not handled yet.");
+ opcua::NodeId trame_in(4, "|var|UHX65A.Application.User_PRG.Trame_IN_Akeros");
+  opcua::NodeId trame_out(4, "|var|UHX65A.Application.User_PRG.Trame_OUT_Akeros");
+   opcua::NodeId mission_go(4, "|var|UHX65A.Application.User_PRG.RAZ_Trame_IN_Akeros");
+
+    std::cout << "Inserer la trame à envoyer: " << std::endl;
+
+    //std::cin << 
+    
     // TEST ENVOI COMMANDE
     /*
     UA_Variant commandValue;
