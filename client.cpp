@@ -26,7 +26,7 @@
 
 extern std::vector<Outil> toolBank;
 // CONSTANTES
-const int N_ALARMES = 50;
+const int N_ALARMES = 999;
 const opcua::Logger logger;
 // Define a mapping of enum values to their corresponding names
 std::map<int, std::string> EN_Robot_State = {
@@ -48,8 +48,6 @@ std::map<int, std::string> EN_Robot_State = {
 // AKEROS : INTEGRER DANS LES FONCTiONS
 
 UA_NodeId vitesse_robot = UA_NODEID_STRING(4, const_cast<char *>("UHX65A.Application.GVL_Config.Speed"));                          // Vitesse du robot (Exprime en %)
-//UA_NodeId etat_robot = UA_NODEID_STRING(4, const_cast<char *>("UHX65A.Application.User_PRG.Robot_Cantilever.OUT.State"));          // Etat actuel du robot
-UA_NodeId position_robot = UA_NODEID_STRING(4, const_cast<char *>("UHX65A.Application.User_PRG.Robot_Cantilever.OUT.Position"));   // Position actuelle du robot (Repere ROBOT)
 UA_NodeId repere_tole_opcua = UA_NODEID_STRING(4, const_cast<char *>("UHX65A.Application.User_PRG.Robot_Cantilever.Repere_tole")); // Repere TOLE
 UA_NodeId reception_mission = UA_NODEID_STRING(4, const_cast<char *>("UHX65A.Application.User_PRG.Trame_IN_Akeros"));              // Reception de la mission
 UA_NodeId echo_fin_mission = UA_NODEID_STRING(4, const_cast<char *>("UHX65A.Application.User_PRG.Trame_OUT_Akeros"));              // Envoi de l'Echo | Envoi de fin de mission
@@ -135,101 +133,117 @@ void etat_robot_get(opcua::Client &client)
 
 void etat_alarmes_get(opcua::Client &client)
 {
-    /*
-    std::string numero_alarme; // Replace with the actual alarm number as a string
-    std::string etat_alarme_str;
-    UA_NodeId etat_alarme;
-    std::vector<int> activeAlarms; // Store the numbers of active alarms
+    try {
+        std::vector<int> activeAlarms; // Store the numbers of active alarms
 
-    for (int i = 1; i <= N_ALARMES; ++i)
-    {
-        // Update numero_alarme
-        numero_alarme = std::to_string(i);
-
-        // Recreate etat_alarme_str with the updated numero_alarme
-        etat_alarme_str = "UHX65A.Application.Alarm_Global.Alarm.Active_Alarm[" + numero_alarme + "].Active";
-        etat_alarme = UA_NODEID_STRING(4, const_cast<char *>(etat_alarme_str.c_str()));
-
-        UA_Variant variantValue;
-        UA_StatusCode readStatus = UA_Client_readValueAttribute(client, etat_alarme, &variantValue);
-        if (readStatus == UA_STATUSCODE_GOOD)
+        for (int i = 1; i <= N_ALARMES; ++i)
         {
-            if (variantValue.type == &UA_TYPES[UA_TYPES_BOOLEAN])
+            std::string numero_alarme = std::to_string(i);
+            std::string etat_alarme_str = "|var|UHX65A.Application.Alarm_Global.Alarm.Active_Alarm[" + numero_alarme + "].Active";
+            opcua::NodeId etat_alarme_node(4, etat_alarme_str);
+            opcua::Node etat_alarme = client.getNode(etat_alarme_node);
+            opcua::Variant readResult = etat_alarme.readValue();
+
+            if (!readResult.isEmpty() && readResult.isScalar() && readResult.getDataType()->typeKind == UA_DATATYPEKIND_BOOLEAN)
             {
-                UA_Boolean valueBoolean = *(UA_Boolean *)variantValue.data;
-                if (valueBoolean)
+                bool isActive = *static_cast<bool *>(readResult.data());
+                if (isActive)
                 {
                     activeAlarms.push_back(i); // Alarm is active, store the number
                 }
             }
             else
             {
-                 UA_LOG_ERROR(&logger, UA_LOGCATEGORY_SERVER, "La reponse n'est sous le format Boolean");
+                std::cout << "Error reading etat_alarme[" << numero_alarme << "]: Invalid data" << std::endl;
             }
         }
-        else
-        {
-            // Handle read error.
-            std::cout << "Error reading etat_alarme: " << UA_StatusCode_name(readStatus) << std::endl;
-        }
-    }
 
-    // Print the numbers of active alarms
+// Print the numbers of active alarms
     if (!activeAlarms.empty())
     {
-        std::cout << "Alarmes actifs: ";
-        for (int alarmNumber : activeAlarms)
+        std::stringstream logMessage;
+        logMessage << "Active Alarms: ";
+        for (size_t i = 0; i < activeAlarms.size(); ++i)
         {
-            std::cout << alarmNumber << ", ";
+            logMessage << activeAlarms[i];
+            if (i < activeAlarms.size() - 1)
+            {
+                logMessage << ", ";
+            }
         }
-        std::cout << "." << std::endl;
+        logMessage << ".";
+        log(client, opcua::LogLevel::Debug, opcua::LogCategory::Server, logMessage.str());
     }
-    else
-    {
-        std::cout << "Pas d'alarmes actifs." << std::endl;
+else
+{
+    std::cout << "No active alarms." << std::endl;
+}
+    } catch (const opcua::BadStatus& e) {
+        // Handle OPC UA BadStatus exception
+        std::cerr << "OPC UA BadStatus error: " << e.what() << std::endl;
+    } catch (const std::exception& e) {
+        // Handle other exceptions
+        std::cerr << "Error: " << e.what() << std::endl;
     }
-    */
 }
 
 
 void texte_alarme_get(opcua::Client &client)
 {
-    /*
-    std::string alarm_choice;
-    std::cout << "Selectionner le numero d'alarme : ";
-    std::cin >> alarm_choice;
+    try {
+        std::string alarm_choice;
+        std::cout << "Select the alarm number: ";
+        std::cin >> alarm_choice;
 
-    // Create the variable node for the alarm text
-    std::string texte_alarme_str = "UHX65A.Application.Alarm_Global.Alarm.Active_Alarm[" + alarm_choice + "].Text";
-    UA_NodeId texte_alarme = UA_NODEID_STRING(4, const_cast<char *>(texte_alarme_str.c_str()));
+        std::string texte_alarme_str = "|var|UHX65A.Application.Alarm_Global.Alarm.Active_Alarm[" + alarm_choice + "].Text";
 
-    UA_Variant variantValue;
-    UA_StatusCode readStatus = UA_Client_readValueAttribute(client, texte_alarme, &variantValue);
-    if (readStatus == UA_STATUSCODE_GOOD)
-    {
-        if (!UA_Variant_isEmpty(&variantValue))
+        
+        opcua::NodeId texte_alarme(4, texte_alarme_str);
+
+        opcua::Variant variantValue = client.getNode(texte_alarme).readValue();
+
+        if (!variantValue.isEmpty())
         {
-            if (variantValue.type == &UA_TYPES[UA_TYPES_STRING])
+            if (variantValue.isScalar())
             {
-                UA_String valueString = *(UA_String *)variantValue.data;
-                std::cout << "Texte de l'alarme : " << std::string((char *)valueString.data, valueString.length) << std::endl;
+                std::cout << "Data Type Kind: " << variantValue.getDataType()->typeKind << std::endl;
+                if (variantValue.getDataType()->typeKind == UA_DATATYPEKIND_STRING)
+                {
+                    std::string valueString = *static_cast<std::string*>(variantValue.data());
+                    std::stringstream logMessage;
+                    logMessage << "Texte de l'alarme : " << valueString;
+                    log(client, opcua::LogLevel::Debug, opcua::LogCategory::Server, logMessage.str());
+                }
+                else
+                {
+                    std::stringstream logMessage;
+                    logMessage << "La réponse n'est sous le format String";
+                    log(client, opcua::LogLevel::Error, opcua::LogCategory::Server, logMessage.str());
+                }
             }
             else
             {
-                UA_LOG_ERROR(&logger, UA_LOGCATEGORY_SERVER, "La reponse n'est sous le format String");
+                std::stringstream logMessage;
+                logMessage << "Type de donnée pas scalaire.";
+                log(client, opcua::LogLevel::Error, opcua::LogCategory::Server, logMessage.str());
             }
         }
         else
         {
-            UA_LOG_WARNING(&logger, UA_LOGCATEGORY_SERVER, "Aucun texte reçu.");
+            std::stringstream logMessage;
+            logMessage << "Aucun texte reçu.";
+            log(client, opcua::LogLevel::Warning, opcua::LogCategory::Server, logMessage.str());
         }
+    } catch (const opcua::BadStatus& e) {
+        std::cerr << "OPC UA BadStatus error: " << e.what() << std::endl;
+    } catch (const std::bad_alloc& e) {
+        std::cerr << "Memory allocation error: " << e.what() << std::endl;
+    } catch (const std::exception& e) {
+        std::cerr << "Error: " << e.what() << std::endl;
     }
-    else
-    {
-        UA_LOG_ERROR(&logger, UA_LOGCATEGORY_SERVER, "Erreur dans la lecture de l'alarme: %s", UA_StatusCode_name(readStatus));
-    }
-    */
 }
+
+
 
 
 
@@ -237,10 +251,39 @@ void vitesse_robot_get(opcua::Client &client)
 {
     printf("VITESSE_ROBOT : Not handled yet.");
 }
-void position_robot_get(opcua::Client &client)
-{
-    printf("POSISION_ROBOT : Not handled yet.");
+
+
+void position_robot_get(opcua::Client &client) {
+    try {
+        opcua::NodeId pos_robot(4, "|var|UHX65A.Application.User_PRG.Robot_Cantilever.OUT.Position");
+        opcua::Variant variantValue = client.getNode(pos_robot).readValue();
+
+        if (!variantValue.isEmpty()) {
+            if (variantValue.getDataType()->typeKind == UA_DATATYPEKIND_EXTENSIONOBJECT) {
+                //UA_ExtensionObject* eo = reinterpret_cast<UA_ExtensionObject*>(input->data);
+                opcua::ExtensionObject* eo = reinterpret_cast<opcua::ExtensionObject*>(variantValue.data());
+                std::cout << eo->isDecoded() << std::endl;
+                
+            } else {
+                std::stringstream logMessage;
+                logMessage << "Variant is not a UA_DATATYPEKIND_EXTENSIONOBJECT.";
+                log(client, opcua::LogLevel::Error, opcua::LogCategory::Server, logMessage.str());
+            }
+        } else {
+            std::stringstream logMessage;
+            logMessage << "Empty data for position data.";
+            log(client, opcua::LogLevel::Error, opcua::LogCategory::Server, logMessage.str());
+        }
+    } catch (const opcua::BadStatus& e) {
+        std::cerr << "OPC UA BadStatus error: " << e.what() << std::endl;
+    } catch (const std::exception& e) {
+        std::cerr << "Error: " << e.what() << std::endl;
+    }
 }
+
+
+
+
 
 void repere_tole_get(opcua::Client &client)
 {
