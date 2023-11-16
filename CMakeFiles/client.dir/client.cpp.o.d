@@ -176,7 +176,8 @@ CMakeFiles/client.dir/client.cpp.o: \
  /usr/include/c++/11/bits/erase_if.h \
  /usr/include/c++/11/pstl/execution_defs.h /usr/include/c++/11/map \
  /usr/include/c++/11/bits/stl_tree.h /usr/include/c++/11/bits/stl_map.h \
- /usr/include/c++/11/bits/stl_multimap.h \
+ /usr/include/c++/11/bits/stl_multimap.h /usr/include/c++/11/cstring \
+ /usr/include/string.h /usr/include/strings.h \
  /usr/local/include/open62541pp/open62541pp.h \
  /usr/local/include/open62541pp/AccessControl.h \
  /usr/local/include/open62541pp/types/Builtin.h \
@@ -202,7 +203,6 @@ CMakeFiles/client.dir/client.cpp.o: \
  /usr/local/include/open62541/config.h \
  /usr/local/include/open62541/posix/ua_architecture.h \
  /usr/local/include/open62541/architecture_definitions.h \
- /usr/include/string.h /usr/include/strings.h \
  /usr/lib/gcc/x86_64-linux-gnu/11/include/stdbool.h \
  /usr/include/inttypes.h /usr/include/assert.h /usr/include/arpa/inet.h \
  /usr/include/netinet/in.h /usr/include/x86_64-linux-gnu/sys/socket.h \
