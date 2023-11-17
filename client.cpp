@@ -13,7 +13,7 @@
 #include <algorithm> // Inclut la bibliothèque pour utiliser la fonction std::sort
 #include <cstdlib>
 #include <map>
-#include <cstring>  // for strlen
+#include <cstring> // for strlen
 
 // Librairies OPCUA
 #include "open62541pp/open62541pp.h"
@@ -252,24 +252,40 @@ void texte_alarme_get(opcua::Client &client)
     }
 }
 
-
 void trame_out_get(opcua::Client &client)
 {
     try
     {
-    opcua::NodeId trame_out(4, "|var|UHX65A.Application.User_PRG.Trame_OUT_Akeros");
+
+        opcua::NodeId trame_out(4, "|var|UHX65A.Application.User_PRG.Trame_OUT_Akeros");
         opcua::Variant variantValue = client.getNode(trame_out).readValue();
 
         if (!variantValue.isEmpty())
         {
             if (variantValue.isScalar())
             {
-                //std::cout << "Data Type Kind: " << variantValue.getDataType()->typeKind << std::endl;
+                std::cout << "Value is scalar" << std::endl;
+                std::cout << "Data Type Kind: " << variantValue.getDataType()->typeKind << std::endl;
+
                 if (variantValue.getDataType()->typeKind == UA_DATATYPEKIND_STRING)
                 {
-                    std::string valueString = *static_cast<std::string *>(variantValue.data());
+                    std::cout << "Value is string" << std::endl;
+                    if(variantValue.isEmpty()){
+                        std::cout << "The Trame_OUT is empty" << std::endl;
+                    } 
+
+                    opcua::String valueString = *static_cast<opcua::String *>(variantValue.data());
+                    std::string_view valueString_view = *static_cast<std::string_view *>(variantValue.data());
+
+
+                    std::cout << "Value converted to string" << std::endl;
+
+                    
+                    std::cout << "Value String OPCUA: " << valueString << std::endl;
+                    std::cout << "Value String View: " << valueString_view << std::endl;
+                    
                     std::stringstream logMessage;
-                    logMessage << "TRAME_OUT : " << valueString;
+                    logMessage << "TRAME_OUT : " << valueString_view;
                     log(client, opcua::LogLevel::Debug, opcua::LogCategory::Server, logMessage.str());
                 }
                 else
@@ -307,90 +323,9 @@ void trame_out_get(opcua::Client &client)
     }
 }
 
-
 void vitesse_robot_get(opcua::Client &client)
 {
     printf("VITESSE_ROBOT : Not handled yet.");
-}
-
-void position_robot_get_old(opcua::Client &client)
-{
-    try
-    {
-        opcua::NodeId pos_robot(4, "|var|UHX65A.Application.User_PRG.Robot_Cantilever.OUT.Position");
-        opcua::Variant variantValue = client.getNode(pos_robot).readValue();
-
-        if (!variantValue.isEmpty())
-        {
-            if (variantValue.getDataType()->typeKind == UA_DATATYPEKIND_EXTENSIONOBJECT)
-            {
-                opcua::ExtensionObject *eo = reinterpret_cast<opcua::ExtensionObject *>(variantValue.data());
-
-                if (eo->isDecoded())
-                {
-                    const UA_DataType *dataType = eo->getDecodedDataType();
-                    if (dataType != nullptr)
-                    {
-                        if (dataType->typeKind == UA_DATATYPEKIND_DOUBLE)
-                        {
-                            double *data = static_cast<double *>(eo->getDecodedData());
-                            if (data != nullptr)
-                            {
-                                if (eo->getEncodedBody())
-                                {
-                                    // Do something with the encoded body if needed
-                                }
-
-                                // Assuming the decoded data is an array of length 3
-
-                                std::array<double, 3> position;
-                                for (size_t i = 0; i < 3; ++i)
-                                {
-                                    position[i] = data[i];
-                                }
-
-                                std::stringstream logMessage;
-                                logMessage << "Robot Position: X=" << position[0] << " Y=" << position[1] << " Z=" << position[2];
-                                log(client, opcua::LogLevel::Debug, opcua::LogCategory::Server, logMessage.str());
-                            }
-                        }
-                        else
-                        {
-                            std::stringstream logMessage;
-                            logMessage << "Invalid data type for position data.";
-                            log(client, opcua::LogLevel::Error, opcua::LogCategory::Server, logMessage.str());
-                        }
-                    }
-                }
-                else
-                {
-                    std::stringstream logMessage;
-                    logMessage << "Failed to decode ExtensionObject.";
-                    log(client, opcua::LogLevel::Error, opcua::LogCategory::Server, logMessage.str());
-                }
-            }
-            else
-            {
-                std::stringstream logMessage;
-                logMessage << "Variant is not a UA_DATATYPEKIND_EXTENSIONOBJECT.";
-                log(client, opcua::LogLevel::Error, opcua::LogCategory::Server, logMessage.str());
-            }
-        }
-        else
-        {
-            std::stringstream logMessage;
-            logMessage << "Empty data for position data.";
-            log(client, opcua::LogLevel::Error, opcua::LogCategory::Server, logMessage.str());
-        }
-    }
-    catch (const opcua::BadStatus &e)
-    {
-        std::cerr << "OPC UA BadStatus error: " << e.what() << std::endl;
-    }
-    catch (const std::exception &e)
-    {
-        std::cerr << "Error: " << e.what() << std::endl;
-    }
 }
 
 void position_robot_get(opcua::Client &client)
@@ -489,36 +424,66 @@ void position_robot_get(opcua::Client &client)
     }
 }
 
-void repere_tole_get(opcua::Client &client)
+void mission_lancement(opcua::Client &client)
 {
-    printf("REPERE_TOLE : Not handled yet.");
-}
 
-void lancement_mission_send(opcua::Client &client)
-{
     opcua::NodeId trame_in(4, "|var|UHX65A.Application.User_PRG.Trame_IN_Akeros");
     opcua::NodeId mission_go(4, "|var|UHX65A.Application.User_PRG.RAZ_Trame_IN_Akeros");
 
-    // 1. Ecriture de la trame dans l'addresse memoire 'Trame_IN_Akeros' de la PLC
-    // Convert the character array to std::string
-    std::cout << "String creation";
-    std::string trameInputString{"MS A D 200000 120050 100 03 0800 700"};
-    std::cout << "Created";
+    std::cout << "String creation" << std::endl;
+    opcua::String trameInputString("MS A D 200000 120050 100 03 0800 700");
+    // std::string trameInputString{"MS A D 200000 120050 100 03 0800 700"};
+
+
+
+    std::cout << trameInputString << std::endl;
     opcua::Variant trameVariant;
-    std::cout << "Variant Created";
+    std::cout << "Variant Created" << std::endl;
     trameVariant.setScalarCopy(trameInputString);
-    std::cout << "After the creation of the Variant";
-    client.getNode(trame_in).writeValue(trameVariant);
+    std::cout << "Setted scalar copy of the String to Variant" << std::endl;
+    //client.getNode(trame_in).writeValue(trameVariant);
+    client.getNode(trame_in).writeValueScalar(trameInputString);
+    std::cout << "Trame_IN Node written!" << std::endl;
+        // 3. Set mission_go (Bit)
+        bool missionGoValue = false;  // Set this value based on your logic (0 or 1)
+        opcua::Variant missionGoVariant = opcua::Variant::fromScalar(missionGoValue);
+        client.getNode(mission_go).writeValue(missionGoVariant);
 
-    // 2. Lecture de l'adresse memoire 'Trame_OUT_Akeros' de la PLC (Echo)
-    trame_out_get(client);
 
-    // 3. Set mission_go (Bit)
-    //bool missionGoValue = true;  // Set this value based on your logic (0 or 1)
-    //opcua::Variant missionGoVariant = opcua::Variant::fromScalar(missionGoValue);
-    //client.getNode(mission_go).writeValue(missionGoVariant);
 
-    //std::cout << "Lancement de mission effectue." << std::endl;
+        std::cout << "Lancement de mission..." << std::endl;
+
+
+
+        trame_out_get(client);
+
+    /*
+        // 1. Ecriture de la trame dans l'addresse memoire 'Trame_IN_Akeros' de la PLC
+        // Convert the character array to std::string
+        std::cout << "String creation";
+        std::string trameInputString{"MS A D 200000 120050 100 03 0800 700"};
+        std::cout << "Created";
+        opcua::Variant trameVariant;
+        std::cout << "Variant Created";
+        trameVariant.setScalarCopy(trameInputString);
+        std::cout << "After the creation of the Variant";
+        client.getNode(trame_in).writeValue(trameVariant);
+
+        // 2. Lecture de l'adresse memoire 'Trame_OUT_Akeros' de la PLC (Echo)
+        trame_out_get(client);
+
+        // 3. Set mission_go (Bit)
+        //bool missionGoValue = true;  // Set this value based on your logic (0 or 1)
+        //opcua::Variant missionGoVariant = opcua::Variant::fromScalar(missionGoValue);
+        //client.getNode(mission_go).writeValue(missionGoVariant);
+
+        //std::cout << "Lancement de mission effectue." << std::endl;
+        */
+}
+
+void repere_tole_get(opcua::Client &client)
+{
+    printf("REPERE_TOLE : Not handled yet.");
 }
 
 int runMenu(opcua::Client &client)
@@ -535,6 +500,7 @@ int runMenu(opcua::Client &client)
         "Position du robot                                  ",
         "Repere Tôle                                        ",
         "Lancement de mission (Une trame)                   ",
+        "Trame_Out GET                                      ",
         "QUIT PROGRAM                                       " // Doit imperativement rester en derniere position
     };
 
@@ -553,8 +519,10 @@ int runMenu(opcua::Client &client)
         [&]
         { repere_tole_get(client); },
         [&]
-        { lancement_mission_send(client); }
-    };
+        { mission_lancement(client); },
+        [&]
+        { trame_out_get(client); }
+        };
 
     while (running)
     {
