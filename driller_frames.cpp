@@ -238,36 +238,6 @@ void updateJsonFile(const std::vector<Outil> &tool_bank)
     }
 }
 
-void testWriteToJsonFile()
-{
-    try
-    {
-        // Create a sample JSON data
-        json jsonData = {
-            {"name", "John Doe"},
-            {"age", 30},
-            {"city", "New York"}};
-
-        // Open the JSON file for writing
-        std::ofstream jsonFile("./test_data.json");
-        if (!jsonFile.is_open())
-        {
-            throw std::runtime_error("Unable to open JSON file for writing.");
-        }
-
-        // Write the JSON data to the file
-        jsonFile << std::setw(4) << jsonData << std::endl;
-
-        // Close the file
-        jsonFile.close();
-
-        std::cout << "Test JSON data written to file successfully." << std::endl;
-    }
-    catch (const std::exception &e)
-    {
-        std::cerr << "Error writing JSON file: " << e.what() << std::endl;
-    }
-}
 
 // Function to find the position of a tool in the toolBank vector
 int findToolPosition(const Outil &tool, std::vector<Outil> tool_bank)
