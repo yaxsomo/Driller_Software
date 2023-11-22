@@ -23,6 +23,10 @@
 #include <open62541/client.h>
 
 
+#include <chrono>
+#include <thread>
+
+
 
 // Librairie personnelle pour traitement des fichiers Driller
 #include "driller_frames.h"
@@ -55,6 +59,8 @@ struct St_Coordonee
     double Z;
 };
 
+int16_t current_robot_state = 0;
+
 // AKEROS : INTEGRER DANS LES FONCTiONS
 
 UA_NodeId vitesse_robot = UA_NODEID_STRING(4, const_cast<char *>("UHX65A.Application.GVL_Config.Speed"));                          // Vitesse du robot (Exprime en %)
@@ -79,7 +85,11 @@ void getCurrentDateTime(opcua::Client &client)
     printf("Not handled yet.");
 }
 
-void etat_robot_get(opcua::Client &client)
+
+
+
+
+int16_t etat_robot_get(opcua::Client &client)
 {
     try
     {
@@ -91,19 +101,19 @@ void etat_robot_get(opcua::Client &client)
         {
             if (readResult.isScalar())
             {
-                uint8_t valueByte;
-
                 const UA_DataType *data_type = readResult.getDataType();
-                // std::cout << "Data Type Kind: " << data_type->typeKind << std::endl;
-
+                
                 if (data_type->typeKind == UA_DATATYPEKIND_INT16)
                 {
-                    int16_t etat_enum = *static_cast<int16_t *>(readResult.data());
+                    // Store the current robot state
+                    current_robot_state = *static_cast<int16_t *>(readResult.data());
 
                     std::stringstream logMessage;
-                    logMessage << "État du robot: " << EN_Robot_State[etat_enum] << std::endl;
+                    logMessage << "État du robot: " << EN_Robot_State[current_robot_state] << std::endl;
                     log(client, opcua::LogLevel::Debug, opcua::LogCategory::Server, logMessage.str());
-                    // Handle the INT16 value as needed
+                    
+                    // Return the current robot state
+                    return current_robot_state;
                 }
                 else
                 {
@@ -130,6 +140,9 @@ void etat_robot_get(opcua::Client &client)
         // Handle other exceptions
         std::cerr << "Error: " << e.what() << std::endl;
     }
+
+    // Return a default value in case of an error
+    return -1;
 }
 
 void etat_alarmes_get(opcua::Client &client)
@@ -426,7 +439,7 @@ void position_robot_get(opcua::Client &client)
     }
 }
 
-void mission_lancement(opcua::Client &client, std::vector<std::string> trames)
+void mission_lancement_old(opcua::Client &client, std::vector<std::string> trames)
 {
     std::string trame;
     opcua::NodeId trame_in(4, "|var|UHX65A.Application.User_PRG.Trame_IN_Akeros");
@@ -461,6 +474,63 @@ void mission_lancement(opcua::Client &client, std::vector<std::string> trames)
 
         trame_out_get(client);
 }
+
+void mission_lancement(opcua::Client &client, const std::vector<std::string> &trames)
+{
+    opcua::NodeId trame_in(4, "|var|UHX65A.Application.User_PRG.Trame_IN_Akeros");
+    opcua::NodeId mission_go(4, "|var|UHX65A.Application.User_PRG.RAZ_Trame_IN_Akeros");
+    int mission_counter = 0;
+
+    for (const std::string &trame : trames)
+    {
+        // Assuming you want to use trame as the input for each iteration
+        opcua::String trameInputString(trame);
+
+        //std::cout << "Trame créée: " << trameInputString << std::endl;
+
+        opcua::Variant trameVariant;
+        trameVariant.setScalarCopy(trameInputString);
+
+        // Write the trame to trame_in Node
+        client.getNode(trame_in).writeValueScalar(trameInputString);
+        std::cout << "Trame_IN Node written!" << std::endl;
+
+        // Set mission_go (Bit)
+        bool missionGoValue = false;  // Set this value based on your logic (0 or 1)
+        opcua::Variant missionGoVariant = opcua::Variant::fromScalar(missionGoValue);
+        client.getNode(mission_go).writeValue(missionGoVariant);
+
+        std::cout << "MISSION N." << mission_counter << ": " << trame << std::endl;
+
+        // Wait until the robot finishes its mission (state becomes "Wait")
+        while (true)
+        {
+            // Get the current robot state
+            etat_robot_get(client);
+
+            // Add a delay between state checks (adjust as needed)
+            std::this_thread::sleep_for(std::chrono::seconds(1));
+
+            // Check if the robot is in the "Wait" state (state 5)
+            if (current_robot_state == 5)
+            {
+                std::cout << "MISSION N." << mission_counter << ": TERMINÉ" << std::endl;
+                break;
+            }
+        }
+
+        trame_out_get(client);
+
+        // Increment the mission counter
+        mission_counter++;
+
+        // Add any necessary delay or logic between commands
+    }
+}
+
+
+
+
 
 void repere_tole_get(opcua::Client &client)
 {

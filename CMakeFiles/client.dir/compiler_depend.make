@@ -416,6 +416,9 @@ CMakeFiles/client.dir/client.cpp.o: client.cpp \
   /usr/local/include/open62541/plugin/pki.h \
   /usr/local/include/open62541/client_highlevel.h \
   /usr/local/include/open62541/plugin/log_stdout.h \
+  /usr/include/c++/11/thread \
+  /usr/include/c++/11/bits/std_thread.h \
+  /usr/include/c++/11/bits/this_thread_sleep.h \
   driller_frames.h
 
 CMakeFiles/client.dir/driller_frames.cpp.o: driller_frames.cpp \
@@ -1425,6 +1428,8 @@ json.hpp:
 
 /usr/local/include/open62541pp/AccessControl.h:
 
+/usr/include/c++/11/bits/std_thread.h:
+
 /usr/include/c++/11/bits/cpp_type_traits.h:
 
 /usr/include/c++/11/bits/stl_iterator_base_funcs.h:
@@ -1531,6 +1536,8 @@ client.cpp:
 
 /usr/include/x86_64-linux-gnu/c++/11/bits/ctype_inline.h:
 
+/usr/include/c++/11/bits/this_thread_sleep.h:
+
 /usr/include/x86_64-linux-gnu/bits/types/struct_tm.h:
 
 /usr/include/c++/11/bits/locale_facets.tcc:
@@ -1612,6 +1619,8 @@ client.cpp:
 /usr/include/x86_64-linux-gnu/bits/types/__FILE.h:
 
 /usr/include/c++/11/cstring:
+
+/usr/include/c++/11/thread:
 
 /usr/include/c++/11/ratio:
 

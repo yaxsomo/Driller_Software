@@ -772,7 +772,6 @@ std::vector<std::string> generateCommands(const std::vector<SymValueGroup> &fina
             case 1: // Percage (OP. 1)
                 outil = selectTool(operation.rayon, "D", tool_bank);
                 tool_pos_int = findToolPosition(outil, tool_bank);
-                std::cout << tool_pos_int << std::endl;
                 if (tool_pos_int == 0)
                 {
                     tool_pos = "00";
@@ -932,8 +931,6 @@ std::vector<std::string> driller_frames_execute(std::string filename)
 
     // Read the tool bank from the JSON file
     std::vector<Outil> toolBank_json = readToolBank(toolBank_path);
-
-    testWriteToJsonFile();
 
     // Print the tool bank
     // for (const auto& tool : toolBank_json) {

@@ -341,4 +341,6 @@ CMakeFiles/client.dir/client.cpp.o: \
  /usr/local/include/open62541/plugin/pki.h \
  /usr/local/include/open62541/client_highlevel.h \
  /usr/local/include/open62541/plugin/log_stdout.h \
+ /usr/include/c++/11/thread /usr/include/c++/11/bits/std_thread.h \
+ /usr/include/c++/11/bits/this_thread_sleep.h \
  /mnt/c/Users/yohan/Downloads/Driller_Software/driller_frames.h
