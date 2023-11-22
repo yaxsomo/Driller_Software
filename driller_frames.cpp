@@ -160,29 +160,23 @@ Outil selectTool(double rayon, const std::string &classe, std::vector<Outil> too
     Outil selectedTool;
     bool armSlotEmpty = tool_bank[0].classe == "Empty";
 
-    for (int i = 1; i < tool_bank.size(); ++i)
+    for (int i = 0; i < tool_bank.size(); ++i)
     {
-        // If the first element of the JSON file is Empty, choose the tool at index i+1
-        int toolIndex = armSlotEmpty ? i + 1 : i;
 
         // Check if the tool matches the criteria
-        if (tool_bank[toolIndex].classe == classe)
+        if (tool_bank[i].classe == classe)
         {
-            double toolDiameter = tool_bank[toolIndex].diametre;
-            double toolDiameterMin = tool_bank[toolIndex].diametre_min;
-            double toolDiameterMax = tool_bank[toolIndex].diametre_max;
+            double toolDiameter = tool_bank[i].diametre;
+            double toolDiameterMin = tool_bank[i].diametre_min;
+            double toolDiameterMax = tool_bank[i].diametre_max;
 
             if (classe == "C")
             {
                 // For class "C", choose a tool if rayon*2 is within the tool's diameter range
                 if (rayon * 2 >= toolDiameterMin && rayon * 2 <= toolDiameterMax)
                 {
-                    selectedTool = tool_bank[toolIndex]; // Convert JSON to Outil
-                    // Swap the positions in both the JSON file and the array
-                    std::swap(tool_bank[i], tool_bank[toolIndex]);
-                    // Update the JSON file with the swapped positions
-                    updateJsonFile(tool_bank);
-                    break; // Stop after selecting the first suitable tool
+                    selectedTool = tool_bank[i]; // Convert JSON to Outil
+                    break;                       // Stop after selecting the first suitable tool
                 }
             }
             else
@@ -190,12 +184,8 @@ Outil selectTool(double rayon, const std::string &classe, std::vector<Outil> too
                 // For other classes, choose a tool if rayon*2 is exactly equal to the tool's diameter
                 if (rayon * 2 == toolDiameter)
                 {
-                    selectedTool = tool_bank[toolIndex]; // Convert JSON to Outil
-                    // Swap the positions in both the JSON file and the array
-                    std::swap(tool_bank[i], tool_bank[toolIndex]);
-                    // Update the JSON file with the swapped positions
-                    updateJsonFile(tool_bank);
-                    break; // Stop after selecting the first suitable tool
+                    selectedTool = tool_bank[i]; // Convert JSON to Outil
+                    break;                       // Stop after selecting the first suitable tool
                 }
             }
         }
@@ -204,39 +194,43 @@ Outil selectTool(double rayon, const std::string &classe, std::vector<Outil> too
     return selectedTool;
 }
 
-// Function to update the JSON file with the contents of tool_bank
 void updateJsonFile(const std::vector<Outil> &tool_bank)
 {
+    json j;
+
+    for (const auto &tool : tool_bank)
+    {
+        json toolJson = {
+            {"vitesse_rotation", tool.vitesse_rotation},
+            {"vitesse_avance", tool.vitesse_avance},
+            {"pas_outil", tool.pas_outil},
+            {"classe", tool.classe},
+            {"diametre", tool.diametre},
+            {"longueur_pilote", tool.longueur_pilote},
+            {"angle", tool.angle},
+            {"nombre_cycles", tool.nombre_cycles},
+            {"diametre_min", tool.diametre_min},
+            {"diametre_max", tool.diametre_max}};
+
+        j.push_back(toolJson);
+    }
+
     try
     {
+        // Open the JSON file for writing
         std::ofstream jsonFile("./tool_bank.json");
         if (!jsonFile.is_open())
         {
             throw std::runtime_error("Unable to open JSON file for writing.");
         }
 
-        json j;
-
-        for (const auto &tool : tool_bank)
-        {
-            nlohmann::json toolJson;
-            toolJson["vitesse_rotation"] = tool.vitesse_rotation;
-            toolJson["vitesse_avance"] = tool.vitesse_avance;
-            toolJson["pas_outil"] = tool.pas_outil;
-            toolJson["classe"] = tool.classe;
-            toolJson["diametre"] = tool.diametre;
-            toolJson["longueur_pilote"] = tool.longueur_pilote;
-            toolJson["angle"] = tool.angle;
-            toolJson["nombre_cycles"] = tool.nombre_cycles;
-            toolJson["diametre_min"] = tool.diametre_min;
-            toolJson["diametre_max"] = tool.diametre_max;
-
-            j.push_back(toolJson);
-        }
-
-        // Flush the buffer and add a newline
+        // Write the JSON data to the file
         jsonFile << std::setw(4) << j << std::endl;
+
+        // Close the file
         jsonFile.close();
+
+        // std::cout << "Tool bank updated successfully." << std::endl;
     }
     catch (const std::exception &e)
     {
@@ -244,6 +238,36 @@ void updateJsonFile(const std::vector<Outil> &tool_bank)
     }
 }
 
+void testWriteToJsonFile()
+{
+    try
+    {
+        // Create a sample JSON data
+        json jsonData = {
+            {"name", "John Doe"},
+            {"age", 30},
+            {"city", "New York"}};
+
+        // Open the JSON file for writing
+        std::ofstream jsonFile("./test_data.json");
+        if (!jsonFile.is_open())
+        {
+            throw std::runtime_error("Unable to open JSON file for writing.");
+        }
+
+        // Write the JSON data to the file
+        jsonFile << std::setw(4) << jsonData << std::endl;
+
+        // Close the file
+        jsonFile.close();
+
+        std::cout << "Test JSON data written to file successfully." << std::endl;
+    }
+    catch (const std::exception &e)
+    {
+        std::cerr << "Error writing JSON file: " << e.what() << std::endl;
+    }
+}
 
 // Function to find the position of a tool in the toolBank vector
 int findToolPosition(const Outil &tool, std::vector<Outil> tool_bank)
@@ -261,7 +285,7 @@ int findToolPosition(const Outil &tool, std::vector<Outil> tool_bank)
             return i; // Found the tool, return its position
         }
     }
-    return -1; // Tool not found in the vector
+    return -99; // Tool not found in the vector
 }
 
 // Fonction utilitaire pour extraire le nom du fichier du chemin complet
@@ -755,6 +779,7 @@ std::vector<std::string> generateCommands(const std::vector<SymValueGroup> &fina
     LamageParams nouveau_lamage;
     Outil outil;
     std::string tool_pos;
+    int tool_pos_int;
     // Vecteur final contenant toutes les trames
     std::vector<std::string> commands;
 
@@ -776,8 +801,17 @@ std::vector<std::string> generateCommands(const std::vector<SymValueGroup> &fina
             {
             case 1: // Percage (OP. 1)
                 outil = selectTool(operation.rayon, "D", tool_bank);
-                tool_pos = formatNumber(((findToolPosition(outil, tool_bank)) + 1), 2);
-                if (tool_pos != "00")
+                tool_pos_int = findToolPosition(outil, tool_bank);
+                std::cout << tool_pos_int << std::endl;
+                if (tool_pos_int == 0)
+                {
+                    tool_pos = "00";
+                }
+                else
+                {
+                    tool_pos = formatNumber(((tool_pos_int) + 1), 2);
+                }
+                if (tool_pos != "99")
                 {
                     commonParams.emplacementOutil = tool_pos;
                     commonParams.vitesseRotationOutil = formatNumber(outil.vitesse_rotation, 4);
@@ -785,16 +819,28 @@ std::vector<std::string> generateCommands(const std::vector<SymValueGroup> &fina
                     nouveau_percage.commonParams = commonParams;
                     std::string percageCommand = generatePercageCommand(nouveau_percage);
                     commands.push_back(percageCommand);
+                    // Swap the positions in both the JSON file and the array
+                    std::swap(tool_bank[0], tool_bank[tool_pos_int]);
+                    // Update the JSON file with the swapped positions
+                    updateJsonFile(tool_bank);
                 }
                 else
                 {
-                    // std::cout << "No Tool Found!";
+                    std::cout << "No Tool Found!" << std::endl;
                 }
                 break;
             case 4: // Fraisurage (OP. 4)
                 outil = selectTool(operation.rayon, "C", tool_bank);
-                tool_pos = formatNumber(((findToolPosition(outil, tool_bank)) + 1), 2);
-                if (tool_pos != "00")
+                tool_pos_int = findToolPosition(outil, tool_bank);
+                if (tool_pos_int == 0)
+                {
+                    tool_pos = "00";
+                }
+                else
+                {
+                    tool_pos = formatNumber(((tool_pos_int) + 1), 2);
+                }
+                if (tool_pos != "99")
                 {
                     commonParams.emplacementOutil = tool_pos;
                     commonParams.vitesseRotationOutil = formatNumber(outil.vitesse_rotation, 4);
@@ -804,17 +850,29 @@ std::vector<std::string> generateCommands(const std::vector<SymValueGroup> &fina
                     nouveau_fraisurage.commonParams = commonParams;
                     std::string fraisurageCommand = generateFraisurageCommand(nouveau_fraisurage);
                     commands.push_back(fraisurageCommand);
+                    // Swap the positions in both the JSON file and the array
+                    std::swap(tool_bank[0], tool_bank[tool_pos_int]);
+                    // Update the JSON file with the swapped positions
+                    updateJsonFile(tool_bank);
                 }
                 else
                 {
-                    // std::cout << "No Tool Found!";
+                    std::cout << "No Tool Found!" << std::endl;
                 }
                 break;
             case 2: // Taraudage (OP. 2)
             case 3: // Taraudage (OP. 3)
                 outil = selectTool(operation.rayon, "T", tool_bank);
-                tool_pos = formatNumber(((findToolPosition(outil, tool_bank)) + 1), 2);
-                if (tool_pos != "00")
+                tool_pos_int = findToolPosition(outil, tool_bank);
+                if (tool_pos_int == 0)
+                {
+                    tool_pos = "00";
+                }
+                else
+                {
+                    tool_pos = formatNumber(((tool_pos_int) + 1), 2);
+                }
+                if (tool_pos != "99")
                 {
                     commonParams.emplacementOutil = tool_pos;
                     commonParams.vitesseRotationOutil = formatNumber(outil.vitesse_rotation, 4);
@@ -823,17 +881,29 @@ std::vector<std::string> generateCommands(const std::vector<SymValueGroup> &fina
                     nouveau_taraudage.commonParams = commonParams;
                     std::string taraudageCommand = generateTaraudageCommand(nouveau_taraudage);
                     commands.push_back(taraudageCommand);
+                    // Swap the positions in both the JSON file and the array
+                    std::swap(tool_bank[0], tool_bank[tool_pos_int]);
+                    // Update the JSON file with the swapped positions
+                    updateJsonFile(tool_bank);
                 }
                 else
                 {
-                    // std::cout << "No Tool Found!";
+                    std::cout << "No Tool Found!" << std::endl;
                 }
 
                 break;
             case 5: // Lamage (OP. 5)
                 outil = selectTool(operation.rayon, "S", tool_bank);
-                tool_pos = formatNumber(((findToolPosition(outil, tool_bank)) + 1), 2);
-                if (tool_pos != "00")
+                tool_pos_int = findToolPosition(outil, tool_bank);
+                if (tool_pos_int == 0)
+                {
+                    tool_pos = "00";
+                }
+                else
+                {
+                    tool_pos = formatNumber(((tool_pos_int) + 1), 2);
+                }
+                if (tool_pos != "99")
                 {
                     commonParams.emplacementOutil = tool_pos;
                     commonParams.vitesseRotationOutil = formatNumber(outil.vitesse_rotation, 4);
@@ -843,10 +913,14 @@ std::vector<std::string> generateCommands(const std::vector<SymValueGroup> &fina
                     nouveau_lamage.commonParams = commonParams;
                     std::string lamageCommand = generateLamageCommand(nouveau_lamage);
                     commands.push_back(lamageCommand);
+                    // Swap the positions in both the JSON file and the array
+                    std::swap(tool_bank[0], tool_bank[tool_pos_int]);
+                    // Update the JSON file with the swapped positions
+                    updateJsonFile(tool_bank);
                 }
                 else
                 {
-                    // std::cout << "No Tool Found!";
+                    std::cout << "No Tool Found!" << std::endl;
                 }
                 break;
             default:
@@ -888,6 +962,8 @@ std::vector<std::string> driller_frames_execute(std::string filename)
 
     // Read the tool bank from the JSON file
     std::vector<Outil> toolBank_json = readToolBank(toolBank_path);
+
+    testWriteToJsonFile();
 
     // Print the tool bank
     // for (const auto& tool : toolBank_json) {

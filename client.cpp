@@ -426,7 +426,7 @@ void position_robot_get(opcua::Client &client)
     }
 }
 
-void mission_lancement(opcua::Client &client)
+void mission_lancement(opcua::Client &client, std::vector<std::string> trames)
 {
     std::string trame;
     opcua::NodeId trame_in(4, "|var|UHX65A.Application.User_PRG.Trame_IN_Akeros");
@@ -467,7 +467,7 @@ void repere_tole_get(opcua::Client &client)
     printf("REPERE_TOLE : Not handled yet.");
 }
 
-int runMenu(opcua::Client &client)
+int runMenu(opcua::Client &client, std::vector<std::string> trames)
 {
     bool running = true;
     int choice = 0;
@@ -500,7 +500,7 @@ int runMenu(opcua::Client &client)
         [&]
         { repere_tole_get(client); },
         [&]
-        { mission_lancement(client); },
+        { mission_lancement(client, trames); },
         [&]
         { trame_out_get(client); }
         };
@@ -661,11 +661,11 @@ int main(int argc, char *argv[])
     
 
     // Impression de toutes les trames (Test)
-    //for (const auto& trame : liste_trames) {
-    //    std::cout << trame << std::endl;
-    //}
+    for (const auto& trame : liste_trames) {
+        std::cout << trame << std::endl;
+    }
 
-    int menu_exit_code = runMenu(client); // Lancement du menu DRILLER
+    int menu_exit_code = runMenu(client, liste_trames); // Lancement du menu DRILLER
 
     //------------------------------------------- END TEST ENV FOR FUNCTIONS -----------------------
     /*

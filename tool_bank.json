@@ -20,8 +20,8 @@
         "longueur_pilote": 0.0,
         "nombre_cycles": 0,
         "pas_outil": 0.0,
-        "vitesse_avance": 2.12314225,
-        "vitesse_rotation": 1273.88535
+        "vitesse_avance": 2.12,
+        "vitesse_rotation": 1273
     },
     {
         "angle": 0.0,
@@ -32,8 +32,8 @@
         "longueur_pilote": 0.0,
         "nombre_cycles": 0,
         "pas_outil": 0.0,
-        "vitesse_avance": 1.76928521,
-        "vitesse_rotation": 1061.57113
+        "vitesse_avance": 1.77,
+        "vitesse_rotation": 1061
     },
     {
         "angle": 0.0,
@@ -44,8 +44,8 @@
         "longueur_pilote": 0.0,
         "nombre_cycles": 0,
         "pas_outil": 0.0,
-        "vitesse_avance": 1.23438503,
-        "vitesse_rotation": 740.631018
+        "vitesse_avance": 1.23,
+        "vitesse_rotation": 740
     },
     {
         "angle": 0.0,
@@ -56,8 +56,8 @@
         "longueur_pilote": 0.0,
         "nombre_cycles": 0,
         "pas_outil": 0.0,
-        "vitesse_avance": 1.06157113,
-        "vitesse_rotation": 636.942675
+        "vitesse_avance": 1.06,
+        "vitesse_rotation": 636
     },
     {
         "angle": 0.0,
@@ -68,20 +68,8 @@
         "longueur_pilote": 0.0,
         "nombre_cycles": 0,
         "pas_outil": 0.0,
-        "vitesse_avance": 0.8846426,
-        "vitesse_rotation": 530.785563
-    },
-    {
-        "angle": 0.0,
-        "classe": "D",
-        "diametre": 14.0,
-        "diametre_max": 0.0,
-        "diametre_min": 0.0,
-        "longueur_pilote": 0.0,
-        "nombre_cycles": 0,
-        "pas_outil": 0.0,
-        "vitesse_avance": 0.75826509,
-        "vitesse_rotation": 454.959054
+        "vitesse_avance": 0.88,
+        "vitesse_rotation": 530
     },
     {
         "angle": 0.0,
@@ -94,6 +82,18 @@
         "pas_outil": 1.4,
         "vitesse_avance": 0.0,
         "vitesse_rotation": 300.0
+    },
+    {
+        "angle": 0.0,
+        "classe": "D",
+        "diametre": 14.0,
+        "diametre_max": 0.0,
+        "diametre_min": 0.0,
+        "longueur_pilote": 0.0,
+        "nombre_cycles": 0,
+        "pas_outil": 0.0,
+        "vitesse_avance": 0.76,
+        "vitesse_rotation": 455
     },
     {
         "angle": 0.0,
@@ -140,7 +140,7 @@
         "longueur_pilote": 0.0,
         "nombre_cycles": 0,
         "pas_outil": 0.0,
-        "vitesse_avance": 0.41666667,
+        "vitesse_avance": 0.42,
         "vitesse_rotation": 250.0
     },
     {
@@ -152,7 +152,7 @@
         "longueur_pilote": 0.0,
         "nombre_cycles": 0,
         "pas_outil": 0.0,
-        "vitesse_avance": 0.26539278,
-        "vitesse_rotation": 159.235669
+        "vitesse_avance": 0.26,
+        "vitesse_rotation": 159
     }
 ]
