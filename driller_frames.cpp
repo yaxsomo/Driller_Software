@@ -780,7 +780,7 @@ std::vector<std::string> generateCommands(const std::vector<SymValueGroup> &fina
                 {
                     tool_pos = formatNumber(((tool_pos_int) + 1), 2);
                 }
-                if (tool_pos != "99")
+                if (tool_pos != "-98")
                 {
                     commonParams.emplacementOutil = tool_pos;
                     commonParams.vitesseRotationOutil = formatNumber(outil.vitesse_rotation, 4);
@@ -809,7 +809,7 @@ std::vector<std::string> generateCommands(const std::vector<SymValueGroup> &fina
                 {
                     tool_pos = formatNumber(((tool_pos_int) + 1), 2);
                 }
-                if (tool_pos != "99")
+                if (tool_pos != "-98")
                 {
                     commonParams.emplacementOutil = tool_pos;
                     commonParams.vitesseRotationOutil = formatNumber(outil.vitesse_rotation, 4);
@@ -841,7 +841,7 @@ std::vector<std::string> generateCommands(const std::vector<SymValueGroup> &fina
                 {
                     tool_pos = formatNumber(((tool_pos_int) + 1), 2);
                 }
-                if (tool_pos != "99")
+                if (tool_pos != "-98")
                 {
                     commonParams.emplacementOutil = tool_pos;
                     commonParams.vitesseRotationOutil = formatNumber(outil.vitesse_rotation, 4);
@@ -872,7 +872,7 @@ std::vector<std::string> generateCommands(const std::vector<SymValueGroup> &fina
                 {
                     tool_pos = formatNumber(((tool_pos_int) + 1), 2);
                 }
-                if (tool_pos != "99")
+                if (tool_pos != "-98")
                 {
                     commonParams.emplacementOutil = tool_pos;
                     commonParams.vitesseRotationOutil = formatNumber(outil.vitesse_rotation, 4);
