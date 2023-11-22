@@ -96,6 +96,7 @@ struct Outil {
     double angle;
     int nombre_cycles;
     double diametre_min;
+    double diametre_max;
 };
 
 typedef unsigned char BYTE;
@@ -108,7 +109,8 @@ std::string extractImageSection(const std::string& content);
 std::string extractImageData(const std::string& imageSection);
 std::vector<BYTE> base64_decode(std::string const& encoded_string);
 void saveImageToPNG(const std::vector<unsigned char>& imageData, unsigned int width, unsigned int height, const std::string& filename);
-Outil selectTool(double rayon, const std::string& classe) ;
+Outil selectTool(double rayon, const std::string &classe, std::vector<Outil> tool_bank);
+void updateJsonFile(const std::vector<Outil> &tool_bank);
 int findToolPosition(const Outil& tool);
 std::string getFilenameFromPath(const std::string& path);
 std::string formatNumber(double value, int digits);
@@ -126,7 +128,8 @@ std::string generatePercageCommand(const PercageParams& params);
 std::string generateFraisurageCommand(const FraisurageParams& params);
 std::string generateTaraudageCommand(const TaraudageParams& params);
 std::string generateLamageCommand(const LamageParams& params);
-void generateCommands(const std::vector<SymValueGroup>& final_values, const std::string& epaisseur_tole);
+std::vector<std::string> generateCommands(const std::vector<SymValueGroup> &final_values, const std::string &epaisseur_tole, std::vector<Outil> tool_bank);
+std::vector<std::string> driller_frames_execute(std::string filename);
 
 
 #endif

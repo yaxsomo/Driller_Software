@@ -22,6 +22,8 @@
 #include <open62541/plugin/log_stdout.h>
 #include <open62541/client.h>
 
+
+
 // Librairie personnelle pour traitement des fichiers Driller
 #include "driller_frames.h"
 
@@ -426,15 +428,17 @@ void position_robot_get(opcua::Client &client)
 
 void mission_lancement(opcua::Client &client)
 {
-
+    std::string trame;
     opcua::NodeId trame_in(4, "|var|UHX65A.Application.User_PRG.Trame_IN_Akeros");
     opcua::NodeId mission_go(4, "|var|UHX65A.Application.User_PRG.RAZ_Trame_IN_Akeros");
 
-    std::cout << "String creation" << std::endl;
-    opcua::String trameInputString("MS A D 200000 120050 100 03 0800 700");
-    // std::string trameInputString{"MS A D 200000 120050 100 03 0800 700"};
+    //std::cout << "Inserer la trame mission: ";
+    //std::cin >> trame;
 
+    opcua::String trameInputString("MS A D 200000 120050 100 01 0800 700");
+    //opcua::String trameInputString(trame);
 
+    std::cout << "Trame crée!" << std::endl;
 
     std::cout << trameInputString << std::endl;
     opcua::Variant trameVariant;
@@ -456,29 +460,6 @@ void mission_lancement(opcua::Client &client)
 
 
         trame_out_get(client);
-
-    /*
-        // 1. Ecriture de la trame dans l'addresse memoire 'Trame_IN_Akeros' de la PLC
-        // Convert the character array to std::string
-        std::cout << "String creation";
-        std::string trameInputString{"MS A D 200000 120050 100 03 0800 700"};
-        std::cout << "Created";
-        opcua::Variant trameVariant;
-        std::cout << "Variant Created";
-        trameVariant.setScalarCopy(trameInputString);
-        std::cout << "After the creation of the Variant";
-        client.getNode(trame_in).writeValue(trameVariant);
-
-        // 2. Lecture de l'adresse memoire 'Trame_OUT_Akeros' de la PLC (Echo)
-        trame_out_get(client);
-
-        // 3. Set mission_go (Bit)
-        //bool missionGoValue = true;  // Set this value based on your logic (0 or 1)
-        //opcua::Variant missionGoVariant = opcua::Variant::fromScalar(missionGoValue);
-        //client.getNode(mission_go).writeValue(missionGoVariant);
-
-        //std::cout << "Lancement de mission effectue." << std::endl;
-        */
 }
 
 void repere_tole_get(opcua::Client &client)
@@ -565,48 +546,36 @@ int runMenu(opcua::Client &client)
     return 0; // Return 0 to indicate successful exit
 }
 
+
+
+
+
+
+    //------------------------------------------- MAIN FUNCTION -----------------------
+
+
 int main(int argc, char *argv[])
 {
 
+        // Vérification du nombre d'arguments de la ligne de commande
+    if (argc != 2)
+    {
+        // Affiche un message d'erreur si l'argument n'est pas correct
+        std::cerr << "Usage: " << argv[0] << " filename.drg" << std::endl;
+        return 1; // Quitte le programme avec un code d'erreur
+    }
+
+    // Récupération du nom de fichier à partir des arguments de la ligne de commande
+    std::string filename(argv[1]);
+    std::stringstream logMessage;
+                   
+    
+
     software_intro_section();
 
-    /*
-        // ------------------------------ OPCUA CLIENT AND LOGGER SECTION --------------------------------------
-        // Set up the logger to print log messages to the console
-        const UA_Logger logger = UA_Log_Stdout_;
 
-        // Create a client instance
-        UA_Client *client = UA_Client_new();
-        UA_ClientConfig *clientConfig = UA_Client_getConfig(client);
-        UA_ClientConfig_setDefault(clientConfig);
-        clientConfig->logger = logger;
+    //------------------------------------------- OPCUA CONFIG AND CONNECTION -----------------------
 
-        // Connect to the server
-        const char *serverUrl = "opc.tcp://192.168.100.14:4840";
-        UA_StatusCode connectStatus = UA_Client_connect(client, serverUrl);
-
-        if (connectStatus != UA_STATUSCODE_GOOD) {
-            UA_LOG_ERROR(&logger, UA_LOGCATEGORY_SERVER, "Probleme de connexion à la PLC");
-            // Handle connection error
-            UA_Client_delete(client); // Clean up the client if the connection fails
-            return -1; // Or some other error handling
-        }
-
-
-        // Specify the NodeId for the current time variable (Node 2258)
-
-        opcua::NodeId currentTimeNodeId(opcua::VariableId::Server_ServerStatus_CurrentTime);
-        getCurrentDateTime(client, currentTimeNodeId);
-
-        // ------------------------------ END OPCUA CLIENT AND LOGGER SECTION --------------------------------------
-*/
-
-    //------------------------------------------- TEST ENV FOR FUNCTIONS -----------------------
-
-    // UA_Client *client = UA_Client_new();
-    // UA_ClientConfig *clientConfig = UA_Client_getConfig(client);
-    // UA_ClientConfig_setDefault(clientConfig);
-    // clientConfig->logger = logger;
 
     opcua::Client client;
     client.setLogger([](auto level, auto category, auto msg)
@@ -676,6 +645,25 @@ int main(int argc, char *argv[])
     const auto dt = node.readValueScalar<opcua::DateTime>();
 
     std::cout << "Server date (UTC): " << dt.format("%Y-%m-%d %H:%M:%S") << std::endl;
+
+        //------------------------------------------- END OPCUA CONFIG AND CONNECTION -----------------------
+
+    std::vector<std::string> liste_trames = driller_frames_execute(filename);
+
+    if (liste_trames.empty())
+    {
+         logMessage << "Liste de trames vide!";
+         log(client, opcua::LogLevel::Error, opcua::LogCategory::Userland, logMessage.str());
+    } else {
+         logMessage << "Liste de trames correctement remplie!";
+         log(client, opcua::LogLevel::Info, opcua::LogCategory::Userland, logMessage.str());
+    }
+    
+
+    // Impression de toutes les trames (Test)
+    //for (const auto& trame : liste_trames) {
+    //    std::cout << trame << std::endl;
+    //}
 
     int menu_exit_code = runMenu(client); // Lancement du menu DRILLER
 
