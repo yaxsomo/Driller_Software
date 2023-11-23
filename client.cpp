@@ -65,11 +65,28 @@ struct St_Coordonee
 };
 
 int16_t current_robot_state = 0;
+// Global variable to signal abort
+bool abortMission = false;
 
 // AKEROS : INTEGRER DANS LES FONCTiONS
-
-UA_NodeId vitesse_robot = UA_NODEID_STRING(4, const_cast<char *>("UHX65A.Application.GVL_Config.Speed"));                          // Vitesse du robot (Exprime en %)
+UA_NodeId vitesse_robot = UA_NODEID_STRING(4, const_cast<char *>("UHX65A.Application.GVL_Config.Speed"));  // Vitesse du robot (Exprime en %)
 UA_NodeId repere_tole_opcua = UA_NODEID_STRING(4, const_cast<char *>("UHX65A.Application.User_PRG.Robot_Cantilever.Repere_tole")); // Repere TOLE
+
+
+void abortMissionSignal()
+{
+    abortMission = true;
+}
+
+// Example function using a keyboard shortcut (you can replace it with your actual implementation)
+void checkForKeyboardShortcut()
+{
+    // Check if a specific keyboard shortcut is pressed
+    //if (/* check keyboard shortcut condition */)
+    //{
+    //    abortMissionSignal();
+    //}
+}
 
 void software_intro_section()
 {
@@ -494,7 +511,13 @@ void mission_lancement(opcua::Client &client, const std::vector<std::string> &tr
     {
         std::stringstream logMessage;
         std::cout << "------------------------------------------------------------" << std::endl;
-        
+            // Check for the abort signal
+            if (abortMission)
+            {
+                logMessage << "Ensemble des missions anullés!" << std::endl;
+                log(client, opcua::LogLevel::Warning, opcua::LogCategory::SecureChannel, logMessage.str());
+                break;
+            }
         // Assuming you want to use trame as the input for each iteration
         opcua::String trameInputString(trame);
 
@@ -520,6 +543,14 @@ void mission_lancement(opcua::Client &client, const std::vector<std::string> &tr
         // Wait until the robot finishes its mission (state becomes "Wait")
         while (true)
         {
+            // Check for the abort signal
+            if (abortMission)
+            {
+                logMessage << "Mission Anullée!" << std::endl;
+                log(client, opcua::LogLevel::Warning, opcua::LogCategory::SecureChannel, logMessage.str());
+                break;
+            }
+
 
             // Get the current robot state
             etat_robot_get(client);
@@ -546,8 +577,37 @@ void mission_lancement(opcua::Client &client, const std::vector<std::string> &tr
 
 
 
-void interruption_mission(opcua::Client &client){
+// Function to write the command to the robot node
+void trames_ope_write(opcua::Client &client, const std::string &commandKey)
+{
+    std::stringstream logMessage;
+    // Check if the key exists in the map
+        // Check if the key exists in the map
+    auto it = TRAMES_OPERATIONNELLES.find(commandKey);
+    if (it != TRAMES_OPERATIONNELLES.end())
+    {
+        // Get the corresponding command
+        std::string command = it->second;
 
+        // Write the command to the robot node
+        opcua::NodeId robotNode(4, "|var|UHX65A.Application.User_PRG.Trame_IN_Akeros");
+       
+        opcua::String trame_ope(command);
+
+        opcua::Variant trame_ope_var;
+        trame_ope_var.setScalarCopy(trame_ope);
+
+        // Write the trame to trame_in Node
+        client.getNode(robotNode).writeValueScalar(trame_ope);
+
+        logMessage << "Commande écrite correctement: " << command << std::endl;
+        log(client, opcua::LogLevel::Trace, opcua::LogCategory::Server, logMessage.str());
+    }
+    else
+    {
+        std::cerr << "Error: Command key not found in the map." << std::endl;
+    }
+  
 }
 
 
