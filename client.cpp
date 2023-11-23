@@ -22,11 +22,8 @@
 #include <open62541/plugin/log_stdout.h>
 #include <open62541/client.h>
 
-
 #include <chrono>
 #include <thread>
-
-
 
 // Librairie personnelle pour traitement des fichiers Driller
 #include "driller_frames.h"
@@ -50,6 +47,14 @@ std::map<int, std::string> EN_Robot_State = {
     {14, "Cycle_F"},
     {15, "Cycle_R"},
     {16, "Cycle_B"}};
+
+
+std::map<std::string, std::string> TRAMES_OPERATIONNELLES = {
+    {"ARRET_CYCLES","MS O ABORD"}, // Commande de stop de l'ensemble des cycles auto
+    {"ACK_AL_DEF","MS O ACK_ALARM"}, // Aquitter les alarmes et defauts
+    {"INIT_ROBOT","MS O INIT"}, // Lancement du cycle d'initialisation du robot
+    {"REF_ROBOT","MS O REFF"}, // Lancement du referencement robot
+};
 
 // Structure des coordonnees du robot
 struct St_Coordonee
@@ -85,10 +90,6 @@ void getCurrentDateTime(opcua::Client &client)
     printf("Not handled yet.");
 }
 
-
-
-
-
 int16_t etat_robot_get(opcua::Client &client)
 {
     try
@@ -102,16 +103,16 @@ int16_t etat_robot_get(opcua::Client &client)
             if (readResult.isScalar())
             {
                 const UA_DataType *data_type = readResult.getDataType();
-                
+
                 if (data_type->typeKind == UA_DATATYPEKIND_INT16)
                 {
                     // Store the current robot state
                     current_robot_state = *static_cast<int16_t *>(readResult.data());
 
-                    std::stringstream logMessage;
-                    logMessage << "État du robot: " << EN_Robot_State[current_robot_state] << std::endl;
-                    log(client, opcua::LogLevel::Debug, opcua::LogCategory::Server, logMessage.str());
-                    
+                    // std::stringstream logMessage;
+                    // logMessage << "État du robot: " << EN_Robot_State[current_robot_state] << std::endl;
+                    // log(client, opcua::LogLevel::Debug, opcua::LogCategory::Server, logMessage.str());
+
                     // Return the current robot state
                     return current_robot_state;
                 }
@@ -279,26 +280,25 @@ void trame_out_get(opcua::Client &client)
         {
             if (variantValue.isScalar())
             {
-                std::cout << "Value is scalar" << std::endl;
-                std::cout << "Data Type Kind: " << variantValue.getDataType()->typeKind << std::endl;
+                // std::cout << "Value is scalar" << std::endl;
+                // std::cout << "Data Type Kind: " << variantValue.getDataType()->typeKind << std::endl;
 
                 if (variantValue.getDataType()->typeKind == UA_DATATYPEKIND_STRING)
                 {
-                    std::cout << "Value is string" << std::endl;
-                    if(variantValue.isEmpty()){
+                    // std::cout << "Value is string" << std::endl;
+                    if (variantValue.isEmpty())
+                    {
                         std::cout << "The Trame_OUT is empty" << std::endl;
-                    } 
+                    }
 
                     opcua::String valueString = *static_cast<opcua::String *>(variantValue.data());
                     std::string_view valueString_view = *static_cast<std::string_view *>(variantValue.data());
 
+                    //std::cout << "Value converted to string" << std::endl;
 
-                    std::cout << "Value converted to string" << std::endl;
+                    // std::cout << "Value String OPCUA: " << valueString << std::endl;
+                    // std::cout << "Value String View: " << valueString_view << std::endl;
 
-                    
-                    std::cout << "Value String OPCUA: " << valueString << std::endl;
-                    std::cout << "Value String View: " << valueString_view << std::endl;
-                    
                     std::stringstream logMessage;
                     logMessage << "TRAME_OUT : " << valueString_view;
                     log(client, opcua::LogLevel::Debug, opcua::LogCategory::Server, logMessage.str());
@@ -338,10 +338,7 @@ void trame_out_get(opcua::Client &client)
     }
 }
 
-void vitesse_robot_get(opcua::Client &client)
-{
-    printf("VITESSE_ROBOT : Not handled yet.");
-}
+
 
 void position_robot_get(opcua::Client &client)
 {
@@ -439,40 +436,52 @@ void position_robot_get(opcua::Client &client)
     }
 }
 
-void mission_lancement_old(opcua::Client &client, std::vector<std::string> trames)
+void position_robot_get_sew(opcua::Client &client)
 {
-    std::string trame;
-    opcua::NodeId trame_in(4, "|var|UHX65A.Application.User_PRG.Trame_IN_Akeros");
-    opcua::NodeId mission_go(4, "|var|UHX65A.Application.User_PRG.RAZ_Trame_IN_Akeros");
+    try
+    {
+        opcua::NodeId pos_robot_1(4, "|var|Maitre Bus.Application.SEW_GVL.Interface_Robot.Basic.OUT.SetpointPose.alrKinematicJoint[1]");
+        opcua::NodeId pos_robot_2(4, "|var|Maitre Bus.Application.SEW_GVL.Interface_Robot.Basic.OUT.SetpointPose.alrKinematicJoint[2]");
+        opcua::NodeId pos_robot_3(4, "|var|Maitre Bus.Application.SEW_GVL.Interface_Robot.Basic.OUT.SetpointPose.alrKinematicJoint[3]");
+        opcua::NodeId pos_robot_4(4, "|var|Maitre Bus.Application.SEW_GVL.Interface_Robot.Basic.OUT.SetpointPose.alrKinematicJoint[4]");
+        opcua::Variant variantValue1 = client.getNode(pos_robot_1).readValue();
+        opcua::Variant variantValue2 = client.getNode(pos_robot_2).readValue();
+        opcua::Variant variantValue3 = client.getNode(pos_robot_3).readValue();
+        opcua::Variant variantValue4 = client.getNode(pos_robot_4).readValue();
 
-    //std::cout << "Inserer la trame mission: ";
-    //std::cin >> trame;
+        if (!variantValue1.isEmpty())
+        {
+            if (variantValue1.getDataType()->typeKind == UA_DATATYPEKIND_DOUBLE)
+            {
 
-    opcua::String trameInputString("MS A D 200000 120050 100 01 0800 700");
-    //opcua::String trameInputString(trame);
+                // Assuming the encoded data is a sequence of three double values
+                const double *joint_1 = static_cast<const double *>(variantValue1.data());
+                const double *joint_2 = static_cast<const double *>(variantValue2.data());
+                const double *joint_3 = static_cast<const double *>(variantValue3.data());
+                const double *joint_4 = static_cast<const double *>(variantValue4.data());
 
-    std::cout << "Trame crée!" << std::endl;
-
-    std::cout << trameInputString << std::endl;
-    opcua::Variant trameVariant;
-    std::cout << "Variant Created" << std::endl;
-    trameVariant.setScalarCopy(trameInputString);
-    std::cout << "Setted scalar copy of the String to Variant" << std::endl;
-    //client.getNode(trame_in).writeValue(trameVariant);
-    client.getNode(trame_in).writeValueScalar(trameInputString);
-    std::cout << "Trame_IN Node written!" << std::endl;
-        // 3. Set mission_go (Bit)
-        bool missionGoValue = false;  // Set this value based on your logic (0 or 1)
-        opcua::Variant missionGoVariant = opcua::Variant::fromScalar(missionGoValue);
-        client.getNode(mission_go).writeValue(missionGoVariant);
-
-
-
-        std::cout << "Lancement de mission..." << std::endl;
-
-
-
-        trame_out_get(client);
+                std::cout << "Positions:"
+                          << " Joint 1=" << *joint_1
+                          << " Joint 2=" << *joint_2
+                          << " Joint 3=" << *joint_3
+                          << " Joint 4=" << *joint_4 << std::endl;
+            }
+        }
+        else
+        {
+            std::stringstream logMessage;
+            logMessage << "Empty data for position data.";
+            log(client, opcua::LogLevel::Error, opcua::LogCategory::Server, logMessage.str());
+        }
+    }
+    catch (const opcua::BadStatus &e)
+    {
+        std::cerr << "OPC UA BadStatus error: " << e.what() << std::endl;
+    }
+    catch (const std::exception &e)
+    {
+        std::cerr << "Error: " << e.what() << std::endl;
+    }
 }
 
 void mission_lancement(opcua::Client &client, const std::vector<std::string> &trames)
@@ -483,33 +492,40 @@ void mission_lancement(opcua::Client &client, const std::vector<std::string> &tr
 
     for (const std::string &trame : trames)
     {
+        std::stringstream logMessage;
+        std::cout << "------------------------------------------------------------" << std::endl;
+        
         // Assuming you want to use trame as the input for each iteration
         opcua::String trameInputString(trame);
-
-        //std::cout << "Trame créée: " << trameInputString << std::endl;
 
         opcua::Variant trameVariant;
         trameVariant.setScalarCopy(trameInputString);
 
         // Write the trame to trame_in Node
         client.getNode(trame_in).writeValueScalar(trameInputString);
-        std::cout << "Trame_IN Node written!" << std::endl;
+        logMessage << "Trame envoyée correctement!" << std::endl;
+        log(client, opcua::LogLevel::Debug, opcua::LogCategory::Server, logMessage.str());
 
         // Set mission_go (Bit)
-        bool missionGoValue = false;  // Set this value based on your logic (0 or 1)
+        bool missionGoValue = false; // Set this value based on your logic (0 or 1)
         opcua::Variant missionGoVariant = opcua::Variant::fromScalar(missionGoValue);
         client.getNode(mission_go).writeValue(missionGoVariant);
 
         std::cout << "MISSION N." << mission_counter << ": " << trame << std::endl;
 
+        //std::stringstream logMessage;
+        logMessage << "État du robot: " << EN_Robot_State[current_robot_state] << std::endl;
+        log(client, opcua::LogLevel::Debug, opcua::LogCategory::Server, logMessage.str());
+
         // Wait until the robot finishes its mission (state becomes "Wait")
         while (true)
         {
+
             // Get the current robot state
             etat_robot_get(client);
 
             // Add a delay between state checks (adjust as needed)
-            std::this_thread::sleep_for(std::chrono::seconds(1));
+            std::this_thread::sleep_for(std::chrono::milliseconds(1));
 
             // Check if the robot is in the "Wait" state (state 5)
             if (current_robot_state == 5)
@@ -530,12 +546,22 @@ void mission_lancement(opcua::Client &client, const std::vector<std::string> &tr
 
 
 
+void interruption_mission(opcua::Client &client){
 
+}
+
+
+//A PRENDRE EN CHARGE (PAS URGENT) ------------------------
+void vitesse_robot_get(opcua::Client &client)
+{
+    printf("VITESSE_ROBOT : Not handled yet.");
+}
 
 void repere_tole_get(opcua::Client &client)
 {
     printf("REPERE_TOLE : Not handled yet.");
 }
+//--------------------------------------------------------
 
 int runMenu(opcua::Client &client, std::vector<std::string> trames)
 {
@@ -552,6 +578,7 @@ int runMenu(opcua::Client &client, std::vector<std::string> trames)
         "Repere Tôle                                        ",
         "Lancement de mission (Une trame)                   ",
         "Trame_Out GET                                      ",
+        "Position X SEW                                     ",
         "QUIT PROGRAM                                       " // Doit imperativement rester en derniere position
     };
 
@@ -572,8 +599,9 @@ int runMenu(opcua::Client &client, std::vector<std::string> trames)
         [&]
         { mission_lancement(client, trames); },
         [&]
-        { trame_out_get(client); }
-        };
+        { trame_out_get(client); },
+        [&]
+        { position_robot_get_sew(client); }};
 
     while (running)
     {
@@ -616,18 +644,12 @@ int runMenu(opcua::Client &client, std::vector<std::string> trames)
     return 0; // Return 0 to indicate successful exit
 }
 
-
-
-
-
-
-    //------------------------------------------- MAIN FUNCTION -----------------------
-
+//------------------------------------------- MAIN FUNCTION -----------------------
 
 int main(int argc, char *argv[])
 {
 
-        // Vérification du nombre d'arguments de la ligne de commande
+    // Vérification du nombre d'arguments de la ligne de commande
     if (argc != 2)
     {
         // Affiche un message d'erreur si l'argument n'est pas correct
@@ -638,14 +660,10 @@ int main(int argc, char *argv[])
     // Récupération du nom de fichier à partir des arguments de la ligne de commande
     std::string filename(argv[1]);
     std::stringstream logMessage;
-                   
-    
 
     software_intro_section();
 
-
     //------------------------------------------- OPCUA CONFIG AND CONNECTION -----------------------
-
 
     opcua::Client client;
     client.setLogger([](auto level, auto category, auto msg)
@@ -711,29 +729,35 @@ int main(int argc, char *argv[])
     std::cout << "Client Object Created!" << std::endl;
     client.connect("opc.tcp://192.168.100.14:4840");
 
+    // client.connect("opc.tcp://192.168.10.4:4840");
+
     opcua::Node node = client.getNode(opcua::VariableId::Server_ServerStatus_CurrentTime);
     const auto dt = node.readValueScalar<opcua::DateTime>();
 
     std::cout << "Server date (UTC): " << dt.format("%Y-%m-%d %H:%M:%S") << std::endl;
 
-        //------------------------------------------- END OPCUA CONFIG AND CONNECTION -----------------------
+    //------------------------------------------- END OPCUA CONFIG AND CONNECTION -----------------------
 
     std::vector<std::string> liste_trames = driller_frames_execute(filename);
 
     if (liste_trames.empty())
     {
-         logMessage << "Liste de trames vide!";
-         log(client, opcua::LogLevel::Error, opcua::LogCategory::Userland, logMessage.str());
-    } else {
-         logMessage << "Liste de trames correctement remplie!";
-         log(client, opcua::LogLevel::Info, opcua::LogCategory::Userland, logMessage.str());
+        logMessage << "Liste de trames vide!";
+        log(client, opcua::LogLevel::Error, opcua::LogCategory::Userland, logMessage.str());
     }
-    
+    else
+    {
+        logMessage << "Liste de trames correctement remplie!";
+        log(client, opcua::LogLevel::Info, opcua::LogCategory::Userland, logMessage.str());
+    }
 
-    // Impression de toutes les trames (Test)
-    for (const auto& trame : liste_trames) {
-        std::cout << trame << std::endl;
-    }
+    /*
+        // Impression de toutes les trames (Test)
+        for (const auto& trame : liste_trames) {
+            std::cout << trame << std::endl;
+        }
+
+        */
 
     int menu_exit_code = runMenu(client, liste_trames); // Lancement du menu DRILLER
 

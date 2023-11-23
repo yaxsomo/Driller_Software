@@ -795,7 +795,7 @@ std::vector<std::string> generateCommands(const std::vector<SymValueGroup> &fina
                 }
                 else
                 {
-                    std::cout << "No Tool Found!" << std::endl;
+                    //std::cout << "No Tool Found!" << std::endl;
                 }
                 break;
             case 4: // Fraisurage (OP. 4)
@@ -826,7 +826,7 @@ std::vector<std::string> generateCommands(const std::vector<SymValueGroup> &fina
                 }
                 else
                 {
-                    std::cout << "No Tool Found!" << std::endl;
+                    //std::cout << "No Tool Found!" << std::endl;
                 }
                 break;
             case 2: // Taraudage (OP. 2)
@@ -857,7 +857,7 @@ std::vector<std::string> generateCommands(const std::vector<SymValueGroup> &fina
                 }
                 else
                 {
-                    std::cout << "No Tool Found!" << std::endl;
+                    //std::cout << "No Tool Found!" << std::endl;
                 }
 
                 break;
@@ -889,7 +889,7 @@ std::vector<std::string> generateCommands(const std::vector<SymValueGroup> &fina
                 }
                 else
                 {
-                    std::cout << "No Tool Found!" << std::endl;
+                    //std::cout << "No Tool Found!" << std::endl;
                 }
                 break;
             default:
