@@ -56,6 +56,19 @@ std::map<std::string, std::string> TRAMES_OPERATIONNELLES = {
     {"REF_ROBOT","MS O REFF"}, // Lancement du referencement robot
 };
 
+std::map<std::string, std::string> COMMANDES_MODE_MANUEL = {
+    {"POSITION_MAINTENANCE","MS M M"}, // Commande de stop de l'ensemble des cycles auto
+    {"ROTATION_OUTIL","MS M R"}, // Aquitter les alarmes et defauts
+    {"EXTRACTION_OUTIL","MS M E"}, // Lancement du cycle d'initialisation du robot
+    {"CHANGEMENT_OUTIL","MS M S"}, // Lancement du referencement robot
+};
+
+std::map<std::string, std::string> COMMANDES_ROBOT_MANUEL = {
+    {"X","MS M X"}, // Commande de stop de l'ensemble des cycles auto
+    {"Y","MS M Y"}, // Aquitter les alarmes et defauts
+    {"Z","MS M Z"}, // Lancement du cycle d'initialisation du robot
+};
+
 // Structure des coordonnees du robot
 struct St_Coordonee
 {
@@ -610,6 +623,121 @@ void trames_ope_write(opcua::Client &client, const std::string &commandKey)
   
 }
 
+// Function to write manual command to the robot node
+void commandes_manuelles_write(opcua::Client &client, const std::string &commandKey, const std::string &value = "")
+{
+    std::stringstream logMessage;
+
+    // Check if the key exists in the map
+    auto it = COMMANDES_MODE_MANUEL.find(commandKey);
+    if (it != COMMANDES_MODE_MANUEL.end())
+    {
+        // Get the corresponding command
+        std::string command = it->second;
+
+        // Append the value if provided
+        if (!value.empty())
+        {
+            command += " " + value;
+        }
+
+        // Write the command to the robot node
+        opcua::NodeId robotNode(4, "|var|UHX65A.Application.User_PRG.Trame_IN_Akeros");
+
+        opcua::String trame_manuelle(command);
+
+        opcua::Variant trame_manuelle_var;
+        trame_manuelle_var.setScalarCopy(trame_manuelle);
+
+        // Write the trame to trame_in Node
+        client.getNode(robotNode).writeValueScalar(trame_manuelle);
+
+        logMessage << "Commande manuelle écrite correctement: " << command << std::endl;
+        log(client, opcua::LogLevel::Trace, opcua::LogCategory::Server, logMessage.str());
+    }
+    else
+    {
+        std::cerr << "Error: Command key not found in the map." << std::endl;
+    }
+}
+
+// Function to write manual command with variable parts to the robot node
+void robot_manuel_move(opcua::Client &client, const std::string &axis, bool forward, const std::string &speed)
+{
+    //std::stringstream logMessage;
+
+    // Check if the axis exists in the map
+    auto it = COMMANDES_ROBOT_MANUEL.find(axis);
+    if (it != COMMANDES_ROBOT_MANUEL.end())
+    {
+        // Get the corresponding command
+        std::string command = it->second;
+
+        // Add direction and speed if provided
+        if (forward)
+        {
+            command += " + " + speed;
+        }
+        else
+        {
+            command += " - " + speed;
+        }
+
+        // Write the command to the robot node
+        opcua::NodeId robotNode(4, "|var|UHX65A.Application.User_PRG.Trame_IN_Akeros");
+        //opcua::NodeId mission_go(4, "|var|UHX65A.Application.User_PRG.RAZ_Trame_IN_Akeros");
+
+        std::cout << command << std::endl;
+
+        opcua::String trame_manuelle(command);
+        opcua::Variant trame_manuelle_var;
+        trame_manuelle_var.setScalarCopy(trame_manuelle);
+
+        // Write the trame to trame_in Node
+        client.getNode(robotNode).writeValueScalar(trame_manuelle);
+
+        //logMessage << "Commande robot manuelle écrite correctement: " << command << std::endl;
+        //log(client, opcua::LogLevel::Trace, opcua::LogCategory::Server, logMessage.str());
+    }
+    else
+    {
+        std::cerr << "Error: Axis not found in the map." << std::endl;
+    }
+}
+
+// Function to send continuous manual movement commands for a specified duration
+void testContinuousManualMovement(opcua::Client &client, const std::string &axis, bool forward, const std::string &speed, int durationSeconds)
+{
+    auto startTime = std::chrono::steady_clock::now();
+    auto endTime = startTime + std::chrono::milliseconds(durationSeconds);
+
+    // Continue sending commands until the specified duration is reached
+    while (std::chrono::steady_clock::now() < endTime)
+    {
+        // Send the manual movement command
+        robot_manuel_move(client, axis, forward, speed);
+
+        // Add a delay between consecutive commands (adjust as needed)
+        //std::this_thread::sleep_for(std::chrono::milliseconds(100)); // 100 milliseconds delay
+    }
+
+}
+
+void mouvement_manuel_test(opcua::Client &client){
+    trames_ope_write(client,"ACK_AL_DEF");
+    testContinuousManualMovement(client, "Y", false, "050", 3000); // Move X-axis forward for 3 seconds
+}
+
+void etat_robot_print(opcua::Client &client){
+    etat_robot_get(client);
+
+    std::stringstream logMessage;
+    logMessage << "État du robot: " << EN_Robot_State[current_robot_state] << std::endl;
+    log(client, opcua::LogLevel::Debug, opcua::LogCategory::Server, logMessage.str());
+
+}
+
+
 
 //A PRENDRE EN CHARGE (PAS URGENT) ------------------------
 void vitesse_robot_get(opcua::Client &client)
@@ -638,7 +766,7 @@ int runMenu(opcua::Client &client, std::vector<std::string> trames)
         "Repere Tôle                                        ",
         "Lancement de mission (Une trame)                   ",
         "Trame_Out GET                                      ",
-        "Position X SEW                                     ",
+        "Mouvement manuel Test                              ",
         "QUIT PROGRAM                                       " // Doit imperativement rester en derniere position
     };
 
@@ -651,7 +779,7 @@ int runMenu(opcua::Client &client, std::vector<std::string> trames)
         [&]
         { vitesse_robot_get(client); },
         [&]
-        { etat_robot_get(client); },
+        { etat_robot_print(client); },
         [&]
         { position_robot_get(client); },
         [&]
@@ -661,7 +789,8 @@ int runMenu(opcua::Client &client, std::vector<std::string> trames)
         [&]
         { trame_out_get(client); },
         [&]
-        { position_robot_get_sew(client); }};
+        { mouvement_manuel_test(client); }
+        };
 
     while (running)
     {
