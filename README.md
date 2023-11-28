@@ -12,6 +12,7 @@ First, you have to clone the project by using this command on the terminal :
 
 ```bash
 git clone https://github.com/yaxsomo/Driller_Software.git
+cd Driller_Software
 ```
 
 ### Building the project
