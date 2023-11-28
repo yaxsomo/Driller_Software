@@ -7,8 +7,15 @@
 
 This Repository is reserved for LUCAS's Smart Driller Robot Software developement
 
+### Cloning the project
+First, you have to clone the project by using this command on the terminal :
+
+```bash
+git clone https://github.com/yaxsomo/Driller_Software.git
+```
+
 ### Building the project
-Use the following command to build the entire project (on the root directory):
+Use the following command to build the entire project (on the project root directory):
 
 ```bash
 chmod +x setup.sh && ./setup.sh
@@ -19,7 +26,7 @@ Now the project is built successfully!
 
 ### Executing the main program
 
-In order to execute the program, we have to launch the client file (on the root directory):
+In order to execute the program, we have to launch the client file (on the project root directory):
 
 ##### Usage 
 ```
