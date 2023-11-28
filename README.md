@@ -14,6 +14,7 @@ Use the following command to build the entire project (on the root directory):
 chmod +x setup.sh && ./setup.sh
 ```
 It will take several minutes to build the project, so be patient.
+
 Now the project is built successfully!
 
 ### Executing the main program
