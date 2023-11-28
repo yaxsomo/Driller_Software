@@ -22,7 +22,7 @@ In order to execute the program, we have to launch the client file (on the root 
 
 ##### Usage 
 ```
-./client [filename.drg] (filename.drg corresponds to the DRG file that you want to put as parameter for the software)
+./client [filename.drg]
 ```
 ##### Exemple with a known file name 
 ```bash
