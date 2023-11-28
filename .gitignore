@@ -1,0 +1,6 @@
+# Ignore CMake generated files and folders
+CMakeFiles/
+CMakeCache.txt
+
+# Ignore open62541pp library folder
+open62541/
