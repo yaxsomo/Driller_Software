@@ -255,12 +255,25 @@ void texte_alarme_get(opcua::Client &client)
         {
             if (variantValue.isScalar())
             {
-                std::cout << "Data Type Kind: " << variantValue.getDataType()->typeKind << std::endl;
+                //std::cout << "Data Type Kind: " << variantValue.getDataType()->typeKind << std::endl;
                 if (variantValue.getDataType()->typeKind == UA_DATATYPEKIND_STRING)
                 {
-                    std::string valueString = *static_cast<std::string *>(variantValue.data());
+                    // std::cout << "Value is string" << std::endl;
+                    if (variantValue.isEmpty())
+                    {
+                        std::cout << "The Trame_OUT is empty" << std::endl;
+                    }
+
+                    opcua::String valueString = *static_cast<opcua::String *>(variantValue.data());
+                    std::string_view valueString_view = *static_cast<std::string_view *>(variantValue.data());
+
+                    //std::cout << "Value converted to string" << std::endl;
+
+                    // std::cout << "Value String OPCUA: " << valueString << std::endl;
+                    // std::cout << "Value String View: " << valueString_view << std::endl;
+
                     std::stringstream logMessage;
-                    logMessage << "Texte de l'alarme : " << valueString;
+                    logMessage << "Texte alarme : " << valueString_view;
                     log(client, opcua::LogLevel::Debug, opcua::LogCategory::Server, logMessage.str());
                 }
                 else
@@ -382,13 +395,13 @@ void position_robot_get(opcua::Client &client)
             if (variantValue.getDataType()->typeKind == UA_DATATYPEKIND_EXTENSIONOBJECT)
             {
                 opcua::ExtensionObject *eo = reinterpret_cast<opcua::ExtensionObject *>(variantValue.data());
-                std::cout << "Data is Extension Obj" << std::endl;
+                //std::cout << "Data is Extension Obj" << std::endl;
                 if (eo->isEncoded())
                 {
-                    std::cout << "Extension Obj Encoded" << std::endl;
+                    //std::cout << "Extension Obj Encoded" << std::endl;
                     if (eo->handle()->encoding == UA_EXTENSIONOBJECT_ENCODED_BYTESTRING)
                     {
-                        std::cout << "dataType is Bytestring" << std::endl;
+                        //std::cout << "dataType is Bytestring" << std::endl;
 
                         std::optional<opcua::ByteString> optionalEncodedBody = eo->getEncodedBody();
                         if (optionalEncodedBody && !optionalEncodedBody->empty())
@@ -398,15 +411,15 @@ void position_robot_get(opcua::Client &client)
                             size_t dataSize = encodedBody.get().size();     // Get the size of the binary data
 
                             // Print the raw data
-                            std::cout << "Raw Data: ";
-                            for (size_t i = 0; i < dataSize; ++i)
-                            {
-                                std::cout << std::hex << std::setw(2) << std::setfill('0') << static_cast<unsigned>(reinterpret_cast<const uint8_t *>(rawData)[i]) << " ";
-                            }
-                            std::cout << std::dec << std::endl;
+                            //std::cout << "Raw Data: ";
+                            //for (size_t i = 0; i < dataSize; ++i)
+                            //{
+                            //    std::cout << std::hex << std::setw(2) << std::setfill('0') << static_cast<unsigned>(reinterpret_cast<const uint8_t *>(rawData)[i]) << " ";
+                            //}
+                            //std::cout << std::dec << std::endl;
 
-                            std::cout << "Size of encoded data: " << dataSize << " bytes" << std::endl;
-                            std::cout << "Size of St_Coordonee structure: " << sizeof(St_Coordonee) << " bytes" << std::endl;
+                            //std::cout << "Size of encoded data: " << dataSize << " bytes" << std::endl;
+                            //std::cout << "Size of St_Coordonee structure: " << sizeof(St_Coordonee) << " bytes" << std::endl;
 
                             // Assuming the encoded data is a sequence of three double values
                             const float *encodedValues = static_cast<const float *>(rawData);
@@ -416,10 +429,14 @@ void position_robot_get(opcua::Client &client)
                             decodedStructure.Y = encodedValues[1];
                             decodedStructure.Z = encodedValues[2];
 
-                            std::cout << "Decoded Structure:"
-                                      << " X=" << decodedStructure.X
-                                      << " Y=" << decodedStructure.Y
+                            std::stringstream logMessage;
+                          
+
+                            logMessage << "Position Robot:"
+                                      << " X=" << decodedStructure.X << " |"
+                                      << " Y=" << decodedStructure.Y << " |"
                                       << " Z=" << decodedStructure.Z << std::endl;
+                            log(client, opcua::LogLevel::Info, opcua::LogCategory::Server, logMessage.str());
                         }
                         else
                         {
@@ -589,6 +606,62 @@ void mission_lancement(opcua::Client &client, const std::vector<std::string> &tr
 }
 
 
+void mission_lancement_une_trame(opcua::Client &client)
+{
+    opcua::NodeId trame_in(4, "|var|UHX65A.Application.User_PRG.Trame_IN_Akeros");
+    opcua::NodeId mission_go(4, "|var|UHX65A.Application.User_PRG.RAZ_Trame_IN_Akeros");
+    int mission_counter = 0;
+
+    std::string trame = "MS A D 300000 100000 060 00 0800 500";
+
+        std::stringstream logMessage;
+        std::cout << "------------------------------------------------------------" << std::endl;
+        // Assuming you want to use trame as the input for each iteration
+        opcua::String trameInputString(trame);
+
+        opcua::Variant trameVariant;
+        trameVariant.setScalarCopy(trameInputString);
+
+        // Write the trame to trame_in Node
+        client.getNode(trame_in).writeValueScalar(trameInputString);
+        logMessage << "Trame envoyée correctement!" << std::endl;
+        log(client, opcua::LogLevel::Debug, opcua::LogCategory::Server, logMessage.str());
+
+        // Set mission_go (Bit)
+        bool missionGoValue = false; // Set this value based on your logic (0 or 1)
+        opcua::Variant missionGoVariant = opcua::Variant::fromScalar(missionGoValue);
+        client.getNode(mission_go).writeValue(missionGoVariant);
+
+        std::cout << "MISSION N." << mission_counter << ": " << trame << std::endl;
+
+        //std::stringstream logMessage;
+        logMessage << "État du robot: " << EN_Robot_State[current_robot_state] << std::endl;
+        log(client, opcua::LogLevel::Debug, opcua::LogCategory::Server, logMessage.str());
+
+        // Wait until the robot finishes its mission (state becomes "Wait")
+        while (true)
+        {
+
+            // Get the current robot state
+            etat_robot_get(client);
+
+            // Add a delay between state checks (adjust as needed)
+            std::this_thread::sleep_for(std::chrono::milliseconds(1));
+
+            // Check if the robot is in the "Wait" state (state 5)
+            if (current_robot_state == 5)
+            {
+                std::cout << "MISSION N." << mission_counter << ": TERMINÉ" << std::endl;
+                break;
+            }
+        }
+
+        trame_out_get(client);
+        position_robot_get(client);
+ 
+}
+
+
 
 // Function to write the command to the robot node
 void trames_ope_write(opcua::Client &client, const std::string &commandKey)
@@ -661,12 +734,15 @@ void commandes_manuelles_write(opcua::Client &client, const std::string &command
     }
 }
 
-// Function to write manual command with variable parts to the robot node
-void robot_manuel_move(opcua::Client &client, const std::string &axis, bool forward, const std::string &speed)
+// Function to send continuous manual movement commands for a specified duration
+void robot_manuel_move(opcua::Client &client, const std::string &axis, bool forward, const std::string &speed, int durationSeconds)
 {
-    //std::stringstream logMessage;
+    opcua::NodeId robotNode(4, "|var|UHX65A.Application.User_PRG.Trame_IN_Akeros");
+    auto startTime = std::chrono::steady_clock::now();
+    auto endTime = startTime + std::chrono::milliseconds(durationSeconds);
+    opcua::String trame_manuelle;
 
-    // Check if the axis exists in the map
+        // Check if the axis exists in the map
     auto it = COMMANDES_ROBOT_MANUEL.find(axis);
     if (it != COMMANDES_ROBOT_MANUEL.end())
     {
@@ -684,17 +760,15 @@ void robot_manuel_move(opcua::Client &client, const std::string &axis, bool forw
         }
 
         // Write the command to the robot node
-        opcua::NodeId robotNode(4, "|var|UHX65A.Application.User_PRG.Trame_IN_Akeros");
-        //opcua::NodeId mission_go(4, "|var|UHX65A.Application.User_PRG.RAZ_Trame_IN_Akeros");
 
-        std::cout << command << std::endl;
+        //std::cout << command << std::endl;
 
-        opcua::String trame_manuelle(command);
+        trame_manuelle = opcua::String(command);
+        std::cout << trame_manuelle << std::endl;
         opcua::Variant trame_manuelle_var;
         trame_manuelle_var.setScalarCopy(trame_manuelle);
 
-        // Write the trame to trame_in Node
-        client.getNode(robotNode).writeValueScalar(trame_manuelle);
+        
 
         //logMessage << "Commande robot manuelle écrite correctement: " << command << std::endl;
         //log(client, opcua::LogLevel::Trace, opcua::LogCategory::Server, logMessage.str());
@@ -703,19 +777,12 @@ void robot_manuel_move(opcua::Client &client, const std::string &axis, bool forw
     {
         std::cerr << "Error: Axis not found in the map." << std::endl;
     }
-}
-
-// Function to send continuous manual movement commands for a specified duration
-void testContinuousManualMovement(opcua::Client &client, const std::string &axis, bool forward, const std::string &speed, int durationSeconds)
-{
-    auto startTime = std::chrono::steady_clock::now();
-    auto endTime = startTime + std::chrono::milliseconds(durationSeconds);
 
     // Continue sending commands until the specified duration is reached
     while (std::chrono::steady_clock::now() < endTime)
     {
         // Send the manual movement command
-        robot_manuel_move(client, axis, forward, speed);
+        client.getNode(robotNode).writeValueScalar(trame_manuelle);
 
         // Add a delay between consecutive commands (adjust as needed)
         //std::this_thread::sleep_for(std::chrono::milliseconds(100)); // 100 milliseconds delay
@@ -724,8 +791,7 @@ void testContinuousManualMovement(opcua::Client &client, const std::string &axis
 }
 
 void mouvement_manuel_test(opcua::Client &client){
-    trames_ope_write(client,"ACK_AL_DEF");
-    testContinuousManualMovement(client, "Y", false, "050", 3000); // Move X-axis forward for 3 seconds
+    robot_manuel_move(client, "Y", false, "050", 3000); // Move X-axis forward for 3 seconds
 }
 
 void etat_robot_print(opcua::Client &client){
@@ -734,6 +800,31 @@ void etat_robot_print(opcua::Client &client){
     std::stringstream logMessage;
     logMessage << "État du robot: " << EN_Robot_State[current_robot_state] << std::endl;
     log(client, opcua::LogLevel::Debug, opcua::LogCategory::Server, logMessage.str());
+
+}
+
+// Function to write manual command to the robot node
+void rangement_robot(opcua::Client &client)
+{
+    std::stringstream logMessage;
+
+
+        // Get the corresponding command
+        std::string command = "MS A R 00";
+
+        // Write the command to the robot node
+        opcua::NodeId robotNode(4, "|var|UHX65A.Application.User_PRG.Trame_IN_Akeros");
+
+        opcua::String trame_manuelle(command);
+
+        opcua::Variant trame_manuelle_var;
+        trame_manuelle_var.setScalarCopy(trame_manuelle);
+
+        // Write the trame to trame_in Node
+        client.getNode(robotNode).writeValueScalar(trame_manuelle);
+
+        logMessage << "Rangement du robot.. " << command << std::endl;
+        log(client, opcua::LogLevel::Trace, opcua::LogCategory::Server, logMessage.str());
 
 }
 
@@ -764,9 +855,11 @@ int runMenu(opcua::Client &client, std::vector<std::string> trames)
         "État du robot                                      ",
         "Position du robot                                  ",
         "Repere Tôle                                        ",
-        "Lancement de mission (Une trame)                   ",
+        "Lancement de mission (Tôle entiere)                ",
+        "Lancement de mission (Trame Manuelle)              ",
         "Trame_Out GET                                      ",
         "Mouvement manuel Test                              ",
+        "Rangement robot                                    ",
         "QUIT PROGRAM                                       " // Doit imperativement rester en derniere position
     };
 
@@ -787,9 +880,13 @@ int runMenu(opcua::Client &client, std::vector<std::string> trames)
         [&]
         { mission_lancement(client, trames); },
         [&]
+        { mission_lancement_une_trame(client); },
+        [&]
         { trame_out_get(client); },
         [&]
-        { mouvement_manuel_test(client); }
+        { mouvement_manuel_test(client); },
+        [&]
+        { rangement_robot(client); }
         };
 
     while (running)
