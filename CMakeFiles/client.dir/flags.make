@@ -4,7 +4,7 @@
 # compile CXX with /usr/bin/c++
 CXX_DEFINES = -DUA_ARCHITECTURE_POSIX
 
-CXX_INCLUDES = -I/mnt/c/Users/yohan/Downloads/Driller_Software
+CXX_INCLUDES = -I/mnt/c/Users/yohan/Documents/Driller_Software
 
 CXX_FLAGS = 
 

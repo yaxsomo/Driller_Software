@@ -13,6 +13,9 @@ cmake --install .
 cd ..
 rm -f CMakeCache.txt && rm -rf CMakeFiles
 
+#install dependencies related to C++
+sudo apt install make && sudo apt install cmake && sudo apt install build-essentials
+
 # Build the project
 cmake .
 make

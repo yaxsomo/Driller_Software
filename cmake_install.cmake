@@ -1,4 +1,4 @@
-# Install script for directory: /mnt/c/Users/yohan/Downloads/Driller_Software
+# Install script for directory: /mnt/c/Users/yohan/Documents/Driller_Software
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -50,5 +50,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "/mnt/c/Users/yohan/Downloads/Driller_Software/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "/mnt/c/Users/yohan/Documents/Driller_Software/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")
