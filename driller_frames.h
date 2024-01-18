@@ -110,8 +110,8 @@ typedef unsigned char BYTE;
 // Define a variant type that can hold either SymValueGroup or SymValueSections
 using SymValueVariant = std::variant<std::vector<SymValueGroup>, std::vector<SymValueSections>>;
 
-
-
+std::string get_epaisseur_tole();
+std::vector<Outil> readToolBank(const std::string &filename);
 std::string cleanString(const std::string& input);
 std::string extractImageSection(const std::string& content);
 std::string extractImageData(const std::string& imageSection);
@@ -137,6 +137,7 @@ std::string generateFraisurageCommand(const FraisurageParams& params);
 std::string generateTaraudageCommand(const TaraudageParams& params);
 std::string generateLamageCommand(const LamageParams& params);
 std::vector<std::string> generateCommands(const std::vector<SymValueGroup> &final_values, const std::string &epaisseur_tole, std::vector<Outil> tool_bank);
+std::string generate_single_command(const SymValue &operation, int opType, const std::string &epaisseur_tole, std::vector<Outil> tool_bank);
 SymValueVariant driller_frames_execute(std::string filename, int operational_mode);
 
 

@@ -1,5 +1,8 @@
 #!/bin/bash
 
+#install dependencies related to C++
+sudo apt install build-essentials && sudo apt install make && sudo apt install cmake
+
 # Add open62541pp library
 git clone --recursive https://github.com/open62541pp/open62541pp.git
 cd open62541pp/
@@ -13,9 +16,10 @@ cmake --install .
 cd ..
 rm -f CMakeCache.txt && rm -rf CMakeFiles
 
-#install dependencies related to C++
-sudo apt install make && sudo apt install cmake && sudo apt install build-essentials
 
 # Build the project
 cmake .
 make
+
+# Execution privilege on client
+sudo chmod +x client 

@@ -29,6 +29,15 @@
 #include "driller_frames.h"
 
 extern std::vector<Outil> toolBank;
+std::vector<SymValueGroup> holes_groups;
+std::vector<SymValueSections> holes_sectionss;
+// std::vector<std::variant<SymValueGroup, SymValueSections>> final_values_combined;
+
+// Provide the correct path to your JSON file
+std::string toolBank_path = "./tool_bank.json";
+// Read the tool bank from the JSON file
+std::vector<Outil> toolBank_json = readToolBank(toolBank_path);
+
 // CONSTANTES
 const int N_ALARMES = 999;
 const opcua::Logger logger;
@@ -486,76 +495,163 @@ void position_robot_get(opcua::Client &client)
     }
 }
 
-void mission_lancement(opcua::Client &client, const std::vector<std::string> &trames)
+void mission_lancement(opcua::Client &client)
 {
     opcua::NodeId trame_in(4, "|var|UHX65A.Application.User_PRG.Trame_IN_Akeros");
     opcua::NodeId mission_go(4, "|var|UHX65A.Application.User_PRG.RAZ_Trame_IN_Akeros");
     int mission_counter = 0;
+    std::string epaisseur_tole = get_epaisseur_tole();
+    std::string trame;
 
-    for (const std::string &trame : trames)
+    switch (currentOperationalMode)
     {
-        std::stringstream logMessage;
-        std::cout << "------------------------------------------------------------" << std::endl;
-        // Check for the abort signal
-        if (abortMission)
+    case 0:
+        for (const SymValueGroup &group : holes_groups)
         {
-            logMessage << "Ensemble des missions anullés!" << std::endl;
-            log(client, opcua::LogLevel::Warning, opcua::LogCategory::SecureChannel, logMessage.str());
-            break;
+            for (const SymValue &operation : group.values)
+            {
+                trame = generate_single_command(operation, group.type, epaisseur_tole, toolBank_json);
+                std::stringstream logMessage;
+                std::cout << "------------------------------------------------------------" << std::endl;
+                // Check for the abort signal
+                if (abortMission)
+                {
+                    logMessage << "Ensemble des missions anullés!" << std::endl;
+                    log(client, opcua::LogLevel::Warning, opcua::LogCategory::SecureChannel, logMessage.str());
+                    break;
+                }
+                // Assuming you want to use trame as the input for each iteration
+                opcua::String trameInputString(trame);
+
+                opcua::Variant trameVariant;
+                trameVariant.setScalarCopy(trameInputString);
+
+                // Write the trame to trame_in Node
+                client.getNode(trame_in).writeValueScalar(trameInputString);
+                logMessage << "Trame envoyée correctement!" << std::endl;
+                log(client, opcua::LogLevel::Debug, opcua::LogCategory::Server, logMessage.str());
+
+                // Set mission_go (Bit)
+                bool missionGoValue = false; // Set this value based on your logic (0 or 1)
+                opcua::Variant missionGoVariant = opcua::Variant::fromScalar(missionGoValue);
+                client.getNode(mission_go).writeValue(missionGoVariant);
+
+                std::cout << "MISSION N." << mission_counter << ": " << trame << std::endl;
+
+                // std::stringstream logMessage;
+                logMessage << "État du robot: " << EN_Robot_State[current_robot_state] << std::endl;
+                log(client, opcua::LogLevel::Debug, opcua::LogCategory::Server, logMessage.str());
+
+                // Wait until the robot finishes its mission (state becomes "Wait")
+                while (true)
+                {
+                    // Check for the abort signal
+                    if (abortMission)
+                    {
+                        logMessage << "Mission Anullée!" << std::endl;
+                        log(client, opcua::LogLevel::Warning, opcua::LogCategory::SecureChannel, logMessage.str());
+                        break;
+                    }
+
+                    // Get the current robot state
+                    etat_robot_get(client);
+
+                    // Add a delay between state checks (adjust as needed)
+                    std::this_thread::sleep_for(std::chrono::milliseconds(1));
+
+                    // Check if the robot is in the "Wait" state (state 5)
+                    if (current_robot_state == 5)
+                    {
+                        std::cout << "MISSION N." << mission_counter << ": TERMINÉ" << std::endl;
+                        break;
+                    }
+                }
+
+                trame_out_get(client);
+
+                // Increment the mission counter
+                mission_counter++;
+            }
         }
-        // Assuming you want to use trame as the input for each iteration
-        opcua::String trameInputString(trame);
-
-        opcua::Variant trameVariant;
-        trameVariant.setScalarCopy(trameInputString);
-
-        // Write the trame to trame_in Node
-        client.getNode(trame_in).writeValueScalar(trameInputString);
-        logMessage << "Trame envoyée correctement!" << std::endl;
-        log(client, opcua::LogLevel::Debug, opcua::LogCategory::Server, logMessage.str());
-
-        // Set mission_go (Bit)
-        bool missionGoValue = false; // Set this value based on your logic (0 or 1)
-        opcua::Variant missionGoVariant = opcua::Variant::fromScalar(missionGoValue);
-        client.getNode(mission_go).writeValue(missionGoVariant);
-
-        std::cout << "MISSION N." << mission_counter << ": " << trame << std::endl;
-
-        // std::stringstream logMessage;
-        logMessage << "État du robot: " << EN_Robot_State[current_robot_state] << std::endl;
-        log(client, opcua::LogLevel::Debug, opcua::LogCategory::Server, logMessage.str());
-
-        // Wait until the robot finishes its mission (state becomes "Wait")
-        while (true)
+        break;
+    case 1:
+        // Print the result
+        for (const SymValueSections &section : holes_sectionss)
         {
-            // Check for the abort signal
-            if (abortMission)
+            // std::cout << "Section " << section.section << ":" << std::endl;
+            for (const SymValueGroup &group : section.groups)
             {
-                logMessage << "Mission Anullée!" << std::endl;
-                log(client, opcua::LogLevel::Warning, opcua::LogCategory::SecureChannel, logMessage.str());
-                break;
-            }
+                // std::cout << "  Groupe " << group.type << ":" << std::endl;
+                for (const SymValue &operation : group.values)
+                {
+                    trame = generate_single_command(operation, operation.type, epaisseur_tole, toolBank_json);
+                    std::stringstream logMessage;
+                    std::cout << "------------------------------------------------------------" << std::endl;
+                    // Check for the abort signal
+                    if (abortMission)
+                    {
+                        logMessage << "Ensemble des missions anullés!" << std::endl;
+                        log(client, opcua::LogLevel::Warning, opcua::LogCategory::SecureChannel, logMessage.str());
+                        break;
+                    }
+                    // Assuming you want to use trame as the input for each iteration
+                    opcua::String trameInputString(trame);
 
-            // Get the current robot state
-            etat_robot_get(client);
+                    opcua::Variant trameVariant;
+                    trameVariant.setScalarCopy(trameInputString);
 
-            // Add a delay between state checks (adjust as needed)
-            std::this_thread::sleep_for(std::chrono::milliseconds(1));
+                    // Write the trame to trame_in Node
+                    client.getNode(trame_in).writeValueScalar(trameInputString);
+                    logMessage << "Trame envoyée correctement!" << std::endl;
+                    log(client, opcua::LogLevel::Debug, opcua::LogCategory::Server, logMessage.str());
 
-            // Check if the robot is in the "Wait" state (state 5)
-            if (current_robot_state == 5)
-            {
-                std::cout << "MISSION N." << mission_counter << ": TERMINÉ" << std::endl;
-                break;
+                    // Set mission_go (Bit)
+                    bool missionGoValue = false; // Set this value based on your logic (0 or 1)
+                    opcua::Variant missionGoVariant = opcua::Variant::fromScalar(missionGoValue);
+                    client.getNode(mission_go).writeValue(missionGoVariant);
+
+                    std::cout << "MISSION N." << mission_counter << ": " << trame << std::endl;
+
+                    // std::stringstream logMessage;
+                    logMessage << "État du robot: " << EN_Robot_State[current_robot_state] << std::endl;
+                    log(client, opcua::LogLevel::Debug, opcua::LogCategory::Server, logMessage.str());
+
+                    // Wait until the robot finishes its mission (state becomes "Wait")
+                    while (true)
+                    {
+                        // Check for the abort signal
+                        if (abortMission)
+                        {
+                            logMessage << "Mission Anullée!" << std::endl;
+                            log(client, opcua::LogLevel::Warning, opcua::LogCategory::SecureChannel, logMessage.str());
+                            break;
+                        }
+
+                        // Get the current robot state
+                        etat_robot_get(client);
+
+                        // Add a delay between state checks (adjust as needed)
+                        std::this_thread::sleep_for(std::chrono::milliseconds(1));
+
+                        // Check if the robot is in the "Wait" state (state 5)
+                        if (current_robot_state == 5)
+                        {
+                            std::cout << "MISSION N." << mission_counter << ": TERMINÉ" << std::endl;
+                            break;
+                        }
+                    }
+
+                    trame_out_get(client);
+
+                    // Increment the mission counter
+                    mission_counter++;
+                }
             }
         }
 
-        trame_out_get(client);
-
-        // Increment the mission counter
-        mission_counter++;
-
-        // Add any necessary delay or logic between commands
+        break;
+    default:
+        break;
     }
 }
 
@@ -773,6 +869,52 @@ void rangement_robot(opcua::Client &client)
     log(client, opcua::LogLevel::Trace, opcua::LogCategory::Server, logMessage.str());
 }
 
+void print_frames(opcua::Client &client)
+{
+    std::stringstream logMessage;
+    switch (currentOperationalMode)
+    {
+    case 0:
+        for (SymValueGroup &group : holes_groups)
+        {
+            for (const SymValue &value : group.values)
+            {
+                logMessage << "    OPERATION: " << OPERATIONS_TYPES[value.type] << " {"
+                           << "X: " << value.x
+                           << ", Y: " << value.y
+                           << ", Couleur: " << value.couleur
+                           << ", Diametre: " << value.rayon * 2
+                           << "}";
+                log(client, opcua::LogLevel::Trace, opcua::LogCategory::Server, logMessage.str());
+            }
+        }
+        break;
+    case 1:
+        // Print the result
+        for (const SymValueSections &section : holes_sectionss)
+        {
+            std::cout << "Section " << section.section << ":" << std::endl;
+            for (const SymValueGroup &group : section.groups)
+            {
+                std::cout << "  Groupe " << group.type << ":" << std::endl;
+                for (const SymValue &value : group.values)
+                {
+                    logMessage << "    OPERATION: " << OPERATIONS_TYPES[value.type] << " {"
+                               << "X: " << value.x
+                               << ", Y: " << value.y
+                               << ", Couleur: " << value.couleur
+                               << ", Diametre: " << value.rayon * 2
+                               << "}";
+                    log(client, opcua::LogLevel::Trace, opcua::LogCategory::Server, logMessage.str());
+                }
+            }
+        }
+        break;
+    default:
+        break;
+    }
+}
+
 void switch_operational_mode()
 {
     int newMode;
@@ -802,7 +944,7 @@ void repere_tole_get(opcua::Client &client)
 }
 //--------------------------------------------------------
 
-int runMenu(opcua::Client &client, std::vector<std::string> trames)
+int runMenu(opcua::Client &client)
 {
     bool running = true;
     int choice = 0;
@@ -810,6 +952,7 @@ int runMenu(opcua::Client &client, std::vector<std::string> trames)
     // Create a vector to store menu items
     std::vector<std::string> menuItems = {
         "Changement mode operations tôle                    ",
+        "Affichage des trames(operations)                   ",
         "État des alarmes                                   ",
         "Texte de l'alarme                                  ",
         "Vitesse du robot (en %)                            ",
@@ -817,7 +960,7 @@ int runMenu(opcua::Client &client, std::vector<std::string> trames)
         "Position du robot                                  ",
         "Repere Tôle                                        ",
         "Lancement de mission (Tôle entiere)                ",
-        "Lancement de mission (Trame Manuelle)              ",
+        "Lancement de mission (Trame Manuelle)             ",
         "Trame_Out GET                                     ",
         "Mouvement manuel Test                             ",
         "Rangement robot                                   ",
@@ -828,6 +971,8 @@ int runMenu(opcua::Client &client, std::vector<std::string> trames)
     std::vector<std::function<void()>> menuFunctions = {
         [&]
         { switch_operational_mode(); },
+        [&]
+        { print_frames(client); },
         [&]
         { etat_alarmes_get(client); },
         [&]
@@ -841,7 +986,7 @@ int runMenu(opcua::Client &client, std::vector<std::string> trames)
         [&]
         { repere_tole_get(client); },
         [&]
-        { mission_lancement(client, trames); },
+        { mission_lancement(client); },
         [&]
         { mission_lancement_une_trame(client); },
         [&]
@@ -991,10 +1136,6 @@ int main(int argc, char *argv[])
 
     //------------------------------------------- END OPCUA CONFIG AND CONNECTION -----------------------
 
-    // std::vector<std::string> liste_trames = driller_frames_execute(filename);
-
-    // std::vector<SymValueGroup> final_values = driller_frames_execute(filename, currentOperationalMode);
-
     currentOperationalMode = 1;
     SymValueVariant result = driller_frames_execute(filename, currentOperationalMode);
 
@@ -1002,41 +1143,14 @@ int main(int argc, char *argv[])
     if (std::holds_alternative<std::vector<SymValueGroup>>(result))
     {
         // Handle SymValueGroup vector
-        std::vector<SymValueGroup> groups = std::get<std::vector<SymValueGroup>>(result);
+        holes_groups = std::get<std::vector<SymValueGroup>>(result);
         // Process SymValueGroup...
     }
     else if (std::holds_alternative<std::vector<SymValueSections>>(result))
     {
         // Handle SymValueSections vector
-        std::vector<SymValueSections> final_values_sections = std::get<std::vector<SymValueSections>>(result);
-        // Print the result
-        for (const SymValueSections &section : final_values_sections)
-        {
-            std::cout << "Section " << section.section << ":" << std::endl;
-            for (const SymValueGroup &group : section.groups)
-            {
-                std::cout << "  Groupe " << group.type << ":" << std::endl;
-                for (const SymValue &value : group.values)
-                {
-                    std::cout << "    OPERATION: " << OPERATIONS_TYPES[value.type] << " {"
-                              << "X: " << value.x
-                              << ", Y: " << value.y
-                              << ", Couleur: " << value.couleur
-                              << ", Diametre: " << value.rayon * 2
-                              << "}" << std::endl;
-                }
-            }
-        }
+        holes_sectionss = std::get<std::vector<SymValueSections>>(result);
     }
-
-    // for (const SymValueGroup &group : final_values){
-    // // Assuming the group type corresponds to the operation type (OP number)
-    // int operation_type = group.type;
-    // for (const SymValue &operation : group.values){
-    // command = generate_single_command(operation, operation_type, epaisseur_tole, toolBank_json);
-
-    // }
-    // }
 
     // if (liste_trames.empty())
     // {
@@ -1057,7 +1171,7 @@ int main(int argc, char *argv[])
 
         */
 
-    // int menu_exit_code = runMenu(client, liste_trames); // Lancement du menu DRILLER
+    int menu_exit_code = runMenu(client); // Lancement du menu DRILLER
 
     //------------------------------------------- END TEST ENV FOR FUNCTIONS -----------------------
     /*

@@ -25,6 +25,17 @@ using json = nlohmann::json;
 #include "driller_frames.h" // Inclut le header avec les prototypes des fonctions de generation de trames
 
 
+// Déclaration de deux vecteurs pour stocker les coordonnées transformées
+std::vector<SymValue> Transformation_Repere_Tole, Transformation_Repere_Robot, pre_final_values;
+std::vector<SymValueGroup> final_values_groups;
+std::vector<SymValueSections> final_values_sections;
+std::string epaisseur_tole;
+Outil currentTool = {};
+std::vector<std::string> liste_trames;
+
+// Ordre du tri par groupe d'operations
+std::vector<int> customTypeOrder = {1, 4, 2, 3, 5};
+
 // BANQUE D'OUTILS
 std::vector<Outil> toolBank = {
     // Perçage (Classe D)
@@ -52,6 +63,10 @@ std::vector<Outil> toolBank = {
     {1000.0, 6.0, 200.0, "S", 9.0, 75.0, 60.0, 0},
     {1200.0, 8.0, 200.0, "S", 11.0, 75.0, 90.0, 0},
 };
+
+std::string get_epaisseur_tole(){
+    return epaisseur_tole;
+}
 
 // Function to read the tool bank from a JSON file
 std::vector<Outil> readToolBank(const std::string &filename)
@@ -955,7 +970,7 @@ std::vector<std::string> generateCommands(const std::vector<SymValueGroup> &fina
 }
 
 // Function to generate commands for all elements in final_values
-std::vector<std::string> generate_single_command(const SymValue &operation, int opType, const std::string &epaisseur_tole, std::vector<Outil> tool_bank)
+std::string generate_single_command(const SymValue &operation, int opType, const std::string &epaisseur_tole, std::vector<Outil> tool_bank)
 {
     PercageParams nouveau_percage;
     FraisurageParams nouveau_fraisurage;
@@ -964,9 +979,6 @@ std::vector<std::string> generate_single_command(const SymValue &operation, int 
     Outil outil;
     std::string tool_pos;
     int tool_pos_int;
-
-    // Vecteur final contenant toutes les trames
-    std::vector<std::string> commands;
 
     // Common parameters
     CommonParams commonParams;
@@ -995,11 +1007,11 @@ std::vector<std::string> generate_single_command(const SymValue &operation, int 
             commonParams.vitesseAvanceOutil = formatNumber((outil.vitesse_avance * 100), 3);
             nouveau_percage.commonParams = commonParams;
             std::string percageCommand = generatePercageCommand(nouveau_percage);
-            commands.push_back(percageCommand);
             // Swap the positions in both the JSON file and the array
             std::swap(tool_bank[0], tool_bank[tool_pos_int]);
             // Update the JSON file with the swapped positions
             updateJsonFile(tool_bank);
+            return percageCommand;
         }
         else
         {
@@ -1026,11 +1038,11 @@ std::vector<std::string> generate_single_command(const SymValue &operation, int 
             nouveau_fraisurage.diametreExterieur = formatNumber((operation.rayon * 2) * 10, 3);
             nouveau_fraisurage.commonParams = commonParams;
             std::string fraisurageCommand = generateFraisurageCommand(nouveau_fraisurage);
-            commands.push_back(fraisurageCommand);
             // Swap the positions in both the JSON file and the array
             std::swap(tool_bank[0], tool_bank[tool_pos_int]);
             // Update the JSON file with the swapped positions
             updateJsonFile(tool_bank);
+            return fraisurageCommand;
         }
         else
         {
@@ -1057,11 +1069,11 @@ std::vector<std::string> generate_single_command(const SymValue &operation, int 
             nouveau_taraudage.pasOutil = formatNumber((operation.z * 100), 3);
             nouveau_taraudage.commonParams = commonParams;
             std::string taraudageCommand = generateTaraudageCommand(nouveau_taraudage);
-            commands.push_back(taraudageCommand);
             // Swap the positions in both the JSON file and the array
             std::swap(tool_bank[0], tool_bank[tool_pos_int]);
             // Update the JSON file with the swapped positions
             updateJsonFile(tool_bank);
+            return taraudageCommand;
         }
         else
         {
@@ -1089,11 +1101,11 @@ std::vector<std::string> generate_single_command(const SymValue &operation, int 
             nouveau_lamage.profondeur = formatNumber((operation.z * 100), 3);
             nouveau_lamage.commonParams = commonParams;
             std::string lamageCommand = generateLamageCommand(nouveau_lamage);
-            commands.push_back(lamageCommand);
             // Swap the positions in both the JSON file and the array
             std::swap(tool_bank[0], tool_bank[tool_pos_int]);
             // Update the JSON file with the swapped positions
             updateJsonFile(tool_bank);
+            return lamageCommand;
         }
         else
         {
@@ -1105,7 +1117,7 @@ std::vector<std::string> generate_single_command(const SymValue &operation, int 
         break;
     }
 
-    return commands;
+    return "ERR";
 }
 
 // ---------------- END GENERATION DE LA TRAME ROBOT ---------------------------------- //
@@ -1114,16 +1126,7 @@ std::vector<std::string> generate_single_command(const SymValue &operation, int 
 
 SymValueVariant driller_frames_execute(std::string filename, int operational_mode)
 {
-    // Déclaration de deux vecteurs pour stocker les coordonnées transformées
-    std::vector<SymValue> Transformation_Repere_Tole, Transformation_Repere_Robot, pre_final_values;
-    std::vector<SymValueGroup> final_values_groups;
-    std::vector<SymValueSections> final_values_sections;
-    std::string epaisseur_tole;
-    Outil currentTool = {};
-    std::vector<std::string> liste_trames;
 
-    // Ordre du tri par groupe d'operations
-    std::vector<int> customTypeOrder = {1, 4, 2, 3, 5};
 
     // std::string imageData;
     // unsigned width = 640; // Set the width of your image
@@ -1136,11 +1139,7 @@ SymValueVariant driller_frames_execute(std::string filename, int operational_mod
     repere_tole.y = 2000.0;
     repere_tole.theta = 180.0;
 
-    // Provide the correct path to your JSON file
-    std::string toolBank_path = "./tool_bank.json";
 
-    // Read the tool bank from the JSON file
-    std::vector<Outil> toolBank_json = readToolBank(toolBank_path);
 
     // Affichage banque d'outils
     // for (const auto& tool : toolBank_json) {
