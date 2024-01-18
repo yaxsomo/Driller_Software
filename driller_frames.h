@@ -41,6 +41,12 @@ struct SymValueGroup {
     std::vector<SymValue> values;
 };
 
+// Structure to represent a group of SymValue objects on the same section
+struct SymValueSections {
+    int section;
+    std::vector<SymValueGroup> groups;
+};
+
 
 // Structure pour stocker les repères de la tôle
 struct RepereTole {
@@ -101,6 +107,8 @@ struct Outil {
 
 typedef unsigned char BYTE;
 
+// Define a variant type that can hold either SymValueGroup or SymValueSections
+using SymValueVariant = std::variant<std::vector<SymValueGroup>, std::vector<SymValueSections>>;
 
 
 
@@ -129,7 +137,7 @@ std::string generateFraisurageCommand(const FraisurageParams& params);
 std::string generateTaraudageCommand(const TaraudageParams& params);
 std::string generateLamageCommand(const LamageParams& params);
 std::vector<std::string> generateCommands(const std::vector<SymValueGroup> &final_values, const std::string &epaisseur_tole, std::vector<Outil> tool_bank);
-std::vector<std::string> driller_frames_execute(std::string filename);
+SymValueVariant driller_frames_execute(std::string filename, int operational_mode);
 
 
 #endif

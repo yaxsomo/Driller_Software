@@ -5,6 +5,7 @@
 #include <fstream>   // Inclut la bibliothèque pour la lecture/écriture de fichiers
 #include <string>    // Inclut la bibliothèque pour manipuler les chaînes de caractères
 #include <vector>    // Inclut la bibliothèque pour utiliser des vecteurs
+#include <variant>
 #include <sstream>   // Inclut la bibliothèque pour manipuler des flux de chaînes de caractères
 #include <algorithm> // Inclut la bibliothèque pour utiliser la fonction std::sort
 #include <cstdlib>
@@ -22,6 +23,7 @@
 using json = nlohmann::json;
 
 #include "driller_frames.h" // Inclut le header avec les prototypes des fonctions de generation de trames
+
 
 // BANQUE D'OUTILS
 std::vector<Outil> toolBank = {
@@ -237,7 +239,6 @@ void updateJsonFile(const std::vector<Outil> &tool_bank)
         std::cerr << "Error updating JSON file: " << e.what() << std::endl;
     }
 }
-
 
 // Function to find the position of a tool in the toolBank vector
 int findToolPosition(const Outil &tool, std::vector<Outil> tool_bank)
@@ -662,21 +663,70 @@ std::vector<SymValueGroup> sortAndGroupByType(const std::vector<SymValue> &input
     return groupedValues;
 }
 
+bool compareSymValuesBySection(const SymValue &a, const SymValue &b)
+{
+    // Assuming 500 x 500 sections on the sheet metal
+    int sectionA = static_cast<int>(a.x / 500) + static_cast<int>(a.y / 500) * 8; // Assuming 8 sections in x direction
+    int sectionB = static_cast<int>(b.x / 500) + static_cast<int>(b.y / 500) * 8;
+
+    return sectionA < sectionB;
+}
+
+std::vector<SymValueSections> sortAndGroupBySection(const std::vector<SymValue> &inputValues, const std::vector<int> &typeOrder)
+{
+    // Sort inputValues by sections
+    std::vector<SymValue> sortedBySection = inputValues;
+    std::sort(sortedBySection.begin(), sortedBySection.end(), compareSymValuesBySection);
+
+    // Group values by sections
+    std::vector<SymValueSections> groupedBySection;
+    int currentSection = -1;
+
+    for (const SymValue &value : sortedBySection)
+    {
+        int section = static_cast<int>((value.x / 500) + static_cast<int>(value.y / 500) * 8); // Assuming 8 sections in x direction
+
+        if (section != currentSection)
+        {
+            // Start a new section
+            SymValueSections newSection;
+            newSection.section = section;
+            newSection.groups = sortAndGroupByType({value}, typeOrder);
+            groupedBySection.push_back(newSection);
+            currentSection = section;
+        }
+        else
+        {
+            // Add to the current section
+            groupedBySection.back().groups[0].values.push_back(value);
+        }
+    }
+
+    return groupedBySection;
+}
+
 // Fonction de tri des données transformées
 bool sortByRayonAndDistance(const SymValue &a, const SymValue &b)
 {
-    // Ensuite, compare par rayon
+    // First, sort by type
+    if (a.type != b.type)
+    {
+        return a.type < b.type;
+    }
+
+    // Then, sort by 'rayon'
     if (a.rayon != b.rayon)
     {
         return a.rayon < b.rayon;
     }
 
-    // Enfin, compare par distance euclidienne
-    double distanceA = std::sqrt(a.x * a.x + a.y * a.y);
-    double distanceB = std::sqrt(b.x * b.x + b.y * b.y);
+    // Finally, sort by distance between (x, z) values
+    double distanceA = std::sqrt(a.x * a.x + a.z * a.z);
+    double distanceB = std::sqrt(b.x * b.x + b.z * b.z);
 
     return distanceA < distanceB;
 }
+
 
 // Fonction pour afficher les données SymValue
 void printStructure(const std::vector<SymValue> &values)
@@ -795,7 +845,7 @@ std::vector<std::string> generateCommands(const std::vector<SymValueGroup> &fina
                 }
                 else
                 {
-                    //std::cout << "No Tool Found!" << std::endl;
+                    // std::cout << "No Tool Found!" << std::endl;
                 }
                 break;
             case 4: // Fraisurage (OP. 4)
@@ -826,7 +876,7 @@ std::vector<std::string> generateCommands(const std::vector<SymValueGroup> &fina
                 }
                 else
                 {
-                    //std::cout << "No Tool Found!" << std::endl;
+                    // std::cout << "No Tool Found!" << std::endl;
                 }
                 break;
             case 2: // Taraudage (OP. 2)
@@ -857,7 +907,7 @@ std::vector<std::string> generateCommands(const std::vector<SymValueGroup> &fina
                 }
                 else
                 {
-                    //std::cout << "No Tool Found!" << std::endl;
+                    // std::cout << "No Tool Found!" << std::endl;
                 }
 
                 break;
@@ -889,7 +939,7 @@ std::vector<std::string> generateCommands(const std::vector<SymValueGroup> &fina
                 }
                 else
                 {
-                    //std::cout << "No Tool Found!" << std::endl;
+                    // std::cout << "No Tool Found!" << std::endl;
                 }
                 break;
             default:
@@ -904,17 +954,177 @@ std::vector<std::string> generateCommands(const std::vector<SymValueGroup> &fina
     return commands;
 }
 
+// Function to generate commands for all elements in final_values
+std::vector<std::string> generate_single_command(const SymValue &operation, int opType, const std::string &epaisseur_tole, std::vector<Outil> tool_bank)
+{
+    PercageParams nouveau_percage;
+    FraisurageParams nouveau_fraisurage;
+    TaraudageParams nouveau_taraudage;
+    LamageParams nouveau_lamage;
+    Outil outil;
+    std::string tool_pos;
+    int tool_pos_int;
+
+    // Vecteur final contenant toutes les trames
+    std::vector<std::string> commands;
+
+    // Common parameters
+    CommonParams commonParams;
+    commonParams.coordX = formatNumber((operation.x * 100), 6); // Convert to mm
+    commonParams.coordY = formatNumber((operation.y * 100), 6); // Convert to mm
+    commonParams.epaisseurTole = epaisseur_tole;
+
+    // Generate commands based on operation type
+    switch (opType)
+    {
+    case 1: // Percage (OP. 1)
+        outil = selectTool(operation.rayon, "D", tool_bank);
+        tool_pos_int = findToolPosition(outil, tool_bank);
+        if (tool_pos_int == 0)
+        {
+            tool_pos = "00";
+        }
+        else
+        {
+            tool_pos = formatNumber(((tool_pos_int) + 1), 2);
+        }
+        if (tool_pos != "-98")
+        {
+            commonParams.emplacementOutil = tool_pos;
+            commonParams.vitesseRotationOutil = formatNumber(outil.vitesse_rotation, 4);
+            commonParams.vitesseAvanceOutil = formatNumber((outil.vitesse_avance * 100), 3);
+            nouveau_percage.commonParams = commonParams;
+            std::string percageCommand = generatePercageCommand(nouveau_percage);
+            commands.push_back(percageCommand);
+            // Swap the positions in both the JSON file and the array
+            std::swap(tool_bank[0], tool_bank[tool_pos_int]);
+            // Update the JSON file with the swapped positions
+            updateJsonFile(tool_bank);
+        }
+        else
+        {
+            // std::cout << "No Tool Found!" << std::endl;
+        }
+        break;
+    case 4: // Fraisurage (OP. 4)
+        outil = selectTool(operation.rayon, "C", tool_bank);
+        tool_pos_int = findToolPosition(outil, tool_bank);
+        if (tool_pos_int == 0)
+        {
+            tool_pos = "00";
+        }
+        else
+        {
+            tool_pos = formatNumber(((tool_pos_int) + 1), 2);
+        }
+        if (tool_pos != "-98")
+        {
+            commonParams.emplacementOutil = tool_pos;
+            commonParams.vitesseRotationOutil = formatNumber(outil.vitesse_rotation, 4);
+            commonParams.vitesseAvanceOutil = formatNumber((outil.vitesse_avance * 100), 3);
+            nouveau_fraisurage.angleFraise = formatNumber(outil.angle, 3); // Modifier le chiffre brut avec bonne valeur
+            nouveau_fraisurage.diametreExterieur = formatNumber((operation.rayon * 2) * 10, 3);
+            nouveau_fraisurage.commonParams = commonParams;
+            std::string fraisurageCommand = generateFraisurageCommand(nouveau_fraisurage);
+            commands.push_back(fraisurageCommand);
+            // Swap the positions in both the JSON file and the array
+            std::swap(tool_bank[0], tool_bank[tool_pos_int]);
+            // Update the JSON file with the swapped positions
+            updateJsonFile(tool_bank);
+        }
+        else
+        {
+            // std::cout << "No Tool Found!" << std::endl;
+        }
+        break;
+    case 2: // Taraudage (OP. 2)
+    case 3: // Taraudage (OP. 3)
+        outil = selectTool(operation.rayon, "T", tool_bank);
+        tool_pos_int = findToolPosition(outil, tool_bank);
+        if (tool_pos_int == 0)
+        {
+            tool_pos = "00";
+        }
+        else
+        {
+            tool_pos = formatNumber(((tool_pos_int) + 1), 2);
+        }
+        if (tool_pos != "-98")
+        {
+            commonParams.emplacementOutil = tool_pos;
+            commonParams.vitesseRotationOutil = formatNumber(outil.vitesse_rotation, 4);
+            commonParams.vitesseAvanceOutil = formatNumber((outil.vitesse_avance * 100), 3);
+            nouveau_taraudage.pasOutil = formatNumber((operation.z * 100), 3);
+            nouveau_taraudage.commonParams = commonParams;
+            std::string taraudageCommand = generateTaraudageCommand(nouveau_taraudage);
+            commands.push_back(taraudageCommand);
+            // Swap the positions in both the JSON file and the array
+            std::swap(tool_bank[0], tool_bank[tool_pos_int]);
+            // Update the JSON file with the swapped positions
+            updateJsonFile(tool_bank);
+        }
+        else
+        {
+            // std::cout << "No Tool Found!" << std::endl;
+        }
+
+        break;
+    case 5: // Lamage (OP. 5)
+        outil = selectTool(operation.rayon, "S", tool_bank);
+        tool_pos_int = findToolPosition(outil, tool_bank);
+        if (tool_pos_int == 0)
+        {
+            tool_pos = "00";
+        }
+        else
+        {
+            tool_pos = formatNumber(((tool_pos_int) + 1), 2);
+        }
+        if (tool_pos != "-98")
+        {
+            commonParams.emplacementOutil = tool_pos;
+            commonParams.vitesseRotationOutil = formatNumber(outil.vitesse_rotation, 4);
+            commonParams.vitesseAvanceOutil = formatNumber((outil.vitesse_avance * 100), 3);
+            nouveau_lamage.longueurPiloteOutil = formatNumber(outil.longueur_pilote, 3); // Modifier le chiffre brut avec bonne valeur
+            nouveau_lamage.profondeur = formatNumber((operation.z * 100), 3);
+            nouveau_lamage.commonParams = commonParams;
+            std::string lamageCommand = generateLamageCommand(nouveau_lamage);
+            commands.push_back(lamageCommand);
+            // Swap the positions in both the JSON file and the array
+            std::swap(tool_bank[0], tool_bank[tool_pos_int]);
+            // Update the JSON file with the swapped positions
+            updateJsonFile(tool_bank);
+        }
+        else
+        {
+            // std::cout << "No Tool Found!" << std::endl;
+        }
+        break;
+    default:
+        // std::cout << "Unknown operation type: " << opType;
+        break;
+    }
+
+    return commands;
+}
+
 // ---------------- END GENERATION DE LA TRAME ROBOT ---------------------------------- //
 
 // MAIN-----------------------------------------------------------
 
-std::vector<std::string> driller_frames_execute(std::string filename)
+SymValueVariant driller_frames_execute(std::string filename, int operational_mode)
 {
     // Déclaration de deux vecteurs pour stocker les coordonnées transformées
-    std::vector<SymValue> Transformation_Repere_Tole, Transformation_Repere_Robot;
+    std::vector<SymValue> Transformation_Repere_Tole, Transformation_Repere_Robot, pre_final_values;
+    std::vector<SymValueGroup> final_values_groups;
+    std::vector<SymValueSections> final_values_sections;
     std::string epaisseur_tole;
     Outil currentTool = {};
     std::vector<std::string> liste_trames;
+
+    // Ordre du tri par groupe d'operations
+    std::vector<int> customTypeOrder = {1, 4, 2, 3, 5};
+
     // std::string imageData;
     // unsigned width = 640; // Set the width of your image
     // unsigned height = 480; // Set the height of your image
@@ -932,21 +1142,10 @@ std::vector<std::string> driller_frames_execute(std::string filename)
     // Read the tool bank from the JSON file
     std::vector<Outil> toolBank_json = readToolBank(toolBank_path);
 
-    // Print the tool bank
+    // Affichage banque d'outils
     // for (const auto& tool : toolBank_json) {
     //    std::cout << "Tool: " << tool.classe << ", Diameter: " << tool.diametre << std::endl;
     //}
-
-    /*
-        // Vérification du nombre d'arguments de la ligne de commande
-        if (argc != 2)
-        {
-            // Affiche un message d'erreur si l'argument n'est pas correct
-            std::cerr << "Usage: " << argv[0] << " filename.drg" << std::endl;
-            return 1; // Quitte le programme avec un code d'erreur
-        }
-
-        */
 
     std::vector<Outil> toolMagasine;
 
@@ -963,9 +1162,6 @@ std::vector<std::string> driller_frames_execute(std::string filename)
         return {}; // Return an empty vector
     }
 
-    // Récupération du nom de fichier à partir des arguments de la ligne de commande
-    // std::string filename(argv[1]);
-
     // Ouverture du fichier en lecture
     std::ifstream file(filename);
     if (!file)
@@ -976,11 +1172,7 @@ std::vector<std::string> driller_frames_execute(std::string filename)
     }
 
     epaisseur_tole = getThickness(filename);
-    if (epaisseur_tole != "ERR")
-    {
-        // std::cout << "Epaisseur: " << epaisseur_tole << std::endl;
-    }
-    else
+    if (epaisseur_tole == "ERR")
     {
         std::cerr << "Epaisseur not found or an error occurred." << std::endl;
     }
@@ -1093,11 +1285,48 @@ std::vector<std::string> driller_frames_execute(std::string filename)
                 }
 
                 // Tri des données transformées dans le repère robot
-                std::vector<int> customTypeOrder = {1, 4, 2, 3, 5};
-                std::vector<SymValueGroup> final_values = sortAndGroupByType(Transformation_Repere_Robot, customTypeOrder);
-                for (SymValueGroup &group : final_values)
+                switch (operational_mode)
                 {
-                    std::sort(group.values.begin(), group.values.end(), sortByRayonAndDistance);
+                case 0:
+                    final_values_groups = sortAndGroupByType(Transformation_Repere_Robot, customTypeOrder);
+                    for (SymValueGroup &group : final_values_groups)
+                    {
+                        std::sort(group.values.begin(), group.values.end(), sortByRayonAndDistance);
+                    }
+
+                    return final_values_groups;
+                    break;
+                case 1:
+                    final_values_sections = sortAndGroupBySection(Transformation_Repere_Robot, customTypeOrder);
+
+                    for (SymValueSections &section : final_values_sections)
+                    {
+                        for (SymValueGroup &group : section.groups)
+                        {
+                            std::sort(group.values.begin(), group.values.end(), sortByRayonAndDistance);
+                        }
+                    }
+
+                    // Print the result
+                    for (const SymValueSections &section : final_values_sections)
+                    {
+                        std::cout << "Section " << section.section << ":" << std::endl;
+                        for (const SymValueGroup &group : section.groups)
+                        {
+                            std::cout << "  Group " << group.type << ":" << std::endl;
+                            for (const SymValue &value : group.values)
+                            {
+                                std::cout << "    SymValue {" << value.x << ", " << value.y << ", " << value.z << ", " << value.type << ", " << value.couleur << ", " << value.rayon << "}" << std::endl;
+                            }
+                        }
+                    }
+
+                    return final_values_sections;
+
+                    break;
+                default:
+                    std::cout << "OPERATIONAL MODE ERROR" << std::endl;
+                    return {};
                 }
 
                 // Affichage des données transformées (test)
@@ -1106,10 +1335,12 @@ std::vector<std::string> driller_frames_execute(std::string filename)
                 //}
 
                 // Call the generateCommands function
-                liste_trames = generateCommands(final_values, epaisseur_tole, toolBank_json);
+                // liste_trames = generateCommands(final_values, epaisseur_tole, toolBank_json);
             }
         }
     }
 
-    return liste_trames; // Quitte le programme avec un code de succès
+    // return liste_trames; // Quitte le programme avec un code de succès
+    //return final_values;
+    return {};
 }

@@ -36,18 +36,6 @@
         "vitesse_rotation": 0.0
     },
     {
-        "angle": 0.0,
-        "classe": "D",
-        "diametre": 10.0,
-        "diametre_max": 0.0,
-        "diametre_min": 0.0,
-        "longueur_pilote": 0.0,
-        "nombre_cycles": 0,
-        "pas_outil": 0.0,
-        "vitesse_avance": 1.06,
-        "vitesse_rotation": 636.0
-    },
-    {
         "angle": 90.0,
         "classe": "C",
         "diametre": 5.0,
@@ -70,6 +58,18 @@
         "pas_outil": 0.0,
         "vitesse_avance": 2.12,
         "vitesse_rotation": 1273.0
+    },
+    {
+        "angle": 0.0,
+        "classe": "D",
+        "diametre": 8.5,
+        "diametre_max": 0.0,
+        "diametre_min": 0.0,
+        "longueur_pilote": 0.0,
+        "nombre_cycles": 0,
+        "pas_outil": 0.0,
+        "vitesse_avance": 1.23,
+        "vitesse_rotation": 740.0
     },
     {
         "angle": 0.0,
@@ -122,14 +122,14 @@
     {
         "angle": 0.0,
         "classe": "D",
-        "diametre": 8.5,
+        "diametre": 10.0,
         "diametre_max": 0.0,
         "diametre_min": 0.0,
         "longueur_pilote": 0.0,
         "nombre_cycles": 0,
         "pas_outil": 0.0,
-        "vitesse_avance": 1.23,
-        "vitesse_rotation": 740.0
+        "vitesse_avance": 1.06,
+        "vitesse_rotation": 636.0
     },
     {
         "angle": 90.0,

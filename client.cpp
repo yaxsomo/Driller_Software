@@ -69,6 +69,10 @@ std::map<std::string, std::string> COMMANDES_ROBOT_MANUEL = {
     {"Z","MS M Z"}, // Lancement du cycle d'initialisation du robot
 };
 
+std::map<int, std::string> OPERATIONAL_MODE = {
+    {0, "GROUPS"},
+    {1, "SECTIONS"}};
+
 // Structure des coordonnees du robot
 struct St_Coordonee
 {
@@ -76,6 +80,8 @@ struct St_Coordonee
     double Y;
     double Z;
 };
+
+int currentOperationalMode = 0; // Default operational mode
 
 int16_t current_robot_state = 0;
 // Global variable to signal abort
@@ -113,11 +119,6 @@ void software_intro_section()
 ╚═════╝ ╚═╝  ╚═╝╚═╝╚══════╝╚══════╝╚══════╝╚═╝  ╚═╝    ╚══════╝ ╚═════╝ ╚═╝        ╚═╝    ╚══╝╚══╝ ╚═╝  ╚═╝╚═╝  ╚═╝╚══════╝                                                                                   
 )";
     std::cout << asciiArt << std::endl;
-}
-
-void getCurrentDateTime(opcua::Client &client)
-{
-    printf("Not handled yet.");
 }
 
 int16_t etat_robot_get(opcua::Client &client)
@@ -483,54 +484,6 @@ void position_robot_get(opcua::Client &client)
     }
 }
 
-void position_robot_get_sew(opcua::Client &client)
-{
-    try
-    {
-        opcua::NodeId pos_robot_1(4, "|var|Maitre Bus.Application.SEW_GVL.Interface_Robot.Basic.OUT.SetpointPose.alrKinematicJoint[1]");
-        opcua::NodeId pos_robot_2(4, "|var|Maitre Bus.Application.SEW_GVL.Interface_Robot.Basic.OUT.SetpointPose.alrKinematicJoint[2]");
-        opcua::NodeId pos_robot_3(4, "|var|Maitre Bus.Application.SEW_GVL.Interface_Robot.Basic.OUT.SetpointPose.alrKinematicJoint[3]");
-        opcua::NodeId pos_robot_4(4, "|var|Maitre Bus.Application.SEW_GVL.Interface_Robot.Basic.OUT.SetpointPose.alrKinematicJoint[4]");
-        opcua::Variant variantValue1 = client.getNode(pos_robot_1).readValue();
-        opcua::Variant variantValue2 = client.getNode(pos_robot_2).readValue();
-        opcua::Variant variantValue3 = client.getNode(pos_robot_3).readValue();
-        opcua::Variant variantValue4 = client.getNode(pos_robot_4).readValue();
-
-        if (!variantValue1.isEmpty())
-        {
-            if (variantValue1.getDataType()->typeKind == UA_DATATYPEKIND_DOUBLE)
-            {
-
-                // Assuming the encoded data is a sequence of three double values
-                const double *joint_1 = static_cast<const double *>(variantValue1.data());
-                const double *joint_2 = static_cast<const double *>(variantValue2.data());
-                const double *joint_3 = static_cast<const double *>(variantValue3.data());
-                const double *joint_4 = static_cast<const double *>(variantValue4.data());
-
-                std::cout << "Positions:"
-                          << " Joint 1=" << *joint_1
-                          << " Joint 2=" << *joint_2
-                          << " Joint 3=" << *joint_3
-                          << " Joint 4=" << *joint_4 << std::endl;
-            }
-        }
-        else
-        {
-            std::stringstream logMessage;
-            logMessage << "Empty data for position data.";
-            log(client, opcua::LogLevel::Error, opcua::LogCategory::Server, logMessage.str());
-        }
-    }
-    catch (const opcua::BadStatus &e)
-    {
-        std::cerr << "OPC UA BadStatus error: " << e.what() << std::endl;
-    }
-    catch (const std::exception &e)
-    {
-        std::cerr << "Error: " << e.what() << std::endl;
-    }
-}
-
 void mission_lancement(opcua::Client &client, const std::vector<std::string> &trames)
 {
     opcua::NodeId trame_in(4, "|var|UHX65A.Application.User_PRG.Trame_IN_Akeros");
@@ -828,8 +781,23 @@ void rangement_robot(opcua::Client &client)
 
 }
 
+void switch_operational_mode()
+{
+    int newMode;
+    std::cout << "Enter the new operational mode (0 for GROUPS, 1 for SECTIONS): ";
+    std::cin >> newMode;
 
-
+    auto it = OPERATIONAL_MODE.find(newMode);
+    if (it != OPERATIONAL_MODE.end())
+    {
+        currentOperationalMode = newMode;
+        std::cout << "Operational mode switched to: " << OPERATIONAL_MODE[currentOperationalMode] << std::endl;
+    }
+    else
+    {
+        std::cout << "Invalid mode. No changes made." << std::endl;
+    }
+}
 //A PRENDRE EN CHARGE (PAS URGENT) ------------------------
 void vitesse_robot_get(opcua::Client &client)
 {
@@ -849,6 +817,7 @@ int runMenu(opcua::Client &client, std::vector<std::string> trames)
 
     // Create a vector to store menu items
     std::vector<std::string> menuItems = {
+        "Changement mode operations tôle                    ",
         "État des alarmes                                   ",
         "Texte de l'alarme                                  ",
         "Vitesse du robot (en %)                            ",
@@ -857,14 +826,16 @@ int runMenu(opcua::Client &client, std::vector<std::string> trames)
         "Repere Tôle                                        ",
         "Lancement de mission (Tôle entiere)                ",
         "Lancement de mission (Trame Manuelle)              ",
-        "Trame_Out GET                                      ",
-        "Mouvement manuel Test                              ",
-        "Rangement robot                                    ",
-        "QUIT PROGRAM                                       " // Doit imperativement rester en derniere position
+        "Trame_Out GET                                     ",
+        "Mouvement manuel Test                             ",
+        "Rangement robot                                   ",
+        "QUIT PROGRAM                                      " // Doit imperativement rester en derniere position
     };
 
     // Create a vector of function pointers
     std::vector<std::function<void()>> menuFunctions = {
+        [&]
+        { switch_operational_mode(); },
         [&]
         { etat_alarmes_get(client); },
         [&]
@@ -1013,29 +984,60 @@ int main(int argc, char *argv[])
               << resetColor << msg << std::endl; });
 
     std::cout << "Client Object Created!" << std::endl;
-    client.connect("opc.tcp://192.168.100.14:4840");
 
-    // client.connect("opc.tcp://192.168.10.4:4840");
+    // COMMENT THOSE LINES IF IN TEST MODE
 
-    opcua::Node node = client.getNode(opcua::VariableId::Server_ServerStatus_CurrentTime);
-    const auto dt = node.readValueScalar<opcua::DateTime>();
+    // client.connect("opc.tcp://192.168.100.14:4840");
 
-    std::cout << "Server date (UTC): " << dt.format("%Y-%m-%d %H:%M:%S") << std::endl;
+    // // client.connect("opc.tcp://192.168.10.4:4840");
+
+    // opcua::Node node = client.getNode(opcua::VariableId::Server_ServerStatus_CurrentTime);
+    // const auto dt = node.readValueScalar<opcua::DateTime>();
+
+    // std::cout << "Server date (UTC): " << dt.format("%Y-%m-%d %H:%M:%S") << std::endl;
+
+    // END COMMENT THOSE LINES IF IN TEST MODE
 
     //------------------------------------------- END OPCUA CONFIG AND CONNECTION -----------------------
 
-    std::vector<std::string> liste_trames = driller_frames_execute(filename);
+    //std::vector<std::string> liste_trames = driller_frames_execute(filename);
 
-    if (liste_trames.empty())
-    {
-        logMessage << "Liste de trames vide!";
-        log(client, opcua::LogLevel::Error, opcua::LogCategory::Userland, logMessage.str());
+    //std::vector<SymValueGroup> final_values = driller_frames_execute(filename, currentOperationalMode);
+
+    currentOperationalMode = 1;
+    SymValueVariant result = driller_frames_execute(filename, currentOperationalMode);
+
+    // Access the result based on its type
+    if (std::holds_alternative<std::vector<SymValueGroup>>(result)) {
+        // Handle SymValueGroup vector
+        std::vector<SymValueGroup> groups = std::get<std::vector<SymValueGroup>>(result);
+        // Process SymValueGroup...
+    } else if (std::holds_alternative<std::vector<SymValueSections>>(result)) {
+        // Handle SymValueSections vector
+        std::vector<SymValueSections> sections = std::get<std::vector<SymValueSections>>(result);
+        // Process SymValueSections...
     }
-    else
-    {
-        logMessage << "Liste de trames correctement remplie!";
-        log(client, opcua::LogLevel::Info, opcua::LogCategory::Userland, logMessage.str());
-    }
+
+
+    // for (const SymValueGroup &group : final_values){
+    // // Assuming the group type corresponds to the operation type (OP number)
+    // int operation_type = group.type;
+    // for (const SymValue &operation : group.values){
+    // command = generate_single_command(operation, operation_type, epaisseur_tole, toolBank_json);
+
+    // }
+    // }
+
+    // if (liste_trames.empty())
+    // {
+    //     logMessage << "Liste de trames vide!";
+    //     log(client, opcua::LogLevel::Error, opcua::LogCategory::Userland, logMessage.str());
+    // }
+    // else
+    // {
+    //     logMessage << "Liste de trames correctement remplie!";
+    //     log(client, opcua::LogLevel::Info, opcua::LogCategory::Userland, logMessage.str());
+    // }
 
     /*
         // Impression de toutes les trames (Test)
@@ -1045,7 +1047,7 @@ int main(int argc, char *argv[])
 
         */
 
-    int menu_exit_code = runMenu(client, liste_trames); // Lancement du menu DRILLER
+    //int menu_exit_code = runMenu(client, liste_trames); // Lancement du menu DRILLER
 
     //------------------------------------------- END TEST ENV FOR FUNCTIONS -----------------------
     /*
