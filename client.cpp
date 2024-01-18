@@ -33,6 +33,7 @@ std::vector<SymValueGroup> holes_groups;
 std::vector<SymValueSections> holes_sectionss;
 // std::vector<std::variant<SymValueGroup, SymValueSections>> final_values_combined;
 
+std::string filename;
 // Provide the correct path to your JSON file
 std::string toolBank_path = "./tool_bank.json";
 // Read the tool bank from the JSON file
@@ -872,6 +873,7 @@ void rangement_robot(opcua::Client &client)
 void print_frames(opcua::Client &client)
 {
     std::stringstream logMessage;
+    logMessage << std::endl;
     switch (currentOperationalMode)
     {
     case 0:
@@ -884,19 +886,21 @@ void print_frames(opcua::Client &client)
                            << ", Y: " << value.y
                            << ", Couleur: " << value.couleur
                            << ", Diametre: " << value.rayon * 2
-                           << "}";
-                log(client, opcua::LogLevel::Trace, opcua::LogCategory::Server, logMessage.str());
+                           << "}" << std::endl;
             }
         }
+        log(client, opcua::LogLevel::Trace, opcua::LogCategory::Server, logMessage.str());
         break;
     case 1:
         // Print the result
         for (const SymValueSections &section : holes_sectionss)
         {
-            std::cout << "Section " << section.section << ":" << std::endl;
+            logMessage << "Section " << section.section << ":" << std::endl;
+
             for (const SymValueGroup &group : section.groups)
             {
-                std::cout << "  Groupe " << group.type << ":" << std::endl;
+                logMessage << "  Groupe " << group.type << ":" << std::endl;
+
                 for (const SymValue &value : group.values)
                 {
                     logMessage << "    OPERATION: " << OPERATIONS_TYPES[value.type] << " {"
@@ -904,13 +908,15 @@ void print_frames(opcua::Client &client)
                                << ", Y: " << value.y
                                << ", Couleur: " << value.couleur
                                << ", Diametre: " << value.rayon * 2
-                               << "}";
-                    log(client, opcua::LogLevel::Trace, opcua::LogCategory::Server, logMessage.str());
+                               << "}" << std::endl;
                 }
             }
         }
+        log(client, opcua::LogLevel::Trace, opcua::LogCategory::Server, logMessage.str());
         break;
     default:
+        logMessage << "OPERATIONAL MODE ERROR! " << std::endl;
+        log(client, opcua::LogLevel::Error, opcua::LogCategory::Client, logMessage.str());
         break;
     }
 }
@@ -926,6 +932,20 @@ void switch_operational_mode()
     {
         currentOperationalMode = newMode;
         std::cout << "Operational mode switched to: " << OPERATIONAL_MODE[currentOperationalMode] << std::endl;
+        SymValueVariant result = driller_frames_execute(filename, currentOperationalMode);
+
+        // Access the result based on its type
+        if (std::holds_alternative<std::vector<SymValueGroup>>(result))
+        {
+            // Handle SymValueGroup vector
+            holes_groups = std::get<std::vector<SymValueGroup>>(result);
+            // Process SymValueGroup...
+        }
+        else if (std::holds_alternative<std::vector<SymValueSections>>(result))
+        {
+            // Handle SymValueSections vector
+            holes_sectionss = std::get<std::vector<SymValueSections>>(result);
+        }
     }
     else
     {
@@ -1051,7 +1071,7 @@ int main(int argc, char *argv[])
     }
 
     // Récupération du nom de fichier à partir des arguments de la ligne de commande
-    std::string filename(argv[1]);
+    filename = argv[1];
     std::stringstream logMessage;
 
     software_intro_section();
@@ -1136,21 +1156,20 @@ int main(int argc, char *argv[])
 
     //------------------------------------------- END OPCUA CONFIG AND CONNECTION -----------------------
 
-    currentOperationalMode = 1;
-    SymValueVariant result = driller_frames_execute(filename, currentOperationalMode);
+    // SymValueVariant result = driller_frames_execute(filename, currentOperationalMode);
 
-    // Access the result based on its type
-    if (std::holds_alternative<std::vector<SymValueGroup>>(result))
-    {
-        // Handle SymValueGroup vector
-        holes_groups = std::get<std::vector<SymValueGroup>>(result);
-        // Process SymValueGroup...
-    }
-    else if (std::holds_alternative<std::vector<SymValueSections>>(result))
-    {
-        // Handle SymValueSections vector
-        holes_sectionss = std::get<std::vector<SymValueSections>>(result);
-    }
+    // // Access the result based on its type
+    // if (std::holds_alternative<std::vector<SymValueGroup>>(result))
+    // {
+    //     // Handle SymValueGroup vector
+    //     holes_groups = std::get<std::vector<SymValueGroup>>(result);
+    //     // Process SymValueGroup...
+    // }
+    // else if (std::holds_alternative<std::vector<SymValueSections>>(result))
+    // {
+    //     // Handle SymValueSections vector
+    //     holes_sectionss = std::get<std::vector<SymValueSections>>(result);
+    // }
 
     // if (liste_trames.empty())
     // {

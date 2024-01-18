@@ -1,10 +1,10 @@
 // BUILD : g++ -std=c++11 -o driller_frames driller_frames.cpp
 // EXECUTE : ./driller_frames [filename.drg]
 
-#include <iostream>  // Inclut la bibliothèque d'entrée/sortie
-#include <fstream>   // Inclut la bibliothèque pour la lecture/écriture de fichiers
-#include <string>    // Inclut la bibliothèque pour manipuler les chaînes de caractères
-#include <vector>    // Inclut la bibliothèque pour utiliser des vecteurs
+#include <iostream> // Inclut la bibliothèque d'entrée/sortie
+#include <fstream>  // Inclut la bibliothèque pour la lecture/écriture de fichiers
+#include <string>   // Inclut la bibliothèque pour manipuler les chaînes de caractères
+#include <vector>   // Inclut la bibliothèque pour utiliser des vecteurs
 #include <variant>
 #include <sstream>   // Inclut la bibliothèque pour manipuler des flux de chaînes de caractères
 #include <algorithm> // Inclut la bibliothèque pour utiliser la fonction std::sort
@@ -24,14 +24,7 @@ using json = nlohmann::json;
 
 #include "driller_frames.h" // Inclut le header avec les prototypes des fonctions de generation de trames
 
-
-// Déclaration de deux vecteurs pour stocker les coordonnées transformées
-std::vector<SymValue> Transformation_Repere_Tole, Transformation_Repere_Robot, pre_final_values;
-std::vector<SymValueGroup> final_values_groups;
-std::vector<SymValueSections> final_values_sections;
 std::string epaisseur_tole;
-Outil currentTool = {};
-std::vector<std::string> liste_trames;
 
 // Ordre du tri par groupe d'operations
 std::vector<int> customTypeOrder = {1, 4, 2, 3, 5};
@@ -64,7 +57,8 @@ std::vector<Outil> toolBank = {
     {1200.0, 8.0, 200.0, "S", 11.0, 75.0, 90.0, 0},
 };
 
-std::string get_epaisseur_tole(){
+std::string get_epaisseur_tole()
+{
     return epaisseur_tole;
 }
 
@@ -742,7 +736,6 @@ bool sortByRayonAndDistance(const SymValue &a, const SymValue &b)
     return distanceA < distanceB;
 }
 
-
 // Fonction pour afficher les données SymValue
 void printStructure(const std::vector<SymValue> &values)
 {
@@ -1127,7 +1120,11 @@ std::string generate_single_command(const SymValue &operation, int opType, const
 SymValueVariant driller_frames_execute(std::string filename, int operational_mode)
 {
 
-
+    std::vector<SymValue> Transformation_Repere_Tole, Transformation_Repere_Robot, pre_final_values;
+    std::vector<SymValueGroup> final_values_groups;
+    std::vector<SymValueSections> final_values_sections;
+    Outil currentTool = {};
+    std::vector<std::string> liste_trames;
     // std::string imageData;
     // unsigned width = 640; // Set the width of your image
     // unsigned height = 480; // Set the height of your image
@@ -1138,8 +1135,6 @@ SymValueVariant driller_frames_execute(std::string filename, int operational_mod
     repere_tole.x = 4000.0;
     repere_tole.y = 2000.0;
     repere_tole.theta = 180.0;
-
-
 
     // Affichage banque d'outils
     // for (const auto& tool : toolBank_json) {
@@ -1324,6 +1319,6 @@ SymValueVariant driller_frames_execute(std::string filename, int operational_mod
     }
 
     // return liste_trames; // Quitte le programme avec un code de succès
-    //return final_values;
+    // return final_values;
     return {};
 }
