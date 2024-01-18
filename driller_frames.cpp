@@ -1306,23 +1306,7 @@ SymValueVariant driller_frames_execute(std::string filename, int operational_mod
                             std::sort(group.values.begin(), group.values.end(), sortByRayonAndDistance);
                         }
                     }
-
-                    // Print the result
-                    for (const SymValueSections &section : final_values_sections)
-                    {
-                        std::cout << "Section " << section.section << ":" << std::endl;
-                        for (const SymValueGroup &group : section.groups)
-                        {
-                            std::cout << "  Group " << group.type << ":" << std::endl;
-                            for (const SymValue &value : group.values)
-                            {
-                                std::cout << "    SymValue {" << value.x << ", " << value.y << ", " << value.z << ", " << value.type << ", " << value.couleur << ", " << value.rayon << "}" << std::endl;
-                            }
-                        }
-                    }
-
                     return final_values_sections;
-
                     break;
                 default:
                     std::cout << "OPERATIONAL MODE ERROR" << std::endl;

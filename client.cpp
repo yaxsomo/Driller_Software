@@ -48,25 +48,31 @@ std::map<int, std::string> EN_Robot_State = {
     {15, "Cycle_R"},
     {16, "Cycle_B"}};
 
+std::map<int, std::string> OPERATIONS_TYPES = {
+    {1, "Perçage"},
+    {2, "Taraudage"},
+    {3, "Taraudage"},
+    {4, "Fraisurage"},
+    {5, "Lamage"}};
 
 std::map<std::string, std::string> TRAMES_OPERATIONNELLES = {
-    {"ARRET_CYCLES","MS O ABORD"}, // Commande de stop de l'ensemble des cycles auto
-    {"ACK_AL_DEF","MS O ACK_ALARM"}, // Aquitter les alarmes et defauts
-    {"INIT_ROBOT","MS O INIT"}, // Lancement du cycle d'initialisation du robot
-    {"REF_ROBOT","MS O REFF"}, // Lancement du referencement robot
+    {"ARRET_CYCLES", "MS O ABORD"},   // Commande de stop de l'ensemble des cycles auto
+    {"ACK_AL_DEF", "MS O ACK_ALARM"}, // Aquitter les alarmes et defauts
+    {"INIT_ROBOT", "MS O INIT"},      // Lancement du cycle d'initialisation du robot
+    {"REF_ROBOT", "MS O REFF"},       // Lancement du referencement robot
 };
 
 std::map<std::string, std::string> COMMANDES_MODE_MANUEL = {
-    {"POSITION_MAINTENANCE","MS M M"}, // Commande de stop de l'ensemble des cycles auto
-    {"ROTATION_OUTIL","MS M R"}, // Aquitter les alarmes et defauts
-    {"EXTRACTION_OUTIL","MS M E"}, // Lancement du cycle d'initialisation du robot
-    {"CHANGEMENT_OUTIL","MS M S"}, // Lancement du referencement robot
+    {"POSITION_MAINTENANCE", "MS M M"}, // Commande de stop de l'ensemble des cycles auto
+    {"ROTATION_OUTIL", "MS M R"},       // Aquitter les alarmes et defauts
+    {"EXTRACTION_OUTIL", "MS M E"},     // Lancement du cycle d'initialisation du robot
+    {"CHANGEMENT_OUTIL", "MS M S"},     // Lancement du referencement robot
 };
 
 std::map<std::string, std::string> COMMANDES_ROBOT_MANUEL = {
-    {"X","MS M X"}, // Commande de stop de l'ensemble des cycles auto
-    {"Y","MS M Y"}, // Aquitter les alarmes et defauts
-    {"Z","MS M Z"}, // Lancement du cycle d'initialisation du robot
+    {"X", "MS M X"}, // Commande de stop de l'ensemble des cycles auto
+    {"Y", "MS M Y"}, // Aquitter les alarmes et defauts
+    {"Z", "MS M Z"}, // Lancement du cycle d'initialisation du robot
 };
 
 std::map<int, std::string> OPERATIONAL_MODE = {
@@ -88,9 +94,8 @@ int16_t current_robot_state = 0;
 bool abortMission = false;
 
 // AKEROS : INTEGRER DANS LES FONCTiONS
-UA_NodeId vitesse_robot = UA_NODEID_STRING(4, const_cast<char *>("UHX65A.Application.GVL_Config.Speed"));  // Vitesse du robot (Exprime en %)
+UA_NodeId vitesse_robot = UA_NODEID_STRING(4, const_cast<char *>("UHX65A.Application.GVL_Config.Speed"));                          // Vitesse du robot (Exprime en %)
 UA_NodeId repere_tole_opcua = UA_NODEID_STRING(4, const_cast<char *>("UHX65A.Application.User_PRG.Robot_Cantilever.Repere_tole")); // Repere TOLE
-
 
 void abortMissionSignal()
 {
@@ -101,7 +106,7 @@ void abortMissionSignal()
 void checkForKeyboardShortcut()
 {
     // Check if a specific keyboard shortcut is pressed
-    //if (/* check keyboard shortcut condition */)
+    // if (/* check keyboard shortcut condition */)
     //{
     //    abortMissionSignal();
     //}
@@ -256,7 +261,7 @@ void texte_alarme_get(opcua::Client &client)
         {
             if (variantValue.isScalar())
             {
-                //std::cout << "Data Type Kind: " << variantValue.getDataType()->typeKind << std::endl;
+                // std::cout << "Data Type Kind: " << variantValue.getDataType()->typeKind << std::endl;
                 if (variantValue.getDataType()->typeKind == UA_DATATYPEKIND_STRING)
                 {
                     // std::cout << "Value is string" << std::endl;
@@ -268,7 +273,7 @@ void texte_alarme_get(opcua::Client &client)
                     opcua::String valueString = *static_cast<opcua::String *>(variantValue.data());
                     std::string_view valueString_view = *static_cast<std::string_view *>(variantValue.data());
 
-                    //std::cout << "Value converted to string" << std::endl;
+                    // std::cout << "Value converted to string" << std::endl;
 
                     // std::cout << "Value String OPCUA: " << valueString << std::endl;
                     // std::cout << "Value String View: " << valueString_view << std::endl;
@@ -338,7 +343,7 @@ void trame_out_get(opcua::Client &client)
                     opcua::String valueString = *static_cast<opcua::String *>(variantValue.data());
                     std::string_view valueString_view = *static_cast<std::string_view *>(variantValue.data());
 
-                    //std::cout << "Value converted to string" << std::endl;
+                    // std::cout << "Value converted to string" << std::endl;
 
                     // std::cout << "Value String OPCUA: " << valueString << std::endl;
                     // std::cout << "Value String View: " << valueString_view << std::endl;
@@ -382,8 +387,6 @@ void trame_out_get(opcua::Client &client)
     }
 }
 
-
-
 void position_robot_get(opcua::Client &client)
 {
     try
@@ -396,13 +399,13 @@ void position_robot_get(opcua::Client &client)
             if (variantValue.getDataType()->typeKind == UA_DATATYPEKIND_EXTENSIONOBJECT)
             {
                 opcua::ExtensionObject *eo = reinterpret_cast<opcua::ExtensionObject *>(variantValue.data());
-                //std::cout << "Data is Extension Obj" << std::endl;
+                // std::cout << "Data is Extension Obj" << std::endl;
                 if (eo->isEncoded())
                 {
-                    //std::cout << "Extension Obj Encoded" << std::endl;
+                    // std::cout << "Extension Obj Encoded" << std::endl;
                     if (eo->handle()->encoding == UA_EXTENSIONOBJECT_ENCODED_BYTESTRING)
                     {
-                        //std::cout << "dataType is Bytestring" << std::endl;
+                        // std::cout << "dataType is Bytestring" << std::endl;
 
                         std::optional<opcua::ByteString> optionalEncodedBody = eo->getEncodedBody();
                         if (optionalEncodedBody && !optionalEncodedBody->empty())
@@ -412,15 +415,15 @@ void position_robot_get(opcua::Client &client)
                             size_t dataSize = encodedBody.get().size();     // Get the size of the binary data
 
                             // Print the raw data
-                            //std::cout << "Raw Data: ";
-                            //for (size_t i = 0; i < dataSize; ++i)
+                            // std::cout << "Raw Data: ";
+                            // for (size_t i = 0; i < dataSize; ++i)
                             //{
                             //    std::cout << std::hex << std::setw(2) << std::setfill('0') << static_cast<unsigned>(reinterpret_cast<const uint8_t *>(rawData)[i]) << " ";
                             //}
-                            //std::cout << std::dec << std::endl;
+                            // std::cout << std::dec << std::endl;
 
-                            //std::cout << "Size of encoded data: " << dataSize << " bytes" << std::endl;
-                            //std::cout << "Size of St_Coordonee structure: " << sizeof(St_Coordonee) << " bytes" << std::endl;
+                            // std::cout << "Size of encoded data: " << dataSize << " bytes" << std::endl;
+                            // std::cout << "Size of St_Coordonee structure: " << sizeof(St_Coordonee) << " bytes" << std::endl;
 
                             // Assuming the encoded data is a sequence of three double values
                             const float *encodedValues = static_cast<const float *>(rawData);
@@ -431,12 +434,11 @@ void position_robot_get(opcua::Client &client)
                             decodedStructure.Z = encodedValues[2];
 
                             std::stringstream logMessage;
-                          
 
                             logMessage << "Position Robot:"
-                                      << " X=" << decodedStructure.X << " |"
-                                      << " Y=" << decodedStructure.Y << " |"
-                                      << " Z=" << decodedStructure.Z << std::endl;
+                                       << " X=" << decodedStructure.X << " |"
+                                       << " Y=" << decodedStructure.Y << " |"
+                                       << " Z=" << decodedStructure.Z << std::endl;
                             log(client, opcua::LogLevel::Info, opcua::LogCategory::Server, logMessage.str());
                         }
                         else
@@ -494,13 +496,13 @@ void mission_lancement(opcua::Client &client, const std::vector<std::string> &tr
     {
         std::stringstream logMessage;
         std::cout << "------------------------------------------------------------" << std::endl;
-            // Check for the abort signal
-            if (abortMission)
-            {
-                logMessage << "Ensemble des missions anullés!" << std::endl;
-                log(client, opcua::LogLevel::Warning, opcua::LogCategory::SecureChannel, logMessage.str());
-                break;
-            }
+        // Check for the abort signal
+        if (abortMission)
+        {
+            logMessage << "Ensemble des missions anullés!" << std::endl;
+            log(client, opcua::LogLevel::Warning, opcua::LogCategory::SecureChannel, logMessage.str());
+            break;
+        }
         // Assuming you want to use trame as the input for each iteration
         opcua::String trameInputString(trame);
 
@@ -519,7 +521,7 @@ void mission_lancement(opcua::Client &client, const std::vector<std::string> &tr
 
         std::cout << "MISSION N." << mission_counter << ": " << trame << std::endl;
 
-        //std::stringstream logMessage;
+        // std::stringstream logMessage;
         logMessage << "État du robot: " << EN_Robot_State[current_robot_state] << std::endl;
         log(client, opcua::LogLevel::Debug, opcua::LogCategory::Server, logMessage.str());
 
@@ -533,7 +535,6 @@ void mission_lancement(opcua::Client &client, const std::vector<std::string> &tr
                 log(client, opcua::LogLevel::Warning, opcua::LogCategory::SecureChannel, logMessage.str());
                 break;
             }
-
 
             // Get the current robot state
             etat_robot_get(client);
@@ -558,7 +559,6 @@ void mission_lancement(opcua::Client &client, const std::vector<std::string> &tr
     }
 }
 
-
 void mission_lancement_une_trame(opcua::Client &client)
 {
     opcua::NodeId trame_in(4, "|var|UHX65A.Application.User_PRG.Trame_IN_Akeros");
@@ -567,61 +567,58 @@ void mission_lancement_une_trame(opcua::Client &client)
 
     std::string trame = "MS A D 300000 100000 060 00 0800 500";
 
-        std::stringstream logMessage;
-        std::cout << "------------------------------------------------------------" << std::endl;
-        // Assuming you want to use trame as the input for each iteration
-        opcua::String trameInputString(trame);
+    std::stringstream logMessage;
+    std::cout << "------------------------------------------------------------" << std::endl;
+    // Assuming you want to use trame as the input for each iteration
+    opcua::String trameInputString(trame);
 
-        opcua::Variant trameVariant;
-        trameVariant.setScalarCopy(trameInputString);
+    opcua::Variant trameVariant;
+    trameVariant.setScalarCopy(trameInputString);
 
-        // Write the trame to trame_in Node
-        client.getNode(trame_in).writeValueScalar(trameInputString);
-        logMessage << "Trame envoyée correctement!" << std::endl;
-        log(client, opcua::LogLevel::Debug, opcua::LogCategory::Server, logMessage.str());
+    // Write the trame to trame_in Node
+    client.getNode(trame_in).writeValueScalar(trameInputString);
+    logMessage << "Trame envoyée correctement!" << std::endl;
+    log(client, opcua::LogLevel::Debug, opcua::LogCategory::Server, logMessage.str());
 
-        // Set mission_go (Bit)
-        bool missionGoValue = false; // Set this value based on your logic (0 or 1)
-        opcua::Variant missionGoVariant = opcua::Variant::fromScalar(missionGoValue);
-        client.getNode(mission_go).writeValue(missionGoVariant);
+    // Set mission_go (Bit)
+    bool missionGoValue = false; // Set this value based on your logic (0 or 1)
+    opcua::Variant missionGoVariant = opcua::Variant::fromScalar(missionGoValue);
+    client.getNode(mission_go).writeValue(missionGoVariant);
 
-        std::cout << "MISSION N." << mission_counter << ": " << trame << std::endl;
+    std::cout << "MISSION N." << mission_counter << ": " << trame << std::endl;
 
-        //std::stringstream logMessage;
-        logMessage << "État du robot: " << EN_Robot_State[current_robot_state] << std::endl;
-        log(client, opcua::LogLevel::Debug, opcua::LogCategory::Server, logMessage.str());
+    // std::stringstream logMessage;
+    logMessage << "État du robot: " << EN_Robot_State[current_robot_state] << std::endl;
+    log(client, opcua::LogLevel::Debug, opcua::LogCategory::Server, logMessage.str());
 
-        // Wait until the robot finishes its mission (state becomes "Wait")
-        while (true)
+    // Wait until the robot finishes its mission (state becomes "Wait")
+    while (true)
+    {
+
+        // Get the current robot state
+        etat_robot_get(client);
+
+        // Add a delay between state checks (adjust as needed)
+        std::this_thread::sleep_for(std::chrono::milliseconds(1));
+
+        // Check if the robot is in the "Wait" state (state 5)
+        if (current_robot_state == 5)
         {
-
-            // Get the current robot state
-            etat_robot_get(client);
-
-            // Add a delay between state checks (adjust as needed)
-            std::this_thread::sleep_for(std::chrono::milliseconds(1));
-
-            // Check if the robot is in the "Wait" state (state 5)
-            if (current_robot_state == 5)
-            {
-                std::cout << "MISSION N." << mission_counter << ": TERMINÉ" << std::endl;
-                break;
-            }
+            std::cout << "MISSION N." << mission_counter << ": TERMINÉ" << std::endl;
+            break;
         }
+    }
 
-        trame_out_get(client);
-        position_robot_get(client);
- 
+    trame_out_get(client);
+    position_robot_get(client);
 }
-
-
 
 // Function to write the command to the robot node
 void trames_ope_write(opcua::Client &client, const std::string &commandKey)
 {
     std::stringstream logMessage;
     // Check if the key exists in the map
-        // Check if the key exists in the map
+    // Check if the key exists in the map
     auto it = TRAMES_OPERATIONNELLES.find(commandKey);
     if (it != TRAMES_OPERATIONNELLES.end())
     {
@@ -630,7 +627,7 @@ void trames_ope_write(opcua::Client &client, const std::string &commandKey)
 
         // Write the command to the robot node
         opcua::NodeId robotNode(4, "|var|UHX65A.Application.User_PRG.Trame_IN_Akeros");
-       
+
         opcua::String trame_ope(command);
 
         opcua::Variant trame_ope_var;
@@ -646,7 +643,6 @@ void trames_ope_write(opcua::Client &client, const std::string &commandKey)
     {
         std::cerr << "Error: Command key not found in the map." << std::endl;
     }
-  
 }
 
 // Function to write manual command to the robot node
@@ -695,7 +691,7 @@ void robot_manuel_move(opcua::Client &client, const std::string &axis, bool forw
     auto endTime = startTime + std::chrono::milliseconds(durationSeconds);
     opcua::String trame_manuelle;
 
-        // Check if the axis exists in the map
+    // Check if the axis exists in the map
     auto it = COMMANDES_ROBOT_MANUEL.find(axis);
     if (it != COMMANDES_ROBOT_MANUEL.end())
     {
@@ -714,17 +710,15 @@ void robot_manuel_move(opcua::Client &client, const std::string &axis, bool forw
 
         // Write the command to the robot node
 
-        //std::cout << command << std::endl;
+        // std::cout << command << std::endl;
 
         trame_manuelle = opcua::String(command);
         std::cout << trame_manuelle << std::endl;
         opcua::Variant trame_manuelle_var;
         trame_manuelle_var.setScalarCopy(trame_manuelle);
 
-        
-
-        //logMessage << "Commande robot manuelle écrite correctement: " << command << std::endl;
-        //log(client, opcua::LogLevel::Trace, opcua::LogCategory::Server, logMessage.str());
+        // logMessage << "Commande robot manuelle écrite correctement: " << command << std::endl;
+        // log(client, opcua::LogLevel::Trace, opcua::LogCategory::Server, logMessage.str());
     }
     else
     {
@@ -738,22 +732,22 @@ void robot_manuel_move(opcua::Client &client, const std::string &axis, bool forw
         client.getNode(robotNode).writeValueScalar(trame_manuelle);
 
         // Add a delay between consecutive commands (adjust as needed)
-        //std::this_thread::sleep_for(std::chrono::milliseconds(100)); // 100 milliseconds delay
+        // std::this_thread::sleep_for(std::chrono::milliseconds(100)); // 100 milliseconds delay
     }
-
 }
 
-void mouvement_manuel_test(opcua::Client &client){
+void mouvement_manuel_test(opcua::Client &client)
+{
     robot_manuel_move(client, "Y", false, "050", 3000); // Move X-axis forward for 3 seconds
 }
 
-void etat_robot_print(opcua::Client &client){
+void etat_robot_print(opcua::Client &client)
+{
     etat_robot_get(client);
 
     std::stringstream logMessage;
     logMessage << "État du robot: " << EN_Robot_State[current_robot_state] << std::endl;
     log(client, opcua::LogLevel::Debug, opcua::LogCategory::Server, logMessage.str());
-
 }
 
 // Function to write manual command to the robot node
@@ -761,24 +755,22 @@ void rangement_robot(opcua::Client &client)
 {
     std::stringstream logMessage;
 
+    // Get the corresponding command
+    std::string command = "MS A R 00";
 
-        // Get the corresponding command
-        std::string command = "MS A R 00";
+    // Write the command to the robot node
+    opcua::NodeId robotNode(4, "|var|UHX65A.Application.User_PRG.Trame_IN_Akeros");
 
-        // Write the command to the robot node
-        opcua::NodeId robotNode(4, "|var|UHX65A.Application.User_PRG.Trame_IN_Akeros");
+    opcua::String trame_manuelle(command);
 
-        opcua::String trame_manuelle(command);
+    opcua::Variant trame_manuelle_var;
+    trame_manuelle_var.setScalarCopy(trame_manuelle);
 
-        opcua::Variant trame_manuelle_var;
-        trame_manuelle_var.setScalarCopy(trame_manuelle);
+    // Write the trame to trame_in Node
+    client.getNode(robotNode).writeValueScalar(trame_manuelle);
 
-        // Write the trame to trame_in Node
-        client.getNode(robotNode).writeValueScalar(trame_manuelle);
-
-        logMessage << "Rangement du robot.. " << command << std::endl;
-        log(client, opcua::LogLevel::Trace, opcua::LogCategory::Server, logMessage.str());
-
+    logMessage << "Rangement du robot.. " << command << std::endl;
+    log(client, opcua::LogLevel::Trace, opcua::LogCategory::Server, logMessage.str());
 }
 
 void switch_operational_mode()
@@ -798,7 +790,7 @@ void switch_operational_mode()
         std::cout << "Invalid mode. No changes made." << std::endl;
     }
 }
-//A PRENDRE EN CHARGE (PAS URGENT) ------------------------
+// A PRENDRE EN CHARGE (PAS URGENT) ------------------------
 void vitesse_robot_get(opcua::Client &client)
 {
     printf("VITESSE_ROBOT : Not handled yet.");
@@ -857,8 +849,7 @@ int runMenu(opcua::Client &client, std::vector<std::string> trames)
         [&]
         { mouvement_manuel_test(client); },
         [&]
-        { rangement_robot(client); }
-        };
+        { rangement_robot(client); }};
 
     while (running)
     {
@@ -1000,24 +991,43 @@ int main(int argc, char *argv[])
 
     //------------------------------------------- END OPCUA CONFIG AND CONNECTION -----------------------
 
-    //std::vector<std::string> liste_trames = driller_frames_execute(filename);
+    // std::vector<std::string> liste_trames = driller_frames_execute(filename);
 
-    //std::vector<SymValueGroup> final_values = driller_frames_execute(filename, currentOperationalMode);
+    // std::vector<SymValueGroup> final_values = driller_frames_execute(filename, currentOperationalMode);
 
     currentOperationalMode = 1;
     SymValueVariant result = driller_frames_execute(filename, currentOperationalMode);
 
     // Access the result based on its type
-    if (std::holds_alternative<std::vector<SymValueGroup>>(result)) {
+    if (std::holds_alternative<std::vector<SymValueGroup>>(result))
+    {
         // Handle SymValueGroup vector
         std::vector<SymValueGroup> groups = std::get<std::vector<SymValueGroup>>(result);
         // Process SymValueGroup...
-    } else if (std::holds_alternative<std::vector<SymValueSections>>(result)) {
-        // Handle SymValueSections vector
-        std::vector<SymValueSections> sections = std::get<std::vector<SymValueSections>>(result);
-        // Process SymValueSections...
     }
-
+    else if (std::holds_alternative<std::vector<SymValueSections>>(result))
+    {
+        // Handle SymValueSections vector
+        std::vector<SymValueSections> final_values_sections = std::get<std::vector<SymValueSections>>(result);
+        // Print the result
+        for (const SymValueSections &section : final_values_sections)
+        {
+            std::cout << "Section " << section.section << ":" << std::endl;
+            for (const SymValueGroup &group : section.groups)
+            {
+                std::cout << "  Groupe " << group.type << ":" << std::endl;
+                for (const SymValue &value : group.values)
+                {
+                    std::cout << "    OPERATION: " << OPERATIONS_TYPES[value.type] << " {"
+                              << "X: " << value.x
+                              << ", Y: " << value.y
+                              << ", Couleur: " << value.couleur
+                              << ", Diametre: " << value.rayon * 2
+                              << "}" << std::endl;
+                }
+            }
+        }
+    }
 
     // for (const SymValueGroup &group : final_values){
     // // Assuming the group type corresponds to the operation type (OP number)
@@ -1047,7 +1057,7 @@ int main(int argc, char *argv[])
 
         */
 
-    //int menu_exit_code = runMenu(client, liste_trames); // Lancement du menu DRILLER
+    // int menu_exit_code = runMenu(client, liste_trames); // Lancement du menu DRILLER
 
     //------------------------------------------- END TEST ENV FOR FUNCTIONS -----------------------
     /*
