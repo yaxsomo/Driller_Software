@@ -976,14 +976,11 @@ int runMenu(opcua::Client &client)
         "Extraire Images Tole                               ",
         "État des alarmes                                   ",
         "Texte de l'alarme                                  ",
-        "Vitesse du robot (en %)                            ",
         "État du robot                                      ",
         "Position du robot                                  ",
-        "Repere Tôle                                        ",
-        "Lancement de mission (Tôle entiere)               ",
-        "Lancement de mission (Trame Manuelle)             ",
+        "Lancement de mission (Tôle entiere)                ",
+        "Lancement de mission (Trame Manuelle)              ",
         "Trame_Out GET                                     ",
-        "Mouvement manuel Test                             ",
         "Rangement robot                                   ",
         "QUIT PROGRAM                                      " // Doit imperativement rester en derniere position
     };
@@ -1001,21 +998,15 @@ int runMenu(opcua::Client &client)
         [&]
         { texte_alarme_get(client); },
         [&]
-        { vitesse_robot_get(client); },
-        [&]
         { etat_robot_print(client); },
         [&]
         { position_robot_get(client); },
-        [&]
-        { repere_tole_get(client); },
         [&]
         { mission_lancement(client); },
         [&]
         { mission_lancement_une_trame(client); },
         [&]
         { trame_out_get(client); },
-        [&]
-        { mouvement_manuel_test(client); },
         [&]
         { rangement_robot(client); }};
 
