@@ -42,7 +42,7 @@ In order to execute the program, we have to launch the client file (on the proje
 
 When executing the software, you will be prompted to this interface :
 
-![image](https://github.com/yaxsomo/Driller_Software/assets/71334330/dc5a1f67-21cc-4222-9f8f-a90aee43e84d)
+![image](https://github.com/yaxsomo/Driller_Software/assets/71334330/c21f11eb-eea4-4770-8875-8db1ff20ef7b)
 
 You will have the following choices :
 
