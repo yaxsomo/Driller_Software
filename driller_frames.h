@@ -113,7 +113,7 @@ using SymValueVariant = std::variant<std::vector<SymValueGroup>, std::vector<Sym
 std::string get_epaisseur_tole();
 std::vector<Outil> readToolBank(const std::string &filename);
 std::string cleanString(const std::string& input);
-std::string extractImageSection(const std::string& content);
+std::vector<std::string> extractAllImageSections(const std::string& content);
 std::string extractImageData(const std::string& imageSection);
 std::vector<BYTE> base64_decode(std::string const& encoded_string);
 void saveImageToPNG(const std::vector<unsigned char>& imageData, unsigned int width, unsigned int height, const std::string& filename);
@@ -139,6 +139,6 @@ std::string generateLamageCommand(const LamageParams& params);
 std::vector<std::string> generateCommands(const std::vector<SymValueGroup> &final_values, const std::string &epaisseur_tole, std::vector<Outil> tool_bank);
 std::string generate_single_command(const SymValue &operation, int opType, const std::string &epaisseur_tole, std::vector<Outil> tool_bank);
 SymValueVariant driller_frames_execute(std::string filename, int operational_mode);
-
+void extract_images(std::string filename);
 
 #endif

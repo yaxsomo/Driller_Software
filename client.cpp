@@ -973,13 +973,14 @@ int runMenu(opcua::Client &client)
     std::vector<std::string> menuItems = {
         "Changement mode operations tôle                    ",
         "Affichage des trames(operations)                   ",
+        "Extraire Images Tole                               ",
         "État des alarmes                                   ",
         "Texte de l'alarme                                  ",
         "Vitesse du robot (en %)                            ",
         "État du robot                                      ",
         "Position du robot                                  ",
         "Repere Tôle                                        ",
-        "Lancement de mission (Tôle entiere)                ",
+        "Lancement de mission (Tôle entiere)               ",
         "Lancement de mission (Trame Manuelle)             ",
         "Trame_Out GET                                     ",
         "Mouvement manuel Test                             ",
@@ -993,6 +994,8 @@ int runMenu(opcua::Client &client)
         { switch_operational_mode(); },
         [&]
         { print_frames(client); },
+        [&]
+        { extract_images(filename); },
         [&]
         { etat_alarmes_get(client); },
         [&]
@@ -1189,7 +1192,7 @@ int main(int argc, char *argv[])
         }
 
         */
-
+    
     int menu_exit_code = runMenu(client); // Lancement du menu DRILLER
 
     //------------------------------------------- END TEST ENV FOR FUNCTIONS -----------------------

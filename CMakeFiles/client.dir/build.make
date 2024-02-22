@@ -53,10 +53,10 @@ RM = /usr/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /mnt/c/Users/yohan/Documents/Driller_Software
+CMAKE_SOURCE_DIR = /home/yaxsomo/Workspace/Driller_Software
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /mnt/c/Users/yohan/Documents/Driller_Software
+CMAKE_BINARY_DIR = /home/yaxsomo/Workspace/Driller_Software
 
 # Include any dependencies generated for this target.
 include CMakeFiles/client.dir/depend.make
@@ -72,30 +72,30 @@ include CMakeFiles/client.dir/flags.make
 CMakeFiles/client.dir/client.cpp.o: CMakeFiles/client.dir/flags.make
 CMakeFiles/client.dir/client.cpp.o: client.cpp
 CMakeFiles/client.dir/client.cpp.o: CMakeFiles/client.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/c/Users/yohan/Documents/Driller_Software/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/client.dir/client.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/client.dir/client.cpp.o -MF CMakeFiles/client.dir/client.cpp.o.d -o CMakeFiles/client.dir/client.cpp.o -c /mnt/c/Users/yohan/Documents/Driller_Software/client.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/yaxsomo/Workspace/Driller_Software/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/client.dir/client.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/client.dir/client.cpp.o -MF CMakeFiles/client.dir/client.cpp.o.d -o CMakeFiles/client.dir/client.cpp.o -c /home/yaxsomo/Workspace/Driller_Software/client.cpp
 
 CMakeFiles/client.dir/client.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/client.dir/client.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /mnt/c/Users/yohan/Documents/Driller_Software/client.cpp > CMakeFiles/client.dir/client.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/yaxsomo/Workspace/Driller_Software/client.cpp > CMakeFiles/client.dir/client.cpp.i
 
 CMakeFiles/client.dir/client.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/client.dir/client.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /mnt/c/Users/yohan/Documents/Driller_Software/client.cpp -o CMakeFiles/client.dir/client.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/yaxsomo/Workspace/Driller_Software/client.cpp -o CMakeFiles/client.dir/client.cpp.s
 
 CMakeFiles/client.dir/driller_frames.cpp.o: CMakeFiles/client.dir/flags.make
 CMakeFiles/client.dir/driller_frames.cpp.o: driller_frames.cpp
 CMakeFiles/client.dir/driller_frames.cpp.o: CMakeFiles/client.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/mnt/c/Users/yohan/Documents/Driller_Software/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/client.dir/driller_frames.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/client.dir/driller_frames.cpp.o -MF CMakeFiles/client.dir/driller_frames.cpp.o.d -o CMakeFiles/client.dir/driller_frames.cpp.o -c /mnt/c/Users/yohan/Documents/Driller_Software/driller_frames.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/yaxsomo/Workspace/Driller_Software/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/client.dir/driller_frames.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/client.dir/driller_frames.cpp.o -MF CMakeFiles/client.dir/driller_frames.cpp.o.d -o CMakeFiles/client.dir/driller_frames.cpp.o -c /home/yaxsomo/Workspace/Driller_Software/driller_frames.cpp
 
 CMakeFiles/client.dir/driller_frames.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/client.dir/driller_frames.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /mnt/c/Users/yohan/Documents/Driller_Software/driller_frames.cpp > CMakeFiles/client.dir/driller_frames.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/yaxsomo/Workspace/Driller_Software/driller_frames.cpp > CMakeFiles/client.dir/driller_frames.cpp.i
 
 CMakeFiles/client.dir/driller_frames.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/client.dir/driller_frames.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /mnt/c/Users/yohan/Documents/Driller_Software/driller_frames.cpp -o CMakeFiles/client.dir/driller_frames.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/yaxsomo/Workspace/Driller_Software/driller_frames.cpp -o CMakeFiles/client.dir/driller_frames.cpp.s
 
 # Object files for target client
 client_OBJECTS = \
@@ -109,9 +109,10 @@ client: CMakeFiles/client.dir/client.cpp.o
 client: CMakeFiles/client.dir/driller_frames.cpp.o
 client: CMakeFiles/client.dir/build.make
 client: /usr/local/lib/libopen62541pp.a
+client: /usr/lib/x86_64-linux-gnu/libpython3.10.so
 client: /usr/local/lib/libopen62541.a
 client: CMakeFiles/client.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/mnt/c/Users/yohan/Documents/Driller_Software/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Linking CXX executable client"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/yaxsomo/Workspace/Driller_Software/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Linking CXX executable client"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/client.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
@@ -123,6 +124,6 @@ CMakeFiles/client.dir/clean:
 .PHONY : CMakeFiles/client.dir/clean
 
 CMakeFiles/client.dir/depend:
-	cd /mnt/c/Users/yohan/Documents/Driller_Software && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /mnt/c/Users/yohan/Documents/Driller_Software /mnt/c/Users/yohan/Documents/Driller_Software /mnt/c/Users/yohan/Documents/Driller_Software /mnt/c/Users/yohan/Documents/Driller_Software /mnt/c/Users/yohan/Documents/Driller_Software/CMakeFiles/client.dir/DependInfo.cmake --color=$(COLOR)
+	cd /home/yaxsomo/Workspace/Driller_Software && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/yaxsomo/Workspace/Driller_Software /home/yaxsomo/Workspace/Driller_Software /home/yaxsomo/Workspace/Driller_Software /home/yaxsomo/Workspace/Driller_Software /home/yaxsomo/Workspace/Driller_Software/CMakeFiles/client.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : CMakeFiles/client.dir/depend
 

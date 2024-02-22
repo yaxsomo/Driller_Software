@@ -8,6 +8,9 @@ find_package(open62541pp CONFIG REQUIRED)
 
 include_directories(${CMAKE_SOURCE_DIR})
 
+# Find Python
+find_package(Python3 COMPONENTS Development)
+include_directories(${Python3_INCLUDE_DIRS})
 
 # Add your source files
 add_executable(client
@@ -16,4 +19,4 @@ add_executable(client
 )
 
 # Link the open62541pp library
-target_link_libraries(client PRIVATE open62541pp::open62541pp)
+target_link_libraries(client PRIVATE open62541pp::open62541pp ${Python3_LIBRARIES})

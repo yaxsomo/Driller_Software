@@ -9,6 +9,8 @@
 #include <sstream>   // Inclut la bibliothèque pour manipuler des flux de chaînes de caractères
 #include <algorithm> // Inclut la bibliothèque pour utiliser la fonction std::sort
 #include <cstdlib>
+#include <chrono>
+#include <ctime>
 // Bibliotheques Windows et Linux
 #include <iomanip>
 #include <limits>
@@ -18,7 +20,7 @@
 
 // Librairie de gestion des formats JSON pour la banque d'outils
 #include <json.hpp>
-
+#include <Python.h>
 // for convenience
 using json = nlohmann::json;
 
@@ -124,25 +126,24 @@ std::string cleanString(const std::string &input)
     return result;
 }
 
-// Function to extract the first <Image> section with image-type="png"
-std::string extractImageSection(const std::string &content)
-{
-    std::string imageSection;
+// Function to extract all <Image> sections with image-type="png"
+std::vector<std::string> extractAllImageSections(const std::string& content) {
+    std::vector<std::string> imageSections;
+    size_t pos = 0;
 
-    // Find the beginning of the <Image> section with image-type="png"
-    size_t imageStart = content.find("<Image image-type=\"png\"");
-    if (imageStart != std::string::npos)
-    {
-        // Find the end of the <Image> section
-        size_t imageEnd = content.find("</Image>", imageStart);
-        if (imageEnd != std::string::npos)
-        {
+    while ((pos = content.find("<Image image-type=\"png\"", pos)) != std::string::npos) {
+        // Find the end of the current <Image> section
+        size_t endPos = content.find("</Image>", pos);
+        if (endPos != std::string::npos) {
             // Extract the <Image> section including attributes and CDATA content
-            imageSection = content.substr(imageStart, imageEnd - imageStart + 9); // +9 to include </Image>
+            imageSections.push_back(content.substr(pos, endPos - pos + 9)); // +9 to include </Image>
+            pos = endPos + 9; // Move pos to the end of the current <Image> section
+        } else {
+            break; // No more <Image> sections found
         }
     }
 
-    return imageSection;
+    return imageSections;
 }
 
 // Function to extract the CDATA content from an <Image> section
@@ -1125,10 +1126,7 @@ SymValueVariant driller_frames_execute(std::string filename, int operational_mod
     std::vector<SymValueSections> final_values_sections;
     Outil currentTool = {};
     std::vector<std::string> liste_trames;
-    // std::string imageData;
-    // unsigned width = 640; // Set the width of your image
-    // unsigned height = 480; // Set the height of your image
-    // std::string image_filename = "output.png"; // Set the desired output filename
+   
 
     // Création d'une structure de coordonnées pour le repère de la tôle
     Coordinates repere_tole;
@@ -1174,57 +1172,9 @@ SymValueVariant driller_frames_execute(std::string filename, int operational_mod
     // Lecture du contenu complet du fichier dans une chaîne de caractères
     std::string fileContent((std::istreambuf_iterator<char>(file)), std::istreambuf_iterator<char>());
 
-    /*
-    // Extract the first <Image> section with image-type="png"
-        std::string imageSection = extractImageSection(fileContent);
-
-        if (!imageSection.empty()) {
-            //std::cout << "Found Image Section:" << std::endl;
-            //std::cout << imageSection << std::endl;
-
-            // Extract the CDATA content from the Image section
-            imageData = extractImageData(imageSection);
-            if (!imageData.empty()) {
-                std::cout << "Found CDATA Content:" << std::endl;
-                //std::cout << imageData.length() << std::endl;
-
-                std::string imageData_cleaned = cleanString(imageData);
-
-                std::cout << imageData_cleaned.length() << std::endl;
-
-                std::cout << "Last 10 characters of imageData: ";
-                std::string::size_type length = imageData_cleaned.length();
-                if (length >= 10) {
-                    std::cout.write(imageData.c_str() + length - 10, 10);
-                } else {
-                    std::cout << imageData; // Print the entire string if it's less than 10 characters
-                }
-                std::cout << std::endl;
-                // Decode base64-encoded image data
-                //std::string decodedImageData = base64_decode(imageData);
-
-                //std::string decodedImageData = b64decode(imageData, imageData.size());
-
-                std::vector<BYTE> decodedImageData = base64_decode(imageData_cleaned);
-
-                // Print the size of the decodedImageData vector
-                std::cout << "Size of decodedImageData: " << decodedImageData.size() << " bytes" << std::endl;
-
-                    // Save the image data as a PNG file
-                    saveImageToPNG(decodedImageData, width, height, image_filename);
 
 
-
-
-            } else {
-                std::cout << "No CDATA content found in the Image section." << std::endl;
-            }
-        } else {
-            std::cout << "No image section with image-type=\"png\" found in the file." << std::endl;
-        }
-
-
-    */
+    
 
     // Extraction des chemins et des coordonnées à partir du contenu du fichier
     std::vector<PathCoordinates> pathCoordinatesList = extractPathAndCoordinates(fileContent);
@@ -1321,4 +1271,73 @@ SymValueVariant driller_frames_execute(std::string filename, int operational_mod
     // return liste_trames; // Quitte le programme avec un code de succès
     // return final_values;
     return {};
+}
+
+
+
+void extract_images(std::string filename){
+    // Initialize Python
+    Py_Initialize();
+
+    // Import required Python modules
+    PyRun_SimpleString("import base64");
+    PyRun_SimpleString("from PIL import Image");
+    PyRun_SimpleString("from io import BytesIO");
+
+    // Get current time
+    auto now = std::chrono::system_clock::now();
+    std::time_t current_time = std::chrono::system_clock::to_time_t(now);
+
+    // Convert current time to a string format
+    char buffer[80];
+    std::strftime(buffer, sizeof(buffer), "%Y-%m-%d_%H-%M-%S", std::localtime(&current_time));
+    std::string timestamp(buffer);
+
+    int img_count = 0;
+
+    // Create a folder with the current timestamp
+    std::string folderPath = "images/" + timestamp;
+    std::filesystem::create_directory(folderPath);
+
+    // Open the file in binary mode
+    std::ifstream file(filename, std::ios::binary);
+    if (!file)
+    {
+        // Print an error message if the file fails to open
+        std::cerr << "Error opening file: " << std::endl;
+        return;
+    }
+    // Read the entire file content into a string
+    std::string fileContent((std::istreambuf_iterator<char>(file)), std::istreambuf_iterator<char>());
+
+    // Extract all image sections from the file content
+    std::vector<std::string> imageSections = extractAllImageSections(fileContent);
+
+    // Iterate through each extracted image section
+    for (const auto& imageSection : imageSections) {
+        // Extract the CDATA content from the current image section
+        std::string imageData = extractImageData(imageSection);
+        
+        if (!imageData.empty()) {
+            // Clean the CDATA content (remove white spaces and empty characters)
+            std::string imageDataCleaned = cleanString(imageData);
+
+            // Prepare Python code to decode base64 and save the image
+            std::string pythonCode = "data = '''" + imageDataCleaned + "'''\n"
+                                    "im = Image.open(BytesIO(base64.b64decode(data)))\n"
+                                    "im.save('" + folderPath + "/image-" + std::to_string(img_count) +".png', 'PNG')\n";
+
+            // Execute Python code
+            PyRun_SimpleString(pythonCode.c_str());
+
+            img_count++;
+
+            // std::cout << "Image Data Length: " << imageDataCleaned.length() << std::endl;
+            // std::cout << "Image Data: " << imageDataCleaned << std::endl;
+        } else {
+            std::cout << "No CDATA content found in the Image section." << std::endl;
+        }
+    }
+    // Finalize Python
+    Py_Finalize();
 }
