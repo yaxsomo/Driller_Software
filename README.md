@@ -38,5 +38,32 @@ In order to execute the program, we have to launch the client file (on the proje
  ./client P1_TITRE.drg 
 ```
 
+### CLI Interface
+
+When executing the software, you will be prompted to this interface :
+
+[INTERFACE SCREENSHOT]
+
+You will have the following choices :
+
+```bash
+1. Changement mode operations tôle
+2. Affichage des trames(operations)
+3. Extraire Images Tole           
+4. État des alarmes               
+5. Texte de l'alarme              
+6. Vitesse du robot (en %)        
+7. État du robot                  
+8. Position du robot              
+9. Repere Tôle                    
+10. Lancement de mission (Tôle entiere)
+11. Lancement de mission (Trame Manuelle)
+12. Trame_Out GET                 
+13. Mouvement manuel Test         
+14. Rangement robot               
+15. QUIT PROGRAM          
+```
+
+
 
 
