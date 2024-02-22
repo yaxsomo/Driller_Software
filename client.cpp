@@ -1149,56 +1149,23 @@ int main(int argc, char *argv[])
     // END COMMENT THOSE LINES IF IN TEST MODE
 
     //------------------------------------------- END OPCUA CONFIG AND CONNECTION -----------------------
-
-    // SymValueVariant result = driller_frames_execute(filename, currentOperationalMode);
-
-    // // Access the result based on its type
-    // if (std::holds_alternative<std::vector<SymValueGroup>>(result))
-    // {
-    //     // Handle SymValueGroup vector
-    //     holes_groups = std::get<std::vector<SymValueGroup>>(result);
-    //     // Process SymValueGroup...
-    // }
-    // else if (std::holds_alternative<std::vector<SymValueSections>>(result))
-    // {
-    //     // Handle SymValueSections vector
-    //     holes_sectionss = std::get<std::vector<SymValueSections>>(result);
-    // }
-
-    // if (liste_trames.empty())
-    // {
-    //     logMessage << "Liste de trames vide!";
-    //     log(client, opcua::LogLevel::Error, opcua::LogCategory::Userland, logMessage.str());
-    // }
-    // else
-    // {
-    //     logMessage << "Liste de trames correctement remplie!";
-    //     log(client, opcua::LogLevel::Info, opcua::LogCategory::Userland, logMessage.str());
-    // }
-
-    /*
-        // Impression de toutes les trames (Test)
-        for (const auto& trame : liste_trames) {
-            std::cout << trame << std::endl;
-        }
-
-        */
     
     int menu_exit_code = runMenu(client); // Lancement du menu DRILLER
 
     //------------------------------------------- END TEST ENV FOR FUNCTIONS -----------------------
-    /*
+  
         switch (menu_exit_code)
         {
         case 0:
-            UA_LOG_INFO(&logger, UA_LOGCATEGORY_SERVER, "Sortie du programme | CODE : %d", menu_exit_code);
+            logMessage << "Sortie du programme | CODE : " << menu_exit_code << std::endl;
+            log(client, opcua::LogLevel::Info, opcua::LogCategory::Client, logMessage.str());
             break;
         default:
-            UA_LOG_ERROR(&logger, UA_LOGCATEGORY_SERVER, "Erreur en sortie du programme | CODE : %d", menu_exit_code);
+            logMessage << "Erreur en sortie du programme | CODE : " << menu_exit_code << std::endl;
+            log(client, opcua::LogLevel::Error, opcua::LogCategory::Session, logMessage.str());
             break;
         }
 
         return menu_exit_code;
 
-        */
 }

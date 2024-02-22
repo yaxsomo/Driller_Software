@@ -51,19 +51,73 @@ You will have the following choices :
 2. Affichage des trames(operations)
 3. Extraire Images Tole           
 4. État des alarmes               
-5. Texte de l'alarme              
-6. Vitesse du robot (en %)        
-7. État du robot                  
-8. Position du robot              
-9. Repere Tôle                    
-10. Lancement de mission (Tôle entiere)
-11. Lancement de mission (Trame Manuelle)
-12. Trame_Out GET                 
-13. Mouvement manuel Test         
-14. Rangement robot               
-15. QUIT PROGRAM          
+5. Texte de l'alarme                      
+6. État du robot                  
+7. Position du robot                                
+8. Lancement de mission (Tôle entiere)
+9. Lancement de mission (Trame Manuelle)
+10. Trame_Out GET                          
+11. Rangement robot               
+12. QUIT PROGRAM          
 ```
 
+#### 1. Changement mode operations tôle
 
+For this selection, you will get prompted to this message : 
+
+```bash
+Enter the new operational mode (0 for GROUPS, 1 for SECTIONS):
+```
+- Selecting 0 will group operations by operation type (E.g. Drilling, Milling, etc..)
+- Selecting 1 will group operations by sections of 500x500 on the sheet metal
+
+Regardless of the selection, the grouped operations will be sorted to minimize tool change and distance from the current point to the next one
+
+#### 2. Affichage des trames(operations)
+This selection will print the entire mission, based on the grouping made on the first selection
+#### 3. Extraire Images Tole   
+This selection will extract images from the .drg file and save them to a specific directory, grouped in a folder by date time       
+#### 4. État des alarmes            
+This selection prints the number of all the active alarms   
+#### 5. Texte de l'alarme       
+With this selection you will be prompted to this message :
+
+```bash
+Select the alarm number: 
+```
+Here you can enter the alarm number to get the message from this specific alarm
+
+#### 6. État du robot      
+This selection will print the actual state of the robot.
+States are defined by this Map : 
+
+```bash
+std::map<int, std::string> EN_Robot_State = {
+    {0, "NC"},
+    {1, "Mode_Manuel"},
+    {2, "Reff"},
+    {3, "Init"},
+    {4, "Acces_Zone"},
+    {5, "Wait"},
+    {10, "Cycle_D"},
+    {11, "Cycle_C"},
+    {12, "Cycle_T"},
+    {13, "Cycle_S"},
+    {14, "Cycle_F"},
+    {15, "Cycle_R"},
+    {16, "Cycle_B"}};
+```
+#### 7. Position du robot   
+This selection will print the current position of the robot, in the X, Y and Z axis                             
+#### 8. Lancement de mission (Tôle entiere)
+This selection will automatically execute the entire mission on the sheet metal
+#### 9. Lancement de mission (Trame Manuelle)
+This selection will execute a single operation on the sheet metal
+#### 10. Trame_Out GET    
+This selection will print the robot's return message on the Trame_OUT_Akeros Node ID                      
+#### 11. Rangement robot 
+This selection will automatically put the robot in its maintenance position              
+#### 12. QUIT PROGRAM       
+This selection will exit the main program
 
 
