@@ -800,170 +800,6 @@ std::string generateLamageCommand(const LamageParams &params)
 }
 
 // Function to generate commands for all elements in final_values
-std::vector<std::string> generateCommands(const std::vector<SymValueGroup> &final_values, const std::string &epaisseur_tole, std::vector<Outil> tool_bank)
-{
-    PercageParams nouveau_percage;
-    FraisurageParams nouveau_fraisurage;
-    TaraudageParams nouveau_taraudage;
-    LamageParams nouveau_lamage;
-    Outil outil;
-    std::string tool_pos;
-    int tool_pos_int;
-    // Vecteur final contenant toutes les trames
-    std::vector<std::string> commands;
-
-    for (const SymValueGroup &group : final_values)
-    {
-        // Assuming the group type corresponds to the operation type (OP number)
-        int opType = group.type;
-        for (const SymValue &operation : group.values)
-        {
-
-            // Common parameters
-            CommonParams commonParams;
-            commonParams.coordX = formatNumber((operation.x * 100), 6); // Convert to mm
-            commonParams.coordY = formatNumber((operation.y * 100), 6); // Convert to mm
-            commonParams.epaisseurTole = epaisseur_tole;
-
-            // Generate commands based on operation type
-            switch (opType)
-            {
-            case 1: // Percage (OP. 1)
-                outil = selectTool(operation.rayon, "D", tool_bank);
-                tool_pos_int = findToolPosition(outil, tool_bank);
-                if (tool_pos_int == 0)
-                {
-                    tool_pos = "00";
-                }
-                else
-                {
-                    tool_pos = formatNumber(((tool_pos_int) + 1), 2);
-                }
-                if (tool_pos != "-98")
-                {
-                    commonParams.emplacementOutil = tool_pos;
-                    commonParams.vitesseRotationOutil = formatNumber(outil.vitesse_rotation, 4);
-                    commonParams.vitesseAvanceOutil = formatNumber((outil.vitesse_avance * 100), 3);
-                    nouveau_percage.commonParams = commonParams;
-                    std::string percageCommand = generatePercageCommand(nouveau_percage);
-                    commands.push_back(percageCommand);
-                    // Swap the positions in both the JSON file and the array
-                    std::swap(tool_bank[0], tool_bank[tool_pos_int]);
-                    // Update the JSON file with the swapped positions
-                    updateJsonFile(tool_bank);
-                }
-                else
-                {
-                    // std::cout << "No Tool Found!" << std::endl;
-                }
-                break;
-            case 4: // Fraisurage (OP. 4)
-                outil = selectTool(operation.rayon, "C", tool_bank);
-                tool_pos_int = findToolPosition(outil, tool_bank);
-                if (tool_pos_int == 0)
-                {
-                    tool_pos = "00";
-                }
-                else
-                {
-                    tool_pos = formatNumber(((tool_pos_int) + 1), 2);
-                }
-                if (tool_pos != "-98")
-                {
-                    commonParams.emplacementOutil = tool_pos;
-                    commonParams.vitesseRotationOutil = formatNumber(outil.vitesse_rotation, 4);
-                    commonParams.vitesseAvanceOutil = formatNumber((outil.vitesse_avance * 100), 3);
-                    nouveau_fraisurage.angleFraise = formatNumber(outil.angle, 3); // Modifier le chiffre brut avec bonne valeur
-                    nouveau_fraisurage.diametreExterieur = formatNumber((operation.rayon * 2) * 10, 3);
-                    nouveau_fraisurage.commonParams = commonParams;
-                    std::string fraisurageCommand = generateFraisurageCommand(nouveau_fraisurage);
-                    commands.push_back(fraisurageCommand);
-                    // Swap the positions in both the JSON file and the array
-                    std::swap(tool_bank[0], tool_bank[tool_pos_int]);
-                    // Update the JSON file with the swapped positions
-                    updateJsonFile(tool_bank);
-                }
-                else
-                {
-                    // std::cout << "No Tool Found!" << std::endl;
-                }
-                break;
-            case 2: // Taraudage (OP. 2)
-            case 3: // Taraudage (OP. 3)
-                outil = selectTool(operation.rayon, "T", tool_bank);
-                tool_pos_int = findToolPosition(outil, tool_bank);
-                if (tool_pos_int == 0)
-                {
-                    tool_pos = "00";
-                }
-                else
-                {
-                    tool_pos = formatNumber(((tool_pos_int) + 1), 2);
-                }
-                if (tool_pos != "-98")
-                {
-                    commonParams.emplacementOutil = tool_pos;
-                    commonParams.vitesseRotationOutil = formatNumber(outil.vitesse_rotation, 4);
-                    commonParams.vitesseAvanceOutil = formatNumber((outil.vitesse_avance * 100), 3);
-                    nouveau_taraudage.pasOutil = formatNumber((operation.z * 100), 3);
-                    nouveau_taraudage.commonParams = commonParams;
-                    std::string taraudageCommand = generateTaraudageCommand(nouveau_taraudage);
-                    commands.push_back(taraudageCommand);
-                    // Swap the positions in both the JSON file and the array
-                    std::swap(tool_bank[0], tool_bank[tool_pos_int]);
-                    // Update the JSON file with the swapped positions
-                    updateJsonFile(tool_bank);
-                }
-                else
-                {
-                    // std::cout << "No Tool Found!" << std::endl;
-                }
-
-                break;
-            case 5: // Lamage (OP. 5)
-                outil = selectTool(operation.rayon, "S", tool_bank);
-                tool_pos_int = findToolPosition(outil, tool_bank);
-                if (tool_pos_int == 0)
-                {
-                    tool_pos = "00";
-                }
-                else
-                {
-                    tool_pos = formatNumber(((tool_pos_int) + 1), 2);
-                }
-                if (tool_pos != "-98")
-                {
-                    commonParams.emplacementOutil = tool_pos;
-                    commonParams.vitesseRotationOutil = formatNumber(outil.vitesse_rotation, 4);
-                    commonParams.vitesseAvanceOutil = formatNumber((outil.vitesse_avance * 100), 3);
-                    nouveau_lamage.longueurPiloteOutil = formatNumber(outil.longueur_pilote, 3); // Modifier le chiffre brut avec bonne valeur
-                    nouveau_lamage.profondeur = formatNumber((operation.z * 100), 3);
-                    nouveau_lamage.commonParams = commonParams;
-                    std::string lamageCommand = generateLamageCommand(nouveau_lamage);
-                    commands.push_back(lamageCommand);
-                    // Swap the positions in both the JSON file and the array
-                    std::swap(tool_bank[0], tool_bank[tool_pos_int]);
-                    // Update the JSON file with the swapped positions
-                    updateJsonFile(tool_bank);
-                }
-                else
-                {
-                    // std::cout << "No Tool Found!" << std::endl;
-                }
-                break;
-            default:
-                // std::cout << "Unknown operation type: " << opType;
-                break;
-            }
-
-            // std::cout << std::endl;
-        }
-    }
-
-    return commands;
-}
-
-// Function to generate commands for all elements in final_values
 std::string generate_single_command(const SymValue &operation, int opType, const std::string &epaisseur_tole, std::vector<Outil> tool_bank)
 {
     PercageParams nouveau_percage;
@@ -1261,9 +1097,6 @@ SymValueVariant driller_frames_execute(std::string filename, int operational_mod
                 // for (SymValueGroup& group : final_values) {
                 // printStructure(group.values);
                 //}
-
-                // Call the generateCommands function
-                // liste_trames = generateCommands(final_values, epaisseur_tole, toolBank_json);
             }
         }
     }
@@ -1317,7 +1150,7 @@ void extract_images(std::string filename){
     for (const auto& imageSection : imageSections) {
         // Extract the CDATA content from the current image section
         std::string imageData = extractImageData(imageSection);
-        
+
         if (!imageData.empty()) {
             // Clean the CDATA content (remove white spaces and empty characters)
             std::string imageDataCleaned = cleanString(imageData);
