@@ -30,7 +30,7 @@
 
 extern std::vector<Outil> toolBank;
 std::vector<SymValueGroup> holes_groups;
-std::vector<SymValueSections> holes_sectionss;
+std::vector<SymValueSections> holes_sections;
 // std::vector<std::variant<SymValueGroup, SymValueSections>> final_values_combined;
 
 std::string filename;
@@ -577,7 +577,7 @@ void mission_lancement(opcua::Client &client)
         break;
     case 1:
         // Print the result
-        for (const SymValueSections &section : holes_sectionss)
+        for (const SymValueSections &section : holes_sections)
         {
             // std::cout << "Section " << section.section << ":" << std::endl;
             for (const SymValueGroup &group : section.groups)
@@ -893,7 +893,7 @@ void print_frames(opcua::Client &client)
         break;
     case 1:
         // Print the result
-        for (const SymValueSections &section : holes_sectionss)
+        for (const SymValueSections &section : holes_sections)
         {
             logMessage << "Section " << section.section << ":" << std::endl;
 
@@ -926,31 +926,47 @@ void switch_operational_mode()
     int newMode;
     std::cout << "Enter the new operational mode (0 for GROUPS, 1 for SECTIONS): ";
     std::cin >> newMode;
+    bool switched = false;
 
     auto it = OPERATIONAL_MODE.find(newMode);
     if (it != OPERATIONAL_MODE.end())
     {
         currentOperationalMode = newMode;
-        std::cout << "Operational mode switched to: " << OPERATIONAL_MODE[currentOperationalMode] << std::endl;
+        
         SymValueVariant result = driller_frames_execute(filename, currentOperationalMode);
-
         // Access the result based on its type
         if (std::holds_alternative<std::vector<SymValueGroup>>(result))
         {
             // Handle SymValueGroup vector
             holes_groups = std::get<std::vector<SymValueGroup>>(result);
             // Process SymValueGroup...
+            if (holes_groups.size() > 1){
+                switched = true;
+            }
         }
         else if (std::holds_alternative<std::vector<SymValueSections>>(result))
         {
             // Handle SymValueSections vector
-            holes_sectionss = std::get<std::vector<SymValueSections>>(result);
+            holes_sections = std::get<std::vector<SymValueSections>>(result);
+            if (holes_sections.size() <= 1){
+                 switched = true;
+            }
+        } else {
+            std::cout << "ERROR! Data is not coherent " << std::endl;
         }
     }
     else
     {
         std::cout << "Invalid mode. No changes made." << std::endl;
     }
+
+    if (switched)
+    {
+        std::cout << "Operational mode switched to: " << OPERATIONAL_MODE[currentOperationalMode] << std::endl;
+    } else {
+        std::cout << "Operational mode switch error." << std::endl;
+    }
+    
 }
 // A PRENDRE EN CHARGE (PAS URGENT) ------------------------
 void vitesse_robot_get(opcua::Client &client)

@@ -1,0 +1,1331 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RadanCompoundDocument xmlns="http://www.radan.com/ns/rcd">
+  <RadanAttributes>
+    <Group class="system" name="Système" desc="Ces attributs décrivent le système RADAN utilisé pour créé ce fichier."
+        ord="8">
+      <Attr num="13" name="Langage" desc="Code langage RADAN." type="i" ord="1" value="2">
+        <Valid perm="r"/>
+      </Attr>
+      <Attr num="14" name="Licence" desc="Code licence RADAN." type="s" ord="2" value="1960-1725-0827-5682-3526-3482">
+        <Valid perm="r"/>
+      </Attr>
+      <Attr num="15" name="Version" desc="Version du logiciel." type="s" ord="3" value="2022.0.2144">
+        <Valid perm="r"/>
+      </Attr>
+    </Group>
+    <Group class="custom" name="Statut d'avancement" desc="Attributs utilisés pour le statut d'avancement" ord="13">
+      <Attr num="17" name="Date d'imbrication" desc="Date de la dernière modification de l'imbrication." type="t"
+          ord="2" value="2024-01-25T11:36:11+01:00">
+        <Valid perm="h"/>
+      </Attr>
+      <Attr num="18" name="Date outillage" desc="Date de la dernière modification d'outillage." type="t" ord="3"
+          value="2024-01-25T11:46:11+01:00">
+        <Valid perm="h"/>
+        <MC machine="psys_OptiplexFiber_10KW_McDB" value="2024-01-25T11:46:11+01:00"/>
+      </Attr>
+      <Attr num="19" name="Date mode ordre" desc="Date du dernier accès en mode ordre." type="t" ord="4"
+          value="2024-01-25T11:14:44+01:00">
+        <Valid perm="h"/>
+        <MC machine="psys_OptiplexFiber_10KW_McDB" value="2024-01-25T11:14:44+01:00"/>
+      </Attr>
+      <Attr num="20" name="Date d'estimation de temps" desc="Date de la dernière estimation de temps." type="t" ord="6">
+        <Valid perm="h"/>
+      </Attr>
+      <Attr num="21" name="Date annotation" desc="Date de la dernière génération des annotations." type="t" ord="7"
+          value="2024-01-24T16:27:05+01:00">
+        <Valid perm="h"/>
+        <MC machine="psys_OptiplexFiber_10KW_McDB" value="2024-01-24T16:27:05+01:00"/>
+      </Attr>
+      <Attr num="22" name="Date mode ordre" desc="Date de dernière modification du mode ordre." type="t" ord="5"
+          value="2024-01-25T10:36:57+01:00">
+        <Valid perm="h"/>
+        <MC machine="psys_OptiplexFiber_10KW_McDB" value="2024-01-25T10:36:57+01:00"/>
+      </Attr>
+    </Group>
+    <Group class="system" name="Fichier" desc="Ces attributs concernent les propriétés élémentaires de ce fichier."
+        ord="1">
+      <Attr num="101" name="Créé" desc="Date de création du fichier." type="t" ord="3" value="2024-01-24T16:27:02+01:00">
+        <Valid perm="r"/>
+      </Attr>
+      <Attr num="102" name="Modifié" desc="Date de la dernière modification du fichier." type="t" ord="4"
+          value="2024-01-25T11:46:14+01:00">
+        <Valid perm="r"/>
+      </Attr>
+      <Attr num="103" name="Taille de fichier" desc="Taille du fichier en bits." type="i" ord="5" value="58905">
+        <Valid perm="r"/>
+      </Attr>
+      <Attr num="105" name="Fichiers associés" desc="Fichiers associés." type="s" ord="6">
+        <Valid perm="h"/>
+      </Attr>
+      <Attr num="107" name="Extension" desc="Extension du nom de fichier." type="s" ord="2" value="drg">
+        <Valid perm="r"/>
+      </Attr>
+      <Attr num="110" name="Nom de fichier" desc="Nom de fichier sans extension." type="s" ord="1"
+          value="P2 tole-driller3">
+        <Valid perm="r"/>
+      </Attr>
+      <Attr num="141" name="Vérification utilisateur" desc="Nom d’utilisateur pour vérification du fichier" type="s"
+          ord="7">
+        <Valid perm="r"/>
+      </Attr>
+      <Attr num="142" name="Date de vérification" desc="Heure à laquelle ce fichier a été vérifié" type="t" ord="8">
+        <Valid perm="r"/>
+      </Attr>
+      <Attr num="143" name="Enregistrement" desc="Chemin d’enregistrement local Radcontrol" type="s" ord="9">
+        <Valid perm="h"/>
+      </Attr>
+      <Attr num="144" name="Version en cours" desc='Indicateur (si sur "oui") de version courante du fichier' type="s"
+          ord="10">
+        <Valid perm="r"/>
+      </Attr>
+    </Group>
+    <Group class="custom" name="Description" desc="Utiliser ces attributs pour décrire le fichier." ord="2">
+      <Attr num="108" name="Titre" desc="Titre du fichier." type="s" ord="1">
+        <Valid perm="e" max="80"/>
+      </Attr>
+      <Attr num="109" name="Commentaires" desc="Commentaires à propos de ce fichier." type="s" ord="2">
+        <Valid perm="e"/>
+      </Attr>
+    </Group>
+    <Group class="system" name="Dessin" desc="Ces attributs concernent les propriétés du dessin." ord="4">
+      <Attr num="116" name="Taille papier" desc="Taille papier." type="s" ord="1" value="A4">
+        <Valid perm="r"/>
+      </Attr>
+      <Attr num="117" name="Echelle" desc="Echelle." type="s" ord="2" value="1:20.38537">
+        <Valid perm="r"/>
+      </Attr>
+      <Attr num="118" name="Unités du dessin" desc="Unités du dessin." type="s" ord="3" value="mm">
+        <Valid perm="r"/>
+      </Attr>
+    </Group>
+    <Group class="custom" name="Fabrication" desc="Ces attributs concernent les propriétés de production de ce fichier."
+        ord="6">
+      <Attr num="119" name="Matière" desc="Matière." type="s" ord="1" value="S235">
+        <Valid perm="e" max="20"/>
+      </Attr>
+      <Attr num="120" name="Epaisseur" desc="Epaisseur." type="r" ord="2" value="6">
+        <Valid perm="e" min="0" max="99999"/>
+      </Attr>
+      <Attr num="121" name="Unité de l'épaisseur" desc="Unité de l'épaisseur." type="s" ord="4" value="mm">
+        <Valid perm="e" expr="mm|in|swg" max="80"/>
+      </Attr>
+      <Attr num="123" name="Temps de cycle" desc="Temps de cycle en minutes." type="r" ord="26" value="0">
+        <Valid perm="e" min="0"/>
+        <MC machine="psys_OptiplexFiber_10KW_McDB" value="0"/>
+      </Attr>
+      <Attr num="124" name="Dim X" desc="Dimension en X." type="r" ord="11" value="3000">
+        <Valid perm="e" min="0"/>
+      </Attr>
+      <Attr num="125" name="Dim Y" desc="Dimension en Y." type="r" ord="13" value="1500">
+        <Valid perm="e" min="0"/>
+      </Attr>
+      <Attr num="126" name="Zone libre" desc="Dimension de la chûte, en m2 ou sq2 suivant l'unité de votre dessin."
+          type="r" ord="16" value="4.471447463">
+        <Valid perm="e" min="0"/>
+      </Attr>
+      <Attr num="127" name="Machine" desc="Nom de la machine." type="s" ord="18" value="1: Optiplex FiberII 10.0kW">
+        <Valid perm="e" max="80"/>
+      </Attr>
+      <Attr num="128" name="Date du mode ordre" desc="Date de la dernière modification du mode Ordre." type="t" ord="23"
+          value="2024-01-25T11:22:15+01:00">
+        <Valid perm="e"/>
+        <MC machine="psys_OptiplexFiber_10KW_McDB" value="2024-01-25T11:22:15+01:00"/>
+      </Attr>
+      <Attr num="129" name="Date d'édition des codes" desc="Date de la dernière modification des codes." type="t"
+          ord="24">
+        <Valid perm="e"/>
+      </Attr>
+      <Attr num="130" name="Date de vérification" desc="Date de la dernière vérification." type="t" ord="25">
+        <Valid perm="e"/>
+      </Attr>
+      <Attr num="131" name="Date de sortie du programme" desc="Date de la dernière sortie des codes." type="t" ord="27">
+        <Valid perm="e"/>
+      </Attr>
+      <Attr num="137" name="Nombre de tôle" desc="Nombre d'exemplaire de cette tôle." type="i" ord="17" value="1">
+        <Valid perm="e" min="0"/>
+      </Attr>
+      <Attr num="138" name="Utilisation de tôle" desc="Pourcentage de tôle utilisée." type="r" ord="15" value="10.5">
+        <Valid perm="e" min="0" max="100"/>
+      </Attr>
+      <Attr num="139" name="N° tourelle" desc="Standard Tool Loading file id." type="i" ord="21" value="0">
+        <Valid perm="e" min="0"/>
+        <MC machine="psys_OptiplexFiber_10KW_McDB" value="0"/>
+      </Attr>
+      <Attr num="146" name="Strategie" desc="Stratégie pour outillage auto" type="s" ord="22" value="N2">
+        <Valid perm="e" max="60"/>
+        <MC machine="psys_OptiplexFiber_10KW_McDB" value="N2"/>
+      </Attr>
+      <Attr num="161" name="Used remnant" desc="The file name of the remnant that the current nest is cut from."
+          type="s" ord="14" value="">
+        <Valid perm="r" max="80"/>
+      </Attr>
+      <Attr num="170" name="Chutes" desc="Nombre de chutes pour chacune de ces tôles." type="i" ord="20" value="1">
+        <Valid perm="e" min="0"/>
+      </Attr>
+      <Attr num="171" name="Modèle pour le nom d’imbrication" desc="Modèle utilisé pour créer le nom de l’imbrication"
+          type="s" ord="28">
+        <Valid perm="e" max="36"/>
+      </Attr>
+      <Attr num="186" name="Statut d'avancement" desc="Statut d'avancement de ce fichier." type="s" ord="29"
+          value="5 - Outillage incomplet">
+        <Valid perm="e" max="80"/>
+        <MC machine="psys_OptiplexFiber_10KW_McDB" value="5 - Outillage incomplet"/>
+      </Attr>
+      <Attr num="195" name="Poids tôle" desc="Poids de la tôle en lb or kg, suivant vos unités de dessin." type="r"
+          ord="19" value="210.6">
+        <Valid perm="e" min="0"/>
+      </Attr>
+    </Group>
+    <Group class="custom" name="Works order nesting"
+        desc="These attributes record the file's Works Order Nesting properties (not supported in this version)."
+        ord="10">
+      <Attr num="151" name="Number of sheets cut" desc="Number of copies of this sheet cut to date." type="i" ord="13">
+        <Valid perm="r"/>
+      </Attr>
+    </Group>
+    <Group class="custom" name="Stock control" desc="These attributes record the stock control properties of the file."
+        ord="7">
+      <Attr num="159" name="Stock id" desc="Stock identifier of the sheet." type="s" ord="1" value="">
+        <Valid perm="e" max="80"/>
+      </Attr>
+    </Group>
+    <Group class="custom" name="Cost estimate" desc="These attributes are used to estimate costs." ord="11">
+      <Attr num="172" name="Last estimated cost" desc="The last estimated cost per item in run of quantity-off."
+          type="r" ord="1">
+        <Valid perm="e" min="0"/>
+      </Attr>
+      <Attr num="173" name="Setup cost" desc="The setting up component of the last cost estimate." type="r" ord="2">
+        <Valid perm="e" min="0"/>
+      </Attr>
+      <Attr num="174" name="Runtime cost" desc="The runtime component of the last cost estimate." type="r" ord="3">
+        <Valid perm="e" min="0"/>
+      </Attr>
+      <Attr num="175" name="Material cost" desc="The material component of the last cost estimate." type="r" ord="4">
+        <Valid perm="e" min="0"/>
+      </Attr>
+      <Attr num="176" name="Last estimate sheet cost" desc="The cost of the sheet used in the last cost estimate."
+          type="r" ord="5">
+        <Valid perm="e" min="0"/>
+      </Attr>
+    </Group>
+    <Group class="custom" name="Radbend" desc="These attributes record the file's Radbend properties." ord="12">
+      <Attr num="182" name="Model modify time" desc="The time at which the active model was last modified." type="t"
+          ord="1">
+        <Valid perm="e"/>
+      </Attr>
+      <Attr num="183" name="Development time"
+          desc="The time at which the development for the active model was last created." type="t" ord="2">
+        <Valid perm="e"/>
+      </Attr>
+      <Attr num="184" name="Export time" desc="The time at which the active model was last exported." type="t" ord="3">
+        <Valid perm="e"/>
+      </Attr>
+      <Attr num="185" name="Bend program time"
+          desc="The time at which the bend program for the active model was last updated." type="t" ord="4">
+        <Valid perm="e"/>
+      </Attr>
+      <Attr num="192" name="Temps de réglage pliage"
+          desc="Temps (mn) nécessaire pour régler les outils du programme de pliage." type="r" ord="5">
+        <Valid perm="e" min="0"/>
+      </Attr>
+      <Attr num="193" name="Temps de pliage"
+          desc="Temps (mn) de mouvement des axes machine (incluant les tempo programmes)." type="r" ord="6">
+        <Valid perm="e" min="0"/>
+      </Attr>
+      <Attr num="194" name="temps de manipulation pliage"
+          desc="Temps (mn) de manipulation pièce nécessaire à l’opérateur (prise et dépose pièce ainsi que temps entre plis)."
+          type="r" ord="7">
+        <Valid perm="e" min="0"/>
+      </Attr>
+    </Group>
+    <Group class="custom" name="Utilisateur" desc="Vous pouvez utiliser ces attributs selon votre besoin." ord="14">
+      <Attr num="200" name="AKEROS" type="s" ord="1"
+          value="\\195.184.155.196\donnees\usr\ROBOT\PROJET\D_2022\01-CLIENTS\OP2423-ROBOT DE DECORTICAGE\Tole-driller-prehenseur\cadre.sym;[25.00|15.00|0];\\195.184.155.196\donnees\usr\ROBOT\PROJET\D_2022\01-CLIENTS\OP2423-ROBOT
+DE DECORTICAGE\Tole-driller-prehenseur\tole-driller3\B343531A-calque2.sym;[236.38|169.44|0];\\195.184.155.196\donnees\usr\ROBOT\PROJET\D_2022\01-CLIENTS\OP2423-ROBOT
+DE DECORTICAGE\Tole-driller-prehenseur\tole-driller3\B930121B-calque2.sym;[752.53|288.00|0];\\195.184.155.196\donnees\usr\ROBOT\PROJET\D_2022\01-CLIENTS\OP2423-ROBOT
+DE DECORTICAGE\Tole-driller-prehenseur\tole-driller3\B323641A-calque2.sym;[335.07|746.35|0];[337.60|633.77|0];\\195.184.155.196\donnees\usr\ROBOT\PROJET\D_2022\01-CLIENTS\OP2423-ROBOT
+DE DECORTICAGE\Tole-driller-prehenseur\tole-driller3\B926091C-calque2.sym;[919.63|622.47|30];[136.51|359.83|0];[139.20|530.56|20];[364.28|541.85|180];\\195.184.155.196\donnees\usr\ROBOT\PROJET\D_2022\01-CLIENTS\OP2423-ROBOT
+DE DECORTICAGE\Tole-driller-prehenseur\B321061D-calque2.sym;[869.10|767.70|0];[115.48|439.18|0];[252.93|450.64|90];\\195.184.155.196\donnees\usr\ROBOT\PROJET\D_2022\01-CLIENTS\OP2423-ROBOT
+DE DECORTICAGE\Tole-driller-prehenseur\M662761F-calque2.sym;[895.90|682.95|110];[402.85|362.39|290];[396.08|411.32|120];[405.72|479.32|280];">
+        <Valid perm="e" max="90000"/>
+      </Attr>
+      <Attr num="300" name="Valeur entière" type="i" ord="101">
+        <Valid perm="e"/>
+      </Attr>
+      <Attr num="400" name="Date et heure" type="t" ord="201">
+        <Valid perm="e"/>
+      </Attr>
+      <Attr num="553" name="Tole mini X" type="r" ord="354" value="0">
+        <Valid perm="e" def="0"/>
+      </Attr>
+      <Attr num="554" name="Tole mini Y" type="r" ord="355" value="0">
+        <Valid perm="e" def="0"/>
+      </Attr>
+    </Group>
+  </RadanAttributes>
+  <Thumbnail image-type="bmp" image-encoding="base64Binary">
+    <![CDATA[
+Qk2WHAAAAAAAAHYAAAAoAAAAeAAAAHgAAAABAAQAAAAAACAcAAAAAAAAAAAAAAAAAAAAAAAA////
+AJn/mQAAAAAAAH//AP8AAAAAAP8A////AP///wD///8A////AP///wD///8A////AP///wD///8A
+////AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAiIiIiIiIiIiIiIi
+IiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIgAAAAAAAjMzMzMzMzMz
+IiMzMzMjMzMzMyAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAjIRIQEB
+AhIjEhARAQEhARAQEyAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAjJE
+IQEBAhIjEhARAQEBARAQEyAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAA
+AjARAQEBARATEhARAQEBARAQEyAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAA
+AAAAAjARAQEBARATEhARAQEBARAQEyAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AgAAAAAAAjARAQEBARATEhARAQEBARAQEyAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAgAAAAAAAjARAQEBARATEhARAQEBARAQEyAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAgAAAAAAAjJEIQEBAhIjEhARAQEBARAQEyAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAgAAAAAAAjARAQEBARATEhARAQEBARAQEyAQAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAgAAAAAAAjARAQEBARATEiARASIiIhAQQjAQAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAgAAAAAAAjMzMzMzMzMzFEARASIiIRAQFCAQAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAiIiJTMBAiMQEhARAQEBARAQEyAQAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAiIhASIBAjIiMhARAQEBARAQEyAQAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAiIiMzEiAiIyIhARAQEBARAQEyAQAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAiIiIgMiASIiEhARAQEBARAQEyAQAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAiEhIzMCMiIiIhARAQEBARAQEyAQ
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAiIzIwIiMiIiIhARAQEBARAQ
+EyAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAiIiIjMiATMyIhARAQEB
+ARAQEyAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAiMhIjMyMxAiMiIi
+IiIiIiIiMyAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAiAzMSICIiIi
+MDMzMzMzMyMzMCAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAjMzMzIz
+MiMzMzMzMzMzAiIiECAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAjAR
+AiQiIiIkIhARAQEDAyASMyAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAA
+AjARAiQBARAUIhARAQEDAiMgIjAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAA
+AAAAAjARAkIiIiIiQhARAQEDAiIjIiAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AgAAAAAAAjMzMzMzMzMzMzMzMzMzAzIiIyAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAgAAAAAAAjARAiIiIiIiIhARAQEDIiI1ICAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAgAAAAAAAjARAiEBARASIhARAQEDIiIjECAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAgAAAAAAAjARAiIiIiIiIhARAQEDEhIjECAQAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAgAAAAAAAjMzMzMzMzMzMzMzMzMzIzMzIiAQAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAgAAAAAAAhARAQEBARAQEBARAQEBARAQEBAQAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAhARAQEBARAQEBARAQEBARAQEBAQAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAhARAQEBARAQEBARAQEBARAQEBAQAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAhARAQEBARAQEBARAQEBARAQEBAQAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAhARAQEBARAQEBARAQEBARAQEBAQAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAhARAQEBARAQEBARAQEBARAQEBAQ
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAhARAQEBARAQEBARAQEBARAQ
+EBAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAhARAQEBARAQEBARAQEB
+ARAQEBAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAhARAQEBARAQEBAR
+AQEBARAQEBAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAhARAQEBARAQ
+EBARAQEBARAQEBAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAhARAQEB
+ARAQEBARAQEBARAQEBAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAhAR
+AQEBARAQEBARAQEBARAQEBAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAA
+AhARAQEBARAQEBARAQEBARAQEBAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAA
+AAAAAhARAQEBARAQEBARAQEBARAQEBAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AgAAAAAAAhARAQEBARAQEBARAQEBARAQEBAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAgAAAAAAAhARAQEBARAQEBARAQEBARAQEBAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAgAAAAAAAhARAQEBARAQEBARAQEBARAQEBAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAgAAAAAAAhARAQEBARAQEBARAQEBARAQEBAQAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAgAAAAAAAhARAQEBARAQEBARAQEBARAQEBAQAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAgAAAAAAAhARAQEBARAQEBARAQEBARAQEBAQAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAhARAQEBARAQEBARAQEBARAQEBAQAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAhARAQEBARAQEBARAQEBARAQEBAQAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAhARAQEBARAQEBARAQEBARAQEBAQAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAhARAQEBARAQEBARAQEBARAQEBAQAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAiIiIiIiIiIiIiIiIiIiIiIiIiIi
+IiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIiIgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==
+]]>
+  </Thumbnail>
+  <RadanFile extension="smb">
+    <![CDATA[]]>
+  </RadanFile>
+  <RadanFile extension="ddc">
+    <![CDATA[A,9,
+B,D,>,,1,2,3,4,5,6,7,8,9,:,<,=,>,
+B,E,],?,@,E1,R1,A,B,C,D,E,F,G,k1,H,I,J,F1,;,K,L,:,M,N,O,P,Q,R,S,T,<,=,>,U,m1,n1,52,62,:2,>2,?2,U2,V2,e2,i2,j2,k2,
+B,F,],?,@,E1,R1,A,B,C,D,E,F,G,k1,H,I,J,F1,;,K,L,:,M,N,O,P,Q,R,S,T,<,=,>,U,m1,n1,52,62,:2,>2,?2,U2,V2,e2,i2,j2,k2,
+B,G,N,?,@,E1,R1,J,V,W,I,l1,O,P,Q,R,V1,W1,A2,B2,C2,D2,E2,F2,G2,H2,O2,P2,Q2,R2,W2,[2,\2,
+B,H,N,?,@,E1,R1,J,V,W,I,F,O,P,Q,R,S,T,X,Y,Z,[,V1,W1,A2,B2,C2,D2,E2,F2,G2,H2,W2,
+B,I,G,?,@,E1,R1,\,I,],->oooo1,^,L,K,_,`,a,]2,^2,_2,`2,a2,b2,c2,d2,b,
+B,N,6,?,@,E1,R1,D,j,
+B,O,_,?,@,E1,R1,I,i,61,71,m1,81,91,:1,;1,<1,O,P,Q,R,52,62,72,82,92,Y2,Z2,:2,;2,<2,=2,>2,?2,@2,I2,J2,K2,L2,M2,S2,T2,U2,V2,f2,g2,h2,i2,j2,k2,
+B,P,b,?,@,E1,R1,I,i,=1,F,>1,71,m1,81,91,:1,;1,<1,O,P,Q,R,S,T,52,62,72,82,92,Y2,Z2,:2,;2,<2,=2,>2,?2,I2,J2,K2,L2,M2,S2,T2,X2,e2,f2,g2,h2,i2,j2,k2,
+D,4,6,.;@7[9\VbGKJ..;@0_GkRO]1J..;@7[9\VbK9[..;@0_GkRO_Yk.o?0.j?97KFkRDgF.j?97KFkRDgF.$P2 tole-driller3
+E,,-1,,,,,,,,1,1,1,,,1,,j?97KFkRDgF...o?0.........o?0.o?0.$/
+C,$
+U,,$
+U,$
+U,,,,2,,,,,,,
+E,,1,92,,,,,,,1,1,1,,,1,,j?97KFkRDgF...o?0.........o?0.o?0.$/layout
+C,$
+U,,$
+U,$
+U,,,,2,,,,,,,
+N,,2,3,,=,$y
+N,,2,4,,>,$15
+N,,2,5,,a,$n
+N,,2,6,,b,$120
+N,,2,7,,c,$40
+N,,2,8,,d,$20
+N,,2,9,,B,$15
+N,,2,:,,C,$15
+N,,2,;,,@,$15
+N,,2,<,,A,$15
+N,,2,=,,?,$15
+N,,2,>,,<,$15
+N,,2,?,,:,$10
+N,,2,@,,;,$10
+N,,2,A,,Z,$0
+N,,2,B,,f,$0
+N,,2,C,,g,$0
+N,,2,D,,h,$0
+N,,2,E,,i,$0
+N,,2,F,,o,$5
+N,,2,G,,01,$y
+N,,2,H,,e,$n
+N,,2,I,,8,$\\195.184.155.196\donnees\usr\ROBOT\PROJET\D_2022\01-CLIENTS\OP2423-ROBOT DE DECORTICAGE\Tole-driller-prehenseur\cadre.sym
+N,,2,J,,9,$1
+N,,2,K,,n,$0
+N,,2,L,,6,$5
+N,,2,M,,j,$0
+N,,2,N,,G,$0
+G,,1,Q,,1,,,<,,:@5RbK9\VbH.9@?XkeTTO_n..9@ZaDdd9e20.5@1eU:5YmOc.5@1eU:5YmOc...........,.,,,
+G,,1,R,,1,,,<,,:@5_BK9\VbH.8@0Ig[98oOl..9@7L.5@1eU:5YmOc.5@1eU:5YmOc...........,.,,,
+G,,1,S,,1,,,<,,:@68BK9\VbH.9@?XkeTTO_n..9@WL.5@1eU:5YmOc.5@1eU:5YmOc...........,.,,,
+G,,1,T,,1,,,<,,:@6QBK9\VbH.8@0Ig[98oOl..9@7L.5@1eU:5YmOc.5@1eU:5YmOc...........,.,,,
+G,,1,U,,1,,,<,,:@6jBK9\VbH.9@?XkeTTO_n..9@WL.5@1eU:5YmOc.5@1eU:5YmOc...........,.,,,
+G,,1,V,,1,,,<,,:@7CBK9\VbH.8@0Ig[98oOl..9@7L.5@1eU:5YmOc.5@1eU:5YmOc...........,.,,,
+G,,1,W,,1,,,<,,:@7\BK9\VbH.9@?XkeTTO_n..9@WL.5@1eU:5YmOc.5@1eU:5YmOc...........,.,,,
+G,,1,X,,1,,,<,,:@85BK9\VbH.8@0Ig[98oOl..9@7L.5@1eU:5YmOc.5@1eU:5YmOc...........,.,,,
+G,,1,Z,,1,,,<,,:@8NBK9\VbH.9@?XkeTTO_n..9@WL.5@1eU:5YmOc.5@1eU:5YmOc...........,.,,,
+G,,1,[,,1,,,<,,:@8gBK9\VbH.8@0Ig[98oOl..9@7L.5@1eU:5YmOc.5@1eU:5YmOc...........,.,,,
+G,,1,\,,1,,,<,,:@9@BK9\VbH.9@?XkeTTO_n..9@WL.5@1eU:5YmOc.5@1eU:5YmOc...........,.,,,
+G,,1,],,1,,,<,,:@9YBK9\VbH.8@0Ig[98oOl..9@7L.5@1eU:5YmOc.5@1eU:5YmOc...........,.,,,
+G,,1,^,,1,,,<,,:@:2BK9\VbH.9@?XkeTTO_n..9@WL.5@1eU:5YmOc.5@1eU:5YmOc...........,.,,,
+G,,1,_,,1,,,<,,:@:KBK9\VbH.8@0Ig[98oOl..9@7L.5@1eU:5YmOc.5@1eU:5YmOc...........,.,,,
+G,,1,`,,1,,,<,,:@:dBK9\VbH.9@?XkeTTO_n..9@WL.5@1eU:5YmOc.5@1eU:5YmOc...........,.,,,
+G,,1,a,,1,,,<,,:@;=BK9\VbH.8@0Ig[98oOl..9@7L.5@1eU:5YmOc.5@1eU:5YmOc...........,.,,,
+G,,1,b,,1,,,<,,:@;VBK9\VbH.9@?XkeTTO_n..9@WL.5@1eU:5YmOc.5@1eU:5YmOc...........,.,,,
+G,,1,c,,1,,,<,,:@;oBK9\VbH.8@0Ig[98oOl..9@7L.5@1eU:5YmOc.5@1eU:5YmOc...........,.,,,
+G,,1,d,,1,,,<,,:@<HBK9\VbH.9@?XkeTTO_n..9@WL.5@1eU:5YmOc.5@1eU:5YmOc...........,.,,,
+G,,1,e,,1,,,<,,:@<aBK9\VbH.8@0Ig[98oOl..9@7L.5@1eU:5YmOc.5@1eU:5YmOc...........,.,,,
+G,,1,f,,1,,,<,,:@=:BK9\VbH.9@?XkeTTO_n..9@WL.5@1eU:5YmOc.5@1eU:5YmOc...........,.,,,
+G,,1,g,,1,,,<,,:@=SBK9\VbH.8@0Ig[98oOl..9@7L.5@1eU:5YmOc.5@1eU:5YmOc...........,.,,,
+G,,1,h,,1,,,<,,:@=lBK9\VbH.9@?XkeTTO_n..9@WL.5@1eU:5YmOc.5@1eU:5YmOc...........,.,,,
+G,,1,K1,,1,,,;,,:@::;NE2`IF.9@4kkeTTO_n..0@W2j@Sa[00.5@1eU:5YmOc............,.,,,
+H,,1,O1,,1,,,;,1,:@:;KNE2`IF.9@4dSNBP1RV...0@T..o?0...o?0.5@1eU:5YmOc.5@1eU:5YmOc.........,
+G,,1,Q1,,1,,,;,,:@::;NE2`IF.9@4`3NBP1RV..0@W2j@Sa[00..5@1eU:5YmOc...........,.,,,
+G,,1,R1,,1,,,;,,:@:>JMfkG2V.9@36[70KSE>..n?Q<md@mF00.5@1eU:5YmOc............,.,,,
+H,,1,S1,,1,,,;,1,:@:?ZMfkG2V.9@31X]4c1JR...0@T..o?0...o?0.5@1eU:5YmOc.5@1eU:5YmOc.........,
+G,,1,V1,,1,,,;,,:@:>JMfkG2V.9@2m8]4c1JR..n?Q<md@mEP0..5@1eU:5YmOc...........,.,,,
+G,,1,W1,,1,,,;,,:@:>JMfkG2V.9@1F6C9:OOg..2@\:MRee720.5@1eU:5YmOc............,.,,,
+H,,1,Y1,,1,,,;,1,:@:?ZMfkG2V.9@13Q4G_TlF...0@T..o?0...o?0.5@1eU:5YmOc.5@1eU:5YmOc.........,
+G,,1,Z1,,1,,,;,,:@:>JMfkG2V.9@0o14G_TlF..2@\:MRee740..5@1eU:5YmOc...........,.,,,
+G,,1,\1,,1,,,;,,:@:@ZMfkG2V.8@1Ag[<YDaY..0@P0070ZSL0.5@1eU:5YmOc............,.,,,
+H,,1,]1,,1,,,;,1,:@:AjMfkG2V.8@14g[:i:8b...0@T..o?0...o?0.5@1eU:5YmOc.5@1eU:5YmOc.........,
+G,,1,`1,,1,,,;,,:@:@ZMfkG2V.8@0kg[:i:8b..0@P0070ZSH0..5@1eU:5YmOc...........,.,,,
+G,,1,a1,,1,,,;,,:@5_BK9\VbH.8@>96?U`5oB.2@1W;kRUA80..5@1eU:5YmOc............,.,,,
+H,,1,c1,,1,,,;,1,:@5g<>8U@6Z.8@>96?U`5oB...0@T..o?0...o?0.5@1eU:5YmOc.5@1eU:5YmOc.........,
+G,,1,d1,,1,,,;,,:@5h<>8U@6Z.8@>96?U`5oB.2@1W;kRUA40...5@1eU:5YmOc...........,.,,,
+G,,1,f1,,1,,,;,,:@6mV17MiJk.8@>96?U`5oB.2@>0gOl;<P0..5@1eU:5YmOc............,.,,,
+H,,1,g1,,1,,,;,1,:@78V>oLl>3.8@>96?U`5oB...0@T..o?0...o?0.5@1eU:5YmOc.5@1eU:5YmOc.........,
+G,,1,i1,,1,,,;,,:@79V>oLl>3.8@>96?U`5oB.2@>0gOl;<P0...5@1eU:5YmOc...........,.,,,
+G,,1,k1,,1,,,;,,:@87RNH_=Ad.8@>lC78OoWZ.2@^2X;oNZ40.0@WF]aULm@0.5@1eU:5YmOc............,.,,,
+H,,1,m1,,1,,,;,1,:@7o4MX5V9P.8@>d_RN<<5h...0@T..o?0...o?0.5@1eU:5YmOc.5@1eU:5YmOc.........,
+G,,1,o1,,1,,,;,,:@7kW6jKf[].8@>c1Y@A_cK.2@^2X;oNZ80.0@WF]aULmD0..5@1eU:5YmOc...........,.,,,
+G,,1,02,,1,,,;,,:@9I3Oidd59.8@?f`38Xob>.o?VNR=g\2P0..5@1eU:5YmOc............,.,,,
+H,,1,12,,1,,,;,1,:@9GFReI4]4.8@?f`38Xob>...0@T..o?0...o?0.5@1eU:5YmOc.5@1eU:5YmOc.........,
+G,,1,42,,1,,,;,,:@9CfReI4]4.8@?f`38Xob>.o?VNR=g\200...5@1eU:5YmOc...........,.,,,
+G,,1,52,,1,,,;,,:@=M3Oidd59.8@=0V@U6I;S.0@00070ZS@0..5@1eU:5YmOc............,.,,,
+H,,1,72,,1,,,;,1,:@=QSOj@f_F.8@=0V@U6I;S...0@T..o?0...o?0.5@1eU:5YmOc.5@1eU:5YmOc.........,
+G,,1,82,,1,,,;,,:@=RSOj@f_F.8@=0V@U6I;S.0@00070ZSP0...5@1eU:5YmOc...........,.,,,
+E,,1,5,,,,,,,1,1,1,,,1,,j?97KFkRDgF...o?0.........o?0.o?0.$/layout/sheet
+C,$
+U,,$
+U,$
+U,,,,2,,,,,,,
+G,,1,1,,3,,,1,,:@5RbK9\VbH.8@0gg[98oOl.:@7L..............,.,,,
+G,,1,2,,1,,,1,,:@5RbK9\VbH.8@0Ig[98oOl.:@7L..............,.,,,
+G,,1,3,,1,,,1,,;@6OI=TfCI<.8@0Ig[98oOl..9@7L.............,.,,,
+G,,1,4,,1,,,1,,;@6OI=TfCI<.9@?XkeTTO_n.:@WL..............,.,,,
+G,,1,5,,1,,,1,,:@5RbK9\VbH.9@?XkeTTO_n..9@WL.............,.,,,
+E,,1,,,,,,,1,1,1,1,,,1,,j?97KFkRDgF...o?0.........o?0.o?0.$/layout/MC
+C,$
+U,,$
+U,$
+U,,,,2,,,,,,,
+E,,1,R1,,,,,,1,1,1,1,,,1,,j?97KFkRDgF...o?0.........o?0.o?0.$/layout/MC/optiplex
+C,$
+U,,$
+U,$
+U,,,,2,,,,,,,
+N,,1,M,,S,$<HOLES_ONLY> 1
+P,,2,T,,;,2,,,,,1,o?0.k?9VIVIVIVJ....:@:;KNE2`IF.9@4dSNBP1RV...0@T..$
+C,,,,,,,,,,,o?,1,....,,$
+C,,,,,,,1,2,
+O,,2,U,,;,1,,,1,o?0.k?9VIVIVIVJ....:@:>9gkLF\E.9@4f3NBP25K.1@P.P?QXP.$
+C,1,,,,,,1,,,,o?,1,,....,,$
+C,,,,,,,1,2,
+P,,2,V,,;,1,,1,,,1,o?0.k?9VIVIVIVJ....:@:<;NE2`B_.9@4f3NBP1RV.o?Wooool\P0.o?X.N?:L.o?X.$
+C,,,,,,,1,,,,o?,1,....,,$
+C,,,,,,,1,2,
+P,,2,W,,;,2,,,,,1,o?0.k?9VIVIVIVJ....:@:?ZMfkG2V.9@13Q4G_TlF...0@T..$
+C,,,,,,,,,,,i?,1,....,,$
+C,,,,,,,1,2,
+O,,2,X,,;,1,,,1,o?0.k?9VIVIVIVJ....:@:BHgMDmEU.9@1514G_UO;.1@P.P?QXP.$
+C,1,,,,,,1,,,,i?,1,,....,,$
+C,,,,,,,1,2,
+P,,2,Y,,;,1,,1,,,1,o?0.k?9VIVIVIVJ....:@:@JMfkFko.9@1514G_TlF.o?Wooool\P0.o?X.N?:L.o?X.$
+C,,,,,,,1,,,,i?,1,....,,$
+C,,,,,,,1,2,
+P,,2,Z,,;,2,,,,,1,o?0.k?9VIVIVIVJ....:@:?ZMfkG2V.9@31X]4c1JR...0@T..$
+C,,,,,,,,,,,l?,1,....,,$
+C,,,,,,,1,2,
+O,,2,[,,;,1,,,1,o?0.k?9VIVIVIVJ....:@:B<4@Q`RH.9@338]4c1ie.0@\c<c<c<`0.O?__.$
+C,1,,,,,,1,,,,l?,1,,....,,$
+C,,,,,,,1,2,
+P,,2,\,,;,1,,1,,,1,o?0.k?9VIVIVIVJ....:@:@JMfkFko.9@338]4c1JR.o?Wooool\P0.o?X.N?:L.o?X.$
+C,,,,,,,1,,,,l?,1,....,,$
+C,,,,,,,1,2,
+P,,2,],,;,2,,,,,1,o?0.k?9VIVIVIVJ....:@:AjMfkG2V.8@14g[:i:8b...0@T..$
+C,,,,,,,,,,,Z?,1,....,,$
+C,,,,,,,1,2,
+O,,2,^,,;,1,,,1,o?0.k?9VIVIVIVJ....:@:DXgMDmEU.8@17g[:i;>K.1@P.P?QX@.$
+C,1,,,,,,1,,,,Z?,1,,....,,$
+C,,,,,,,1,2,
+P,,2,_,,;,1,,1,,,1,o?0.k?9VIVIVIVJ....:@:BZMfkFko.8@17g[:i:8b.o?Wooool\P0.o?X.N?:L.o?X.$
+C,,,,,,,1,,,,Z?,1,....,,$
+C,,,,,,,1,2,
+P,,2,`,,;,2,,,,,1,o?0.k?9VIVIVIVJ....:@=PkOj@f_F.8@=4kHaj\XC...o?T.0@QDPcA=c00.$
+C,,,,,,,,,,,[?,1,....,,$
+C,,,,,,,1,2,
+O,,2,a,,;,1,,,1,o?0.k?9VIVIVIVJ....:@=QC7ZWWlH.8@==O2Qi[JK.o?To\E]B?00.0@R;[0jjoD0.$
+C,1,,,,,,1,,,,[?,1,,....,,$
+C,,,,,,,1,2,
+P,,2,b,,;,1,,1,,,1,o?0.k?9VIVIVIVJ....:@=PYkN_J:k.8@=91ZP0NEg.n?1TKQLTK00.0@PI6hG6f@0.o?4b=`^B=P0.n?WoooojA`0.$
+C,,,,,,,1,,,,[?,1,....,,$
+C,,,,,,,1,2,
+O,,2,i,,;,,,,1,o?0.k?9VIVIVIVJ.j?9VIVIVIVJ.j?9VIVIVIVJ..:@5_BK9\VbH.8@>96?U`5oB.0@0..$
+C,1,,,,,,4,,,,W?,1,,....,,$
+C,,,,,,,2,1,
+O,,2,j,,;,,,,1,o?0.k?9VIVIVIVJ.j?9VIVIVIVJ.j?9VIVIVIVJ..:@5`BK9\VbH.8@>96?U`5oB.1@;>Gg5:R@0..$
+C,,2,,,,,,,,,W?,1,,....,,$
+C,,,,,,,2,1,
+O,,2,k,,;,,,,1,o?0.k?9VIVIVIVJ.j?9VIVIVIVJ.j?9VIVIVIVJ..:@5h<>8U@6Z.8@>96?U`5oB.0@0..$
+C,1,,,,,,4,,,,^?,1,,....,,$
+C,,,,,,,2,2,
+O,,2,l,,;,,,,1,o?0.k?9VIVIVIVJ.j?9VIVIVIVJ.j?9VIVIVIVJ..:@5i<>8U@6Z.8@>96?U`5oB.1@;>Gg5:R80..$
+C,,2,,,,,,,,,^?,1,,....,,$
+C,,,,,,,2,2,
+O,,2,m,,;,,,,1,o?0.k?9VIVIVIVJ.j?9VIVIVIVJ.j?9VIVIVIVJ..:@6mV17MiJk.8@>96?U`5oB.0@0..$
+C,1,,,,,,4,,,,_?,1,,....,,$
+C,,,,,,,2,2,
+O,,2,n,,;,,,,1,o?0.k?9VIVIVIVJ.j?9VIVIVIVJ.j?9VIVIVIVJ..:@6nV17MiJk.8@>96?U`5oB.2@:0gOl;<P0..$
+C,,2,,,,,,,,,_?,1,,....,,$
+C,,,,,,,2,2,
+O,,2,o,,;,,,,1,o?0.k?9VIVIVIVJ.j?9VIVIVIVJ.j?9VIVIVIVJ..:@79V>oLl>3.8@>96?U`5oB.0@0..$
+C,1,,,,,,4,,,,a?,1,,....,,$
+C,,,,,,,2,2,
+O,,2,01,,;,,,,1,o?0.k?9VIVIVIVJ.j?9VIVIVIVJ.j?9VIVIVIVJ..:@7:V>oLl>3.8@>96?U`5oB.2@:0gOl;<P0..$
+C,,2,,,,,,,,,a?,1,,....,,$
+C,,,,,,,2,2,
+O,,2,11,,;,,,,1,o?0.k?9VIVIVIVJ.j?9VIVIVIVJ.j?9VIVIVIVJ..:@7d6LgKo1;.8@>];mchHT6.o??JHGOhIP0.m?8Jkn`loP0.$
+C,1,,,,,,4,,,,b?,1,,....,,$
+C,,,,,,,2,2,
+O,,2,21,,;,,,,1,o?0.k?9VIVIVIVJ.j?9VIVIVIVJ.j?9VIVIVIVJ..:@7e5AX:nan.8@>]lc[ejN5.2@:7E93OVl0.0@4CFA_EEH0.$
+C,,2,,,,,,,,,b?,1,,....,,$
+C,,,,,,,2,2,
+O,,2,31,,;,,,,1,o?0.k?9VIVIVIVJ.j?9VIVIVIVJ.j?9VIVIVIVJ..:@801dE_EWC.8@>fMK\6XHF.o??JHGOhIP0.m?8Jkn`loP0.$
+C,1,,,,,,4,,,,d?,1,,....,,$
+C,,,,,,,2,2,
+O,,2,41,,;,,,,1,o?0.k?9VIVIVIVJ.j?9VIVIVIVJ.j?9VIVIVIVJ..:@810Y6NEH6.8@>g>AT4:BE.2@:7E93OVh0.0@4CFA_EED0.$
+C,,2,,,,,,,,,d?,1,,....,,$
+C,,,,,,,2,2,
+O,,2,51,,;,,,,1,o?0.k?9VIVIVIVJ.j?9VIVIVIVJ.j?9VIVIVIVJ..:@9C9U`mEE0.8@?f`38Xob>.o?6NR=g\200..$
+C,1,2,,,,,,,,,e?,1,,....,,$
+C,,,,,,,2,2,
+O,,2,61,,;,,,,1,o?0.k?9VIVIVIVJ.j?9VIVIVIVJ.j?9VIVIVIVJ..:@9HFReI4]4.8@?f`38Xob>.o?6NR=g\2P0..$
+C,2,1,,,,,,,,,f?,1,,....,,$
+C,,,,,,,2,2,
+O,,2,71,,;,,,,1,o?0.k?9VIVIVIVJ.j?9VIVIVIVJ.j?9VIVIVIVJ..:@=RSOj@f_F.8@=0V@U6I;S.0@00070ZSP0..$
+C,2,1,,,,,,,,,V?,1,,....,,$
+C,,,,,,,2,1,
+O,,2,81,,;,,,,1,o?0.k?9VIVIVIVJ.j?9VIVIVIVJ.j?9VIVIVIVJ..:@=N3Oj@f_F.8@=0V@U6I;S.0@P0070ZS@0..$
+C,1,2,,,,,,,,,\?,1,,....,,$
+C,,,,,,,2,2,
+O,,2,91,,;,,,,1,o?0.k?9VIVIVIVJ.j?9VIVIVIVJ.j?9VIVIVIVJ..:@::;NE2`IF.9@4];70KSE>..0@0.$
+C,1,,,,,,4,,,,n?,1,,....,,$
+C,,,,,,,2,2,
+O,,2,:1,,;,,,,1,o?0.k?9VIVIVIVJ.j?9VIVIVIVJ.j?9VIVIVIVJ..:@::;NE2`IF.9@4_;70KSE>..n?<;Y2?6\00.$
+C,,2,,,,,,,,,n?,1,,....,,$
+C,,,,,,,2,2,
+O,,2,;1,,;,,,,1,o?0.k?9VIVIVIVJ.j?9VIVIVIVJ.j?9VIVIVIVJ..:@::;NE2`IF.9@4i3NBP1RV..n?<;Y2?6\00.$
+C,2,,,,,,,,,,X?,1,,....,,$
+C,,,,,,,2,1,
+O,,2,<1,,;,,,,1,o?0.k?9VIVIVIVJ.j?9VIVIVIVJ.j?9VIVIVIVJ..:@::;NE2`IF.9@4ikeTTO_n..0@0.$
+C,,1,,,,,4,,,,X?,1,,....,,$
+C,,,,,,,2,1,
+O,,2,=1,,;,,,,1,o?0.k?9VIVIVIVJ.j?9VIVIVIVJ.j?9VIVIVIVJ..:@:>JMfkG2V.9@0`keVDZHd..0@0.$
+C,1,,,,,,4,,,,h?,1,,....,,$
+C,,,,,,,2,2,
+O,,2,>1,,;,,,,1,o?0.k?9VIVIVIVJ.j?9VIVIVIVJ.j?9VIVIVIVJ..:@:>JMfkG2V.9@0bkeVDZHd..2@8:MRee740.$
+C,,2,,,,,,,,,h?,1,,....,,$
+C,,,,,,,2,2,
+O,,2,?1,,;,,,,1,o?0.k?9VIVIVIVJ.j?9VIVIVIVJ.j?9VIVIVIVJ..:@:>JMfkG2V.9@1814G_TlF..0@0.$
+C,1,,,,,,4,,,,j?,1,,....,,$
+C,,,,,,,2,2,
+O,,2,@1,,;,,,,1,o?0.k?9VIVIVIVJ.j?9VIVIVIVJ.j?9VIVIVIVJ..:@:>JMfkG2V.9@1:14G_TlF..2@8:MRee720.$
+C,,2,,,,,,,,,j?,1,,....,,$
+C,,,,,,,2,2,
+O,,2,A1,,;,,,,1,o?0.k?9VIVIVIVJ.j?9VIVIVIVJ.j?9VIVIVIVJ..:@:>JMfkG2V.9@2lVC9:OOg..n?1<md@mEP0.$
+C,1,2,,,,,,,,,k?,1,,....,,$
+C,,,,,,,2,2,
+O,,2,B1,,;,,,,1,o?0.k?9VIVIVIVJ.j?9VIVIVIVJ.j?9VIVIVIVJ..:@:>JMfkG2V.9@368]4c1JR..n?1<md@mF00.$
+C,1,2,,,,,,,,,m?,1,,....,,$
+C,,,,,,,2,2,
+O,,2,C1,,;,,,,1,o?0.k?9VIVIVIVJ.j?9VIVIVIVJ.j?9VIVIVIVJ..:@:@ZMfkG2V.8@0gg[98oOl..0@00070ZSH0.$
+C,1,2,,,,,,,,,U?,1,,....,,$
+C,,,,,,,2,1,
+O,,2,D1,,;,,,,1,o?0.k?9VIVIVIVJ.j?9VIVIVIVJ.j?9VIVIVIVJ..:@:@ZMfkG2V.8@1=g[:i:8b..0@00070ZSL0.$
+C,2,1,,,,,,,,,Y?,1,,....,,$
+C,,,,,,,2,2,
+P,,2,K1,,;,2,,,,,,o?0.k?9VIVIVIVJ....:@5g<>8U@6Z.8@>96?U`5oB...0@T..$
+C,,,,,,,,,,,]?,1,....,,$
+C,,,,,,,1,2,
+O,,2,L1,,;,2,,,,o?0.k?9VIVIVIVJ....:@5g<>8U@6Z.8@>8oeoFOU\..0@8.$
+C,,1,,,,,1,,,,]?,1,,....,,$
+C,,,,,,,,,
+P,,2,M1,,;,2,,,,,,o?0.k?9VIVIVIVJ....:@78V>oLl>3.8@>96?U`5oB...0@T..$
+C,,,,,,,,,,,`?,1,....,,$
+C,,,,,,,1,2,
+O,,2,N1,,;,2,,,,o?0.k?9VIVIVIVJ....:@78V>oLl>3.8@>8oeoFOU\..0@8.$
+C,,1,,,,,1,,,,`?,1,,....,,$
+C,,,,,,,,,
+P,,2,O1,,;,2,,,,,,o?0.k?9VIVIVIVJ....:@7o3?ei5J<.8@>eW6bE7=2...0@S\SLgd;00.m?[b:4MSU00.$
+C,,,,,,,,,,,c?,1,....,,$
+C,,,,,,,1,2,
+O,,2,P1,,;,2,,,,o?0.k?9VIVIVIVJ....:@7o3QWjJ;e.8@>ePcJ;gib.n?PZi?NR900.0@7XZRYH=D0.$
+C,,1,,,,,1,,,,c?,1,,....,,$
+C,,,,,,,,,
+P,,2,Q1,,;,2,,,,,,o?0.k?9VIVIVIVJ....:@9G3dneK^Y.8@?im_K=f8K...o?^Y4^;PbP0.o?Y]RDVbaX0.$
+C,,,,,,,,,,,g?,1,....,,$
+C,,,,,,,1,2,
+O,,2,R1,,;,2,,,,o?0.k?9VIVIVIVJ....:@9G4fcJ6?I.8@?iheYdRGZ.o?^fY;kFR00.0@2HY>j6gh0.$
+C,,1,,,,,1,,,,g?,1,,....,,$
+C,,,,,,,,,
+F,:,1,1,,,,,,1,1,1,1,,,1,,j?97KFkRDgF...o?0...:@5RbK9\VbH.8@0Ig[98oOl.....o?0.o?0.$/layout/MC/optiplex/mdatum
+C,$
+U,,$\\195.184.155.198\radan\system-symbols\mdatum.sym
+U,$
+U,,,,2,,,,,,,
+E,,2,n1,,,,,,1,1,1,1,,,1,,j?97KFkRDgF...o?0.........o?0.o?0.$/layout/MC/optiplex/cadre-2
+C,$
+U,,$
+U,$
+U,,,,2,,,,,,,
+E,,2,L2,,,,,,1,1,1,1,,,1,,j?97KFkRDgF...o?0.........o?0.o?0.$/layout/MC/optiplex/B321061D-calque2-31
+C,$
+U,,$
+U,$
+U,,,,2,,,,,,,
+F,:,1,1,,,,,,1,1,1,1,,,1,,j?97KFkRDgF...o?0...:@5ZBK9\VbH.8@0gg[98oOl.....o?0.o?0.$/layout/odatum
+C,$
+U,,$\\195.184.155.198\radan\system-symbols\odatum.sym
+U,$
+U,,,,2,,,,,,,
+F,:,1,2,,,,,,1,1,1,1,,,1,,j?97KFkRDgF...o?0...:@5_BK9\VbH.8@0gg[98oOl.....o?0.o?0.$/layout/cadre
+C,$
+U,,$\\195.184.155.196\donnees\usr\ROBOT\PROJET\D_2022\01-CLIENTS\OP2423-ROBOT DE DECORTICAGE\Tole-driller-prehenseur\cadre.sym
+U,$
+U,,,,2,,,,,,,
+E,,1,?,,,,,,,1,1,1,,,1,,j?97KFkRDgF...o?0.........o?0.o?0.$/layout/text
+C,$
+U,,$
+U,$
+U,,,,2,,,,,,,
+I,,1,1,,5,1,1,,4@7Koooooon...o?0.7@5B7`O1l7_.:@?L;4D_PlM.7@4oG`O1l7_.:@?Ie4D_PlM.9@1NYl7`O1l.:@?Ie4D_PlM.9@1NYl7`O1l.:@?em4D_PlM.7@4oG`O1l7_.:@?em4D_PlM.$FEUILLE D'IMBRICATION\U
+I,,1,2,,5,1,1,,4@7Koooooon...o?0.7@5B7`O1l7_.:@=6;4D_PlM.7@4oG`O1l7_.:@=3e4D_PlM.9@<W9l7`O1m.:@=3e4D_PlM.9@<W9l7`O1m.:@=Om4D_PlM.7@4oG`O1l7_.:@=Om4D_PlM.$Nom du dessin         : P2 tole-driller3
+I,,1,3,,5,1,1,,4@7Koooooon...o?0.7@5B7`O1l7_.:@<P[4D_PlM.7@4oG`O1l7_.:@<NE4D_PlM.9@3dYl7`O1l.:@<NE4D_PlM.9@3dYl7`O1l.:@<jM4D_PlM.7@4oG`O1l7_.:@<jM4D_PlM.$Version               : 1
+I,,1,4,,5,1,1,,4@7Koooooon...o?0.7@5B7`O1l7_.:@;k;4D_PlM.7@4oG`O1l7_.:@;he4D_PlM.:@52dn3h?Pg.:@;he4D_PlM.:@52dn3h?Pg.:@<Dm4D_PlM.7@4oG`O1l7_.:@<Dm4D_PlM.$Répertoire de dessins : //195.184.155.196/donnees/usr/.../nests
+I,,1,5,,5,1,1,,4@7Koooooon...o?0.7@5B7`O1l7_.:@;E[4D_PlM.7@4oG`O1l7_.:@;CE4D_PlM.:@0YTn3h?Pl.:@;CE4D_PlM.:@0YTn3h?Pl.:@;_M4D_PlM.7@4oG`O1l7_.:@;_M4D_PlM.$Date                  : Wed Jan 24 16:27:05 2024
+I,,1,6,,5,1,1,,4@7Koooooon...o?0.7@5B7`O1l7_.:@:`;4D_PlM.7@4oG`O1l7_.:@:]e4D_PlM.9@5U9l7`O1m.:@:]e4D_PlM.9@5U9l7`O1m.:@;9m4D_PlM.7@4oG`O1l7_.:@;9m4D_PlM.$Matière               : S235
+I,,1,7,,5,1,1,,4@7Koooooon...o?0.7@5B7`O1l7_.:@::[4D_PlM.7@4oG`O1l7_.:@:8E4D_PlM.9@5U9l7`O1m.:@:8E4D_PlM.9@5U9l7`O1m.:@:TM4D_PlM.7@4oG`O1l7_.:@:TM4D_PlM.$Epaisseur             : 6 mm
+I,,1,8,,5,1,1,,4@7Koooooon...o?0.7@5B7`O1l7_.:@9U;4D_PlM.7@4oG`O1l7_.:@9Re4D_PlM.9@249l7`O1l.:@9Re4D_PlM.9@249l7`O1l.:@9nm4D_PlM.7@4oG`O1l7_.:@9nm4D_PlM.$STRATEGIE         : N2
+I,,1,9,,5,1,1,,4@7Koooooon...o?0.7@5B7`O1l7_.:@8o[4D_PlM.7@4oG`O1l7_.:@8mE4D_PlM.9@;L9l7`O1m.:@8mE4D_PlM.9@;L9l7`O1m.:@9IM4D_PlM.7@4oG`O1l7_.:@9IM4D_PlM.$Dimension de la tôle  : 3000 x 1500 mm
+I,,1,:,,5,1,1,,4@7Koooooon...o?0.7@5B7`O1l7_.:@6Y[4D_PlM.7@4oG`O1l7_.:@6WE4D_PlM.9@5U9l7`O1m.:@6WE4D_PlM.9@5U9l7`O1m.:@73M4D_PlM.7@4oG`O1l7_.:@73M4D_PlM.$Utilisation de la tôle: 0.6%
+I,,1,;,,5,1,1,,4@7Koooooon...o?0.7@5B7`O1l7_.:@5N[4D_PlM.7@4oG`O1l7_.:@5LE4D_PlM.9@3dYl7`O1l.:@5LE4D_PlM.9@3dYl7`O1l.:@5hM4D_PlM.7@4oG`O1l7_.:@5hM4D_PlM.$Nombre de tôles       : 1
+I,,1,<,,5,1,1,,4@7Koooooon...o?0.7@5B7`O1l7_.9@>j3eTTO_n.7@4oG`O1l7_.9@>eGeTTO_n.9@4oYl7`O1l.9@>eGeTTO_n.9@4oYl7`O1l.9@?]WeTTO_n.7@4oG`O1l7_.9@?]WeTTO_n.$LISTE DES PIECES IMBRIQUEES\U
+I,,1,=,,5,1,1,,4@7Koooooon...o?0.7@5B7`O1l7_.9@<T3eTTO_n.7@4oG`O1l7_.9@<OGeTTO_n.:@0YTn3h?Pl.9@<OGeTTO_n.:@0YTn3h?Pl.9@=GWeTTO_n.7@4oG`O1l7_.9@=GWeTTO_n.$Nom des pièces                          Quantité
+I,,1,?,,5,1,1,,4@7Koooooon...o?0.:@9TJmR<`5h.9@4TOeTTO_h.:@9H\mR<`5h.9@4OceTTO_h.:@9Y6mR<`5h.9@4OceTTO_h.:@9Y6mR<`5h.9@5H3eTTO_h.:@9H\mR<`5h.9@5H3eTTO_h.$\|1
+E,,1,,,,,,,1,1,1,1,,,1,,j?97KFkRDgF...o?0.........o?0.o?0.$/layout/text/MC
+C,$
+U,,$
+U,$
+U,,,,2,,,,,,,
+E,,1,5,,,,,,1,1,1,1,,,1,,j?97KFkRDgF...o?0.........o?0.o?0.$/layout/text/MC/optiplex
+C,$
+U,,$
+U,$
+U,,,,2,,,,,,,
+I,,1,1,,5,1,1,,4@7Koooooon...o?0.7@5B7`O1l7_.:@>A;4D_PlM.7@4oG`O1l7_.:@>>e4D_PlM.:@0Fdn3h?Pl.:@>>e4D_PlM.:@0Fdn3h?Pl.:@>Zm4D_PlM.7@4oG`O1l7_.:@>Zm4D_PlM.$Nom de la machine     : Optiplex FiberII 10.0kW
+I,,1,2,,5,1,1,,4@7Koooooon...o?0.7@5B7`O1l7_.:@8J;4D_PlN.7@4oG`O1l7_.:@8Ge4D_PlN.9@2YYl7`O1l.:@8Ge4D_PlN.9@2YYl7`O1l.:@8cm4D_PlN.7@4oG`O1l7_.:@8cm4D_PlN.$Position des pinces   :
+I,,1,3,,5,1,1,,4@7Koooooon...o?0.7@5B7`O1l7_.:@7?;4D_PlN.7@4oG`O1l7_.:@7<e4D_PlN.9@84Ql7`O1m.:@7<e4D_PlN.9@84Ql7`O1m.:@7Xm4D_PlN.7@4oG`O1l7_.:@7Xm4D_PlN.$Temps de production :   UNKNOWN 
+I,,1,4,,5,1,1,,4@7Koooooon...o?0.:@5RbK9\VbI.:@?L;4D_PlM.:@5PLK9\VbI.:@?Ie4D_PlM.:@::6K9\VbI.:@?Ie4D_PlM.:@::6K9\VbI.:@?em4D_PlM.:@5PLK9\VbI.:@?em4D_PlM.$LISTE DES OUTILS\U
+I,,1,5,,5,1,1,,4@7Koooooon...o?0.:@5RbK9\VbI.:@>A;4D_PlM.:@5PLK9\VbI.:@>>e4D_PlM.;@6i;=TfCI6.:@>>e4D_PlM.;@6i;=TfCI6.:@>Zm4D_PlM.:@5PLK9\VbI.:@>Zm4D_PlM.$Poste   Désignation          Taille           Rayon    Angle   Mat. Haut   N° Outil
+F,,1,21,,,,,,1,1,1,1,,,1,,j?97KFkRDgF...o?0...:@7Hn[VH?@R.8@5\`?CXb8\.....o?0.o?0.$/layout/B343531A-calque2
+C,$
+U,,$\\195.184.155.196\donnees\usr\ROBOT\PROJET\D_2022\01-CLIENTS\OP2423-ROBOT DE DECORTICAGE\Tole-driller-prehenseur\tole-driller3\B343531A-calque2.sym
+U,$
+U,,,,2,,,,,,,
+F,,1,41,,,,,,1,1,1,1,,,1,,j?97KFkRDgF...o?0...:@;K3Oidd59.8@9Ig[<YDaI.....o?0.o?0.$/layout/B930121B-calque2
+C,$
+U,,$\\195.184.155.196\donnees\usr\ROBOT\PROJET\D_2022\01-CLIENTS\OP2423-ROBOT DE DECORTICAGE\Tole-driller-prehenseur\tole-driller3\B930121B-calque2.sym
+U,$
+U,,,,2,,,,,,,
+F,,1,61,,,,,,1,1,1,1,,,1,,j?97KFkRDgF...o?0...:@8:D^OWd1L.9@3gB7YJGj:.....o?0.o?0.$/layout/B323641A-calque2
+C,$
+U,,$\\195.184.155.196\donnees\usr\ROBOT\PROJET\D_2022\01-CLIENTS\OP2423-ROBOT DE DECORTICAGE\Tole-driller-prehenseur\tole-driller3\B323641A-calque2.sym
+U,$
+U,,,,2,,,,,,,
+F,,1,81,,,,,,1,1,1,1,,,1,,j?97KFkRDgF...o?0...:@8;U[NcPYU.9@26]Cb9D4c.....o?0.o?0.$/layout/B323641A-calque2
+C,$
+U,,$\\195.184.155.196\donnees\usr\ROBOT\PROJET\D_2022\01-CLIENTS\OP2423-ROBOT DE DECORTICAGE\Tole-driller-prehenseur\tole-driller3\B323641A-calque2.sym
+U,$
+U,,,,2,,,,,,,
+F,,1,:1,,,,,,1,1,1,1,,,1,,j?97KFkRDgF..n?0`E8h;G=U.o?0...:@<^VVC9on5.9@1kIncJJQ4.....o?0.o?0.$/layout/B926091C-calque2
+C,$
+U,,$\\195.184.155.196\donnees\usr\ROBOT\PROJET\D_2022\01-CLIENTS\OP2423-ROBOT DE DECORTICAGE\Tole-driller-prehenseur\tole-driller3\B926091C-calque2.sym
+U,$
+U,,,,2,,,,,,,
+F,,1,;1,,,,,,1,1,1,1,,,1,,j?97KFkRDgF...o?0...:@<EE[=4XZe.9@4<XUnCkXj.....o?0.o?0.$/layout/B321061D-calque2
+C,$
+U,,$\\195.184.155.196\donnees\usr\ROBOT\PROJET\D_2022\01-CLIENTS\OP2423-ROBOT DE DECORTICAGE\Tole-driller-prehenseur\B321061D-calque2.sym
+U,$
+U,,,,2,,,,,,,
+F,,1,=1,,,,,,1,1,1,1,,,1,,j?97KFkRDgF.9?000000002.o?>]l5VoOhi.o?0...:@<R_6M8;W`.9@2ghDR2@Y_.....n??ooooooon.n??ooooooom.$/layout/M662761F-calque2
+C,$
+U,,$\\195.184.155.196\donnees\usr\ROBOT\PROJET\D_2022\01-CLIENTS\OP2423-ROBOT DE DECORTICAGE\Tole-driller-prehenseur\M662761F-calque2.sym
+U,$
+U,,,,2,,,,,,,
+F,,1,>1,,,,,,1,1,1,1,,,1,,j?97KFkRDgF...o?0...:@6W2\8?P@d.8@;YRI=jOfd.....o?0.o?0.$/layout/B926091C-calque2
+C,$
+U,,$\\195.184.155.196\donnees\usr\ROBOT\PROJET\D_2022\01-CLIENTS\OP2423-ROBOT DE DECORTICAGE\Tole-driller-prehenseur\tole-driller3\B926091C-calque2.sym
+U,$
+U,,,,2,,,,,,,
+F,,1,?1,,,,,,1,1,1,1,,,1,,j?97KFkRDgF...o?0...:@6LQiL:Aa?.8@>8?DF`VaF.....o?0.o?0.$/layout/B321061D-calque2
+C,$
+U,,$\\195.184.155.196\donnees\usr\ROBOT\PROJET\D_2022\01-CLIENTS\OP2423-ROBOT DE DECORTICAGE\Tole-driller-prehenseur\B321061D-calque2.sym
+U,$
+U,,,,2,,,,,,,
+F,,1,@1,,,,,,1,1,1,1,,,1,,j?97KFkRDgF..o?SS3E1RU_i.o?0...:@8\=]a5mEm.8@;^Y?bMhcm.....n??ooooooom.n??ooooooon.$/layout/M662761F-calque2
+C,$
+U,,$\\195.184.155.196\donnees\usr\ROBOT\PROJET\D_2022\01-CLIENTS\OP2423-ROBOT DE DECORTICAGE\Tole-driller-prehenseur\M662761F-calque2.sym
+U,$
+U,,,,2,,,,,,,
+F,,1,C1,,,,,,1,1,1,1,,,1,,j?97KFkRDgF.:?P00000006.0@0`E8h;G=T.o?0...:@8Xe5H]R]R.8@=@PXKM;U=.....n??oooooooj.n??oooooook.$/layout/M662761F-calque2
+C,$
+U,,$\\195.184.155.196\donnees\usr\ROBOT\PROJET\D_2022\01-CLIENTS\OP2423-ROBOT DE DECORTICAGE\Tole-driller-prehenseur\M662761F-calque2.sym
+U,$
+U,,,,2,,,,,,,
+F,,1,D1,,,,,,1,1,1,1,,,1,,j?97KFkRDgF.8?000000006.o?VEaQ:idB9.o?0...:@8]YL<iT4a.8@?HPngnOFe.....n??oooooooj.n??oooooooj.$/layout/M662761F-calque2
+C,$
+U,,$\\195.184.155.196\donnees\usr\ROBOT\PROJET\D_2022\01-CLIENTS\OP2423-ROBOT DE DECORTICAGE\Tole-driller-prehenseur\M662761F-calque2.sym
+U,$
+U,,,,2,,,,,,,
+F,,1,F1,,,,,,1,1,1,1,,,1,,j?97KFkRDgF..o?98O]DA2dH.o?0...:@7Q@4ZCOE?.8@>O99[QRic.....o?0.o?0.$/layout/B321061D-calque2
+C,$
+U,,$\\195.184.155.196\donnees\usr\ROBOT\PROJET\D_2022\01-CLIENTS\OP2423-ROBOT DE DECORTICAGE\Tole-driller-prehenseur\B321061D-calque2.sym
+U,$
+U,,,,2,,,,,,,
+F,,1,H1,,,,,,1,1,1,1,,,1,,j?97KFkRDgF..m?6EaQ:idB7.o?0...:@6XHb\Xl^U.9@0OOW\aNbe.....o?0.o?0.$/layout/B926091C-calque2
+C,$
+U,,$\\195.184.155.196\donnees\usr\ROBOT\PROJET\D_2022\01-CLIENTS\OP2423-ROBOT DE DECORTICAGE\Tole-driller-prehenseur\tole-driller3\B926091C-calque2.sym
+U,$
+U,,,,2,,,,,,,
+F,,1,J1,,,,,,1,1,1,1,,,1,,j?97KFkRDgF..0@98O]DA2dH.o?0...:@8HkQb1bKb.9@0ZbMXVbUJ.....o?0.o?0.$/layout/B926091C-calque2
+C,$
+U,,$\\195.184.155.196\donnees\usr\ROBOT\PROJET\D_2022\01-CLIENTS\OP2423-ROBOT DE DECORTICAGE\Tole-driller-prehenseur\tole-driller3\B926091C-calque2.sym
+U,$
+U,,,,2,,,,,,,
+E,,4,,,,,,,1,1,1,1,,,1,,j?97KFkRDgF...o?0.........o?0.o?0.$/hcnupdar
+C,$
+U,,$
+U,$
+U,,,,2,,,,,,,
+E,,4,41,,,,,,1,1,1,1,,,1,,j?97KFkRDgF...o?0.........o?0.o?0.$/hcnupdar/order
+C,$
+U,,$
+U,$
+U,,,,2,,,,,,,
+N,,4,1,,2,$1706110022
+N,,4,2,,3,$1706110022
+E,,4,,,,,,,1,1,1,1,,,1,,j?97KFkRDgF...o?0.........o?0.o?0.$/hcnupdar/order/MC
+C,$
+U,,$
+U,$
+U,,,,2,,,,,,,
+E,,4,G=,,,,,,1,1,1,1,,,1,,j?97KFkRDgF...o?0.........o?0.o?0.$/hcnupdar/order/MC/optiplex
+C,$
+U,,$
+U,$
+U,,,,2,,,,,,,
+N,,4,1,,2,$1706110023
+N,,4,:=,,3,$1706179389
+]]>
+  </RadanFile>
+  <RadanFile extension="oht">
+    <![CDATA[T6,1,9,$OHT DICT
+1,<,$2022.0.2144
+d,
+D,1,>,$UTC_DictStart
+@,8,=,1,1,,1,2,1,4,1,5,2,7,1,;,1,=,>,<,1,3,>,6,>,>,>,?,1,9,:,:,:,
+E,1,@,$MFL_CreateState
+1,<,1,
+F,1,@,$MF_CycleColours
+1,,9,
+G,1,:,$IFM_Model
+3,@,1,7,>,>,1,
+H,1,@,$IFM_SymbolTable
+2,,>,1,>,
+I,1,@,$IF_RootSymbolID
+,
+J,1,B,$IF_RootSymbolDefn
+2,1,1,,1,
+K,1,@,$IFM_SymbolClean
+1,,1,
+L,1,@,$IFM_SymbolState
+,
+M,1,>,$IF_SymbolDefn
+7,1,9,3,1,2,1,,>,5,1,6,1,7,=,
+N,1,I,$IF_IntegerParameterTable
+1,,>,
+O,1,H,$IF_DoubleParameterTable
+1,,>,
+P,1,D,$IFM_ViewPoolManager
+4,,>,1,8,2,8,3,1,
+Q,1,>,$GDF_ViewStyle
+2,,9,1,2,
+R,1,A,$IFM_CreateCounts
+J,,9,1,9,2,9,3,9,4,9,5,9,6,9,7,9,8,9,<,9,9,9,@,9,:,9,;,9,A,9,E,9,F,9,G,9,=,9,>,9,?,9,B,9,C,9,D,9,H,9,I,9,
+S,1,F,$IFM_ViewMarkerManager
+2,,>,1,8,
+T,1,B,$IFM_ViewMarkerSet
+2,,1,1,2,
+U,1,A,$GDF_ElevationSet
+:,,1,1,3,2,3,3,3,4,3,5,8,6,1,:,8,;,9,7,>,
+V,1,<,$GEO_Point2d
+2,,=,1,=,
+W,1,B,$GDF_PlanElevation
+7,,1,2,1,3,2,4,=,5,8,:,:,;,2,
+X,1,=,$GDF_ViewSpec
+>,,1,1,1,2,1,3,2,4,=,5,=,6,=,7,1,8,1,9,2,:,=,;,=,<,=,=,8,
+Y,1,;,$GEO_Vector
+3,,=,1,=,2,=,
+Z,1,:,$GEO_Point
+3,,=,1,=,2,=,
+[,1,B,$GDF_WormElevation
+7,,1,2,1,3,2,4,=,5,8,:,:,;,2,
+\,1,C,$GDF_FrontElevation
+7,,1,2,1,3,2,4,=,5,8,:,:,;,2,
+],1,B,$GDF_BackElevation
+7,,1,2,1,3,2,4,=,5,8,:,:,;,2,
+^,1,B,$GDF_LeftElevation
+7,,1,2,1,3,2,4,=,5,8,:,:,;,2,
+_,1,C,$GDF_RightElevation
+7,,1,2,1,3,2,4,=,5,8,:,:,;,2,
+`,1,A,$GDF_IsoElevation
+7,,1,2,1,3,2,4,=,5,8,:,:,;,2,
+a,1,E,$GDF_CabinetElevation
+7,,1,2,1,3,2,4,=,5,8,:,:,;,2,
+b,1,F,$GDF_CavalierElevation
+7,,1,2,1,3,2,4,=,5,8,:,:,;,2,
+c,1,H,$GDF_AuxilliaryElevation
+7,,1,2,1,3,2,4,=,5,8,:,:,;,2,
+d,1,<,$VIS_Context
+:,,1,1,2,2,1,3,1,4,2,:,9,5,1,6,1,8,2,;,1,
+e,1,?,$GDF_TrueColour
+3,,5,1,5,2,5,
+f,1,>,$GDF_PenColour
+1,,9,
+g,1,E,$GDF_DeviceViewport2d
+4,,9,1,9,2,9,3,9,
+h,1,B,$GDF_NDCViewport2d
+4,,=,1,=,2,=,3,=,
+i,1,B,$MFL_ElevationPens
+4,,9,1,9,2,9,3,9,
+j,1,D,$GDF_DevelopControls
+3,,2,1,1,2,2,
+k,1,J,$GDF_DevelopOutputSettings
+R,,2,1,2,2,2,B,2,I,2,J,2,L,2,K,8,M,8,3,9,4,9,5,9,>,9,?,9,7,9,C,9,8,9,9,9,:,9,@,9,A,9,<,9,=,=,D,=,E,=,F,=,6,9,;,9,G,1,N,2,O,=,P,8,Q,9,R,2,
+l,1,D,$GDF_DevelopRadpunch
+,
+m,1,B,$GDF_OverrideTable
+4,,1,1,1,2,>,3,>,
+n,1,?,$GDF_OverrideID
+1,,8,
+o,1,@,$GDF_OverrideSet
+1,,1,
+01,1,J,$GDF_VisibilityOverrideMap
+3,,1,1,>,2,>,
+11,1,G,$GDF_VisibilityOverride
+1,,2,
+21,1,?,$MFL_SceneTable
+3,2,8,,9,1,>,
+31,1,:,$MFL_Scene
+6,,1,1,1,2,1,4,1,5,9,3,1,
+41,1,?,$MFL_ExplodeSet
+1,,>,
+51,1,9,$GDF_Path
+1,,>,
+61,1,A,$MFL_SectionState
+1,,>,
+71,1,H,$GDF_UnfoldToNestOptions
+1,,=,
+1,8,$DICTEND
+D,o?0.E,F,,
+G,H,>,1,1,I,
+>,1,1,J,K,L,
+M,1,N,>,,,
+O,>,,,
+>,,,
+P,>,,,
+1,3,Q,4,1,
+R,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+[?0a_NP]Nf=.
+>,,,
+S,>,1,2,T,U,V,:@1`GAM5dG@.:@0_GkRO_Yk.
+1,2,$/
+1,1,$
+1,1,$
+1,?,$Vue europeenne
+,Q,5,1,
+:,,>,1,:,W,V,.9@VDOj3DoRT.
+X,Y,.;?P.o?0.
+Y,.o?0..
+Z,...
+,o?0.8@?@.8@_@.Z,..8@?B.
+Q,,1,
+,o?0...1,
+1,n?0`E8h;G=U.1,,1,
+[,V,.9@6DOj3DoRT.
+X,Y,.;?0.o?P.
+Y,.o?P..
+Z,...
+,o?0.8@?@.8@_@.Z,..8@?B.
+Q,,1,
+,o?0...1,
+1,n?0`E8h;G=U.1,,1,
+\,V,..
+X,Y,.o?P.;?P.
+Y,..o?0.
+Z,...
+,o?0.8@?@.8@_@.Z,..8@?B.
+Q,,1,
+,o?0...1,
+1,n?0`E8h;G=U.1,,1,
+],V,:@7[9\VbK9[..
+X,Y,.o?0.;?P.
+Y,..o?0.
+Z,...
+,o?0.8@?@.8@_@.Z,..8@?B.
+Q,,1,
+,o?0...1,
+1,n?0`E8h;G=U.d0B;h0,,1,
+^,V,9@7[9\VbK9[..
+X,Y,o?P..:?_ooooooon.
+Y,..o?0.
+Z,...
+,o?0.8@?@.8@_@.Z,..8@?B.
+Q,,1,
+,o?0...1,
+1,n?0`E8h;G=U.1,,1,
+_,V,9@W[9\VbK9[..
+X,Y,o?0..:?_ooooooon.
+Y,..o?0.
+Z,...
+,o?0.8@?@.8@_@.Z,..8@?B.
+Q,,1,
+,o?0...1,
+1,n?0`E8h;G=U.P028P0,,1,
+`,V,9@7[9\VbK9[.9@6DOj3DoRT.
+X,Y,n?2NJM5T3<M.n?RNJM5T3<M.n?2NJM5T3<M.
+Y,..o?0.
+Z,...
+,o?0.8@?@.8@_@.Z,..8@?B.
+Q,,1,
+,o?0...1,
+,n?0`E8h;G=U.1,,1,
+a,V,9@7[9\VbK9[.9@VDOj3DoRT.
+X,Y,.o?P..
+Y,..o?0.
+Z,...
+,o?0.8@?@.8@_@.Z,8@;5b6UX53b.7@?Aooooooo.9@?B.
+Q,,1,
+,o?0...1,
+,n?0`E8h;G=U.1,,1,
+b,V,:@7[9\VbK9[.9@VDOj3DoRT.
+X,Y,.o?P..
+Y,..o?0.
+Z,...
+,o?0.8@?@.8@_@.Z,8@;5b6UX53b.7@?Aooooooo.8@?B.
+Q,,1,
+,o?0...1,
+,n?0`E8h;G=U.1,,1,
+c,V,:@7[9\VbK9[.9@6DOj3DoRT.
+X,Y,n?8.m?[]W[XF4b^.m??oooooool.
+Y,..o?0.
+Z,...
+,o?0.8@?@.8@_@.Z,..8@?B.
+Q,,1,
+,o?0...1,
+,n?0`E8h;G=U.1,,1,
+1,
+T,U,V,:@1`GAM5dG@.:@0_GkRO_Yk.
+1,2,$/
+1,1,$
+1,1,$
+1,?,$Vue Americaine
+1,Q,5,1,
+:,,>,1,:,W,V,.9@6DOj3DoRT.
+X,Y,.;?P.o?0.
+Y,.o?0..
+Z,...
+,o?0.8@?@.8@_@.Z,..8@?B.
+Q,,1,
+,o?0...1,
+1,n?0`E8h;G=U.1,,1,
+[,V,.9@VDOj3DoRT.
+X,Y,.;?0.o?P.
+Y,.o?P..
+Z,...
+,o?0.8@?@.8@_@.Z,..8@?B.
+Q,,1,
+,o?0...1,
+1,n?0`E8h;G=U.1,,1,
+\,V,..
+X,Y,.o?P.;?P.
+Y,..o?0.
+Z,...
+,o?0.8@?@.8@_@.Z,..8@?B.
+Q,,1,
+,o?0...1,
+1,n?0`E8h;G=U.1,,1,
+],V,:@7[9\VbK9[..
+X,Y,.o?0.;?P.
+Y,..o?0.
+Z,...
+,o?0.8@?@.8@_@.Z,..8@?B.
+Q,,1,
+,o?0...1,
+1,n?0`E8h;G=U.1,,1,
+^,V,9@W[9\VbK9[..
+X,Y,o?P..:?_ooooooon.
+Y,..o?0.
+Z,...
+,o?0.8@?@.8@_@.Z,..8@?B.
+Q,,1,
+,o?0...1,
+1,n?0`E8h;G=U.1,,1,
+_,V,9@7[9\VbK9[..
+X,Y,o?0..:?_ooooooon.
+Y,..o?0.
+Z,...
+,o?0.8@?@.8@_@.Z,..8@?B.
+Q,,1,
+,o?0...1,
+1,n?0`E8h;G=U.1,,1,
+`,V,9@7[9\VbK9[.9@6DOj3DoRT.
+X,Y,n?2NJM5T3<M.n?RNJM5T3<M.n?2NJM5T3<M.
+Y,..o?0.
+Z,...
+,o?0.8@?@.8@_@.Z,..8@?B.
+Q,,1,
+,o?0...1,
+,n?0`E8h;G=U.1,,1,
+a,V,9@7[9\VbK9[.9@VDOj3DoRT.
+X,Y,.o?P..
+Y,..o?0.
+Z,...
+,o?0.8@?@.8@_@.Z,8@;5b6UX53b.7@?Aooooooo.9@?B.
+Q,,1,
+,o?0...1,
+,n?0`E8h;G=U.1,,1,
+b,V,:@7[9\VbK9[.9@VDOj3DoRT.
+X,Y,.o?P..
+Y,..o?0.
+Z,...
+,o?0.8@?@.8@_@.Z,8@;5b6UX53b.7@?Aooooooo.8@?B.
+Q,,1,
+,o?0...1,
+,n?0`E8h;G=U.1,,1,
+c,V,:@7[9\VbK9[.9@6DOj3DoRT.
+X,Y,n?8.m?[]W[XF4b^.m??oooooool.
+Y,..o?0.
+Z,...
+,o?0.8@?@.8@_@.Z,..8@?B.
+Q,,1,
+,o?0...1,
+,n?0`E8h;G=U.1,,1,
+1,
+1,
+d,X,Y,n?8.m?[]W[XF4b^.m??oooooool.
+Y,..o?0.
+Z,...
+1,8@;f\QJ2ShD.7@?lgb:>`5F.6@Vl9]YD9nD.Z,..8@?B.
+Q,R@,1,
+,o?0...1,
+1,e,,,,
+f,,
+1,1,g,,,GF,f8,
+h,..o?0.m?9EceoB?15.
+1,e,,02,03,
+i,1,1,:,4,
+,j,,k,1,1,1,1,,,,2,,1,1,4,4,4,2,1,1,1,2,1,1,1,k?9VIVIVIVJ.k?9VIVIVIVJ.0@<.0@<.4,1,l,
+,k?9VIVIVIVJ.,2,1,
+,
+m,n,5,
+n,,
+>,1,5,n,,
+n,1,
+n,2,
+n,3,
+n,4,
+>,1,5,o,01,11,1,
+>,,,
+>,,,
+o,01,11,1,
+>,,,
+>,,,
+o,01,11,1,
+>,,,
+>,,,
+o,01,11,1,
+>,,,
+>,,,
+o,01,11,1,
+>,,,
+>,,,
+>,,,
+21,,5,>,1,5,31,41,>,,,
+01,11,1,
+>,,,
+>,,,
+X,Y,n?8.m?[]W[XF4b^.m??oooooool.
+Y,..o?0.
+Z,...
+1,8@;f\QJ2ShD.7@?lgb:>`5F.6@Vl9]YD9nD.Z,..8@?B.
+Q,R@,1,
+,o?0...1,
+51,>,,,
+2,61,>,,,
+31,41,>,,,
+01,11,1,
+>,,,
+>,,,
+X,Y,n?8.m?[]W[XF4b^.m??oooooool.
+Y,..o?0.
+Z,...
+1,8@;f\QJ2ShD.8@?@.8@_@.Z,..8@?B.
+Q,R@,1,
+,o?0...1,
+51,>,,,
+2,61,>,,,
+31,41,>,,,
+01,11,1,
+>,,,
+>,,,
+X,Y,n?8.m?[]W[XF4b^.m??oooooool.
+Y,..o?0.
+Z,...
+1,8@;f\QJ2ShD.8@?@.8@_@.Z,..8@?B.
+Q,R@,1,
+,o?0...1,
+51,>,,,
+2,61,>,,,
+31,41,>,,,
+01,11,1,
+>,,,
+>,,,
+X,Y,n?8.m?[]W[XF4b^.m??oooooool.
+Y,..o?0.
+Z,...
+1,8@;f\QJ2ShD.8@?@.8@_@.Z,..8@?B.
+Q,R@,1,
+,o?0...1,
+51,>,,,
+2,61,>,,,
+31,41,>,,,
+01,11,1,
+>,,,
+>,,,
+X,Y,n?8.m?[]W[XF4b^.m??oooooool.
+Y,..o?0.
+Z,...
+1,8@;f\QJ2ShD.8@?@.8@_@.Z,..8@?B.
+Q,R@,1,
+,o?0...1,
+51,>,,,
+2,61,>,,,
+>,,,
+>,,,
+>,,,
+71,.
+,f_S\U1,
+]]>
+  </RadanFile>
+  <RadanFile extension="sat">
+    <![CDATA[]]>
+  </RadanFile>
+  <RadanFile extension="imp">
+    <![CDATA[]]>
+  </RadanFile>
+  <OrderText>
+    <![CDATA[MATL         S235
+THICK        6 mm
+STRATEGY     N2
+SHEET        0.0,0.0 3000.00,1500.00
+NOTE         Nombre de tôles requis: 1
+NOTE         Utilisation tôle: 0.6 %
+]]>
+  </OrderText>
+  <OrderText machine="optiplex">
+    <![CDATA[JOB          P2 tole-driller3
+ISSUE        1
+MATL         S235
+THICK        6 mm
+STRATEGY     N2
+SHEET        0.0,0.0 3000.00,1500.00
+LOAD         2 MTN2
+LOAD         3 MTN3
+LOAD         4 MTN4
+LOAD         1 MTN1
+LOAD         5 MTN5
+NOTE         Nombre de tôles requis: 1
+NOTE         Utilisation tôle: 0.6 %
+]]>
+  </OrderText>
+  <History>
+    <![CDATA[_USj
+CF:F)hv B5CEmX#B4u6c<G|Qlr_YYa?IlOH=utAIZu
+=G>(<2.R1aXp4"!3.DrCf%mT8AuHU=i93u3i,}rR.Q
+]]>
+    <![CDATA[
+UEsDBBQACQAIANxdOVgAAAAAAAAAAAoEAAAJABEAQ2FjaGUueG1sVVQNAAcGSrJlBkqyZQZKsmUK
+n8OO1hJ33O0npnbAYvifaDyb6YCXtRxo0FXBuj8LGZsDRonRsjCxKr3OvZFjBG4DBNdf0BEPvcZA
+uhO/3ztvx66F8gajIQoVN9yxTTCJvoRX/wVarKuV0BhlsiiamwlTuWrE+yCwOENkmLzVexE2VHAP
+ZKUKaR+6BSFm715mWdfqWUhLcrfkx7Iel7xKcbpLS8dRsXQzQIad5pGK5SzF6w/U5N5do7d515Li
+Lep7t1gdibTFUmD0cnaLTMyxfwQzVN/2yJl2p2a/NnpDs6pneMfu+414x067rzbu+SNImAnhWGmt
+ziD/FeunqtYOTkh1MsdZL398ZUKyyR4iEziziDmNwtT5Oh1BY5VzbQZDZvRaIC5Zs7zbt4K41suJ
+SmCgeHIH3NI9/tr16mZuir+nscMbFLxrszweoaMeXVl1wt4m1m8eRZ5nsgTgnzUsuG852i/cfZ1a
+DJf8nzeQb2PIpIfwu+cKlObcKDZemM5CJQML0J/orPG9X8F5+WH3b3aDS5ONGc0OVncidr3SsjPE
+FEZLqbUFegbl0tEDNgIAUufwbA4xSh6msv8JQxZtMp4TbIlB5Cid7nVIGwRXA7wG8E/E8rfM8IY7
+wVl6vqJv4Vo4EJdv9Z2ucFDkK3suBiSLmJTk6b1XrFdZy55BaQoI3sX3/idJpZYJvOl/OmMvyvNd
+G21BzNloH2IcHwJ+Z0piIUqeyUGw2BgLgJtoXLAWuY1QLRw+xJhXPLssH9DRbflak6qzregdp/mV
+UEsHCAEng2s7AgAACgQAAFBLAQIXCxQACQAIANxdOVgBJ4NrOwIAAAoEAAAJAAkAAAAAAAAAAAAA
+gAAAAABDYWNoZS54bWxVVAUABwZKsmVQSwUGAAAAAAEAAQBAAAAAgwIAAAAA
+]]>
+  </History>
+  <QuotationInfo>
+    <Info num="0" name="Number of Loops" value="108"/>
+    <Info num="1" name="Min Sheet Size in X" value="1000.533577"/>
+    <Info num="2" name="Min Sheet Size in Y" value="800"/>
+    <Info num="3" name="Number of Contained Symbols" value="7"/>
+    <Info num="4" name="Contained Symbols">
+      <Symbol name="cadre" count="1"/>
+      <Symbol name="B343531A-calque2" count="1"/>
+      <Symbol name="B930121B-calque2" count="1"/>
+      <Symbol name="B323641A-calque2" count="2"/>
+      <Symbol name="B926091C-calque2" count="4"/>
+      <Symbol name="B321061D-calque2" count="3"/>
+      <Symbol name="M662761F-calque2" count="4"/>
+    </Info>
+    <Info num="5" name="Number of Tools">
+      <MC machine="psys_OptiplexFiber_10KW_McDB" value="5"/>
+    </Info>
+    <Info num="6" name="Tools">
+      <MC machine="psys_OptiplexFiber_10KW_McDB">
+        <Tool name="TN1" length="16842.81441" cutoutArea="176.7145868"/>
+        <Tool name="TN4" length="1308.032437" cutoutArea="2176.73101"/>
+        <Tool name="TN3" length="367.8773119"/>
+        <Tool name="TN5" length="539.2245397" cutoutArea="618.6424253"/>
+        <Tool name="TN2" length="462.9930787" cutoutArea="3848.451001"/>
+      </MC>
+    </Info>
+    <Info num="9" name="Number of Lead-ins">
+      <MC machine="psys_OptiplexFiber_10KW_McDB" value="142"/>
+    </Info>
+    <Info num="15" name="Nest Left Margin" value="25"/>
+    <Info num="16" name="Nest Bottom Margin" value="15"/>
+    <Info num="17" name="Nest Right Margin" value="1974.466423"/>
+    <Info num="18" name="Nest Top Margin" value="685"/>
+    <Info num="21" name="Cutting Conditions">
+      <MC machine="psys_OptiplexFiber_10KW_McDB">
+        <CutCond num="1" name="TN1" description="Large (FAST)" length="16842.81441"/>
+        <CutCond num="2" name="TN2" description="Medium Large (FAST)" length="462.9930787"/>
+        <CutCond num="3" name="TN3" description="Medium (FAST)" length="367.8773119"/>
+        <CutCond num="4" name="TN4" description="Small" length="1308.032437"/>
+        <CutCond num="5" name="TN5" description="Very Small" length="539.2245397"/>
+      </MC>
+    </Info>
+  </QuotationInfo>
+</RadanCompoundDocument>
