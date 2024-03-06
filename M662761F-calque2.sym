@@ -1,0 +1,667 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RadanCompoundDocument xmlns="http://www.radan.com/ns/rcd">
+  <RadanAttributes>
+    <Group class="system" name="Système" desc="Ces attributs décrivent le système RADAN utilisé pour créé ce fichier."
+        ord="8">
+      <Attr num="13" name="Langage" desc="Code langage RADAN." type="i" ord="1" value="2">
+        <Valid perm="r"/>
+      </Attr>
+      <Attr num="14" name="Licence" desc="Code licence RADAN." type="s" ord="2" value="1960-1725-0827-5682-3526-3482">
+        <Valid perm="r"/>
+      </Attr>
+      <Attr num="15" name="Version" desc="Version du logiciel." type="s" ord="3" value="2022.0.2144">
+        <Valid perm="r"/>
+      </Attr>
+    </Group>
+    <Group class="custom" name="Statut d'avancement" desc="Attributs utilisés pour le statut d'avancement" ord="13">
+      <Attr num="16" name="Date geometrie" desc="Date de la dernière modification géométrique." type="t" ord="1"
+          value="2024-01-25T10:53:47+01:00">
+        <Valid perm="h"/>
+      </Attr>
+      <Attr num="18" name="Date outillage" desc="Date de la dernière modification d'outillage." type="t" ord="3"
+          value="2024-01-25T11:14:39+01:00">
+        <Valid perm="h"/>
+        <MC machine="psys_OptiplexFiber_10KW_McDB" value="2024-01-25T11:14:39+01:00"/>
+      </Attr>
+    </Group>
+    <Group class="system" name="Fichier" desc="Ces attributs concernent les propriétés élémentaires de ce fichier."
+        ord="1">
+      <Attr num="101" name="Créé" desc="Date de création du fichier." type="t" ord="3" value="2024-01-18T14:13:57+01:00">
+        <Valid perm="r"/>
+      </Attr>
+      <Attr num="102" name="Modifié" desc="Date de la dernière modification du fichier." type="t" ord="4"
+          value="2024-01-25T11:14:43+01:00">
+        <Valid perm="r"/>
+      </Attr>
+      <Attr num="103" name="Taille de fichier" desc="Taille du fichier en bits." type="i" ord="5" value="37091">
+        <Valid perm="r"/>
+      </Attr>
+      <Attr num="105" name="Fichiers associés" desc="Fichiers associés." type="s" ord="6">
+        <Valid perm="h"/>
+      </Attr>
+      <Attr num="107" name="Extension" desc="Extension du nom de fichier." type="s" ord="2" value="sym">
+        <Valid perm="r"/>
+      </Attr>
+      <Attr num="110" name="Nom de fichier" desc="Nom de fichier sans extension." type="s" ord="1"
+          value="M662761F-calque2">
+        <Valid perm="r"/>
+      </Attr>
+      <Attr num="141" name="Vérification utilisateur" desc="Nom d’utilisateur pour vérification du fichier" type="s"
+          ord="7">
+        <Valid perm="r"/>
+      </Attr>
+      <Attr num="142" name="Date de vérification" desc="Heure à laquelle ce fichier a été vérifié" type="t" ord="8">
+        <Valid perm="r"/>
+      </Attr>
+      <Attr num="143" name="Enregistrement" desc="Chemin d’enregistrement local Radcontrol" type="s" ord="9">
+        <Valid perm="h"/>
+      </Attr>
+      <Attr num="144" name="Version en cours" desc='Indicateur (si sur "oui") de version courante du fichier' type="s"
+          ord="10">
+        <Valid perm="r"/>
+      </Attr>
+    </Group>
+    <Group class="custom" name="Description" desc="Utiliser ces attributs pour décrire le fichier." ord="2">
+      <Attr num="108" name="Titre" desc="Titre du fichier." type="s" ord="1">
+        <Valid perm="e" max="80"/>
+      </Attr>
+      <Attr num="109" name="Commentaires" desc="Commentaires à propos de ce fichier." type="s" ord="2">
+        <Valid perm="e"/>
+      </Attr>
+    </Group>
+    <Group class="custom" name="Fabrication" desc="Ces attributs concernent les propriétés de production de ce fichier."
+        ord="6">
+      <Attr num="119" name="Matière" desc="Matière." type="s" ord="1" value="S235">
+        <Valid perm="e" max="20"/>
+      </Attr>
+      <Attr num="120" name="Epaisseur" desc="Epaisseur." type="r" ord="2" value="6">
+        <Valid perm="e" min="0" max="99999"/>
+      </Attr>
+      <Attr num="121" name="Unité de l'épaisseur" desc="Unité de l'épaisseur." type="s" ord="4" value="mm">
+        <Valid perm="e" expr="mm|in|swg" max="80"/>
+      </Attr>
+      <Attr num="122" name="Orientation"
+          desc="Orientations autorisées(1=0°, 2=90°, 3=0/90°, 5=0/180°, 6=90/270°, 7=0/90/180/270°, 8=toutes)." type="i"
+          ord="6" value="8">
+        <Valid perm="e" min="1" max="8"/>
+      </Attr>
+      <Attr num="127" name="Machine" desc="Nom de la machine." type="s" ord="18">
+        <Valid perm="e" max="80"/>
+      </Attr>
+      <Attr num="132" name="Miroir" desc="Possibilité d'imbriquer la pièce en miroir." type="s" ord="7">
+        <Valid perm="e" expr="oui|non" max="80"/>
+      </Attr>
+      <Attr num="139" name="N° tourelle" desc="Standard Tool Loading file id." type="i" ord="21" value="0">
+        <Valid perm="e" min="0"/>
+        <MC machine="psys_OptiplexFiber_10KW_McDB" value="0"/>
+      </Attr>
+      <Attr num="145" name="Common cutting" desc="Whether the part is suitable for common line cutting in nesting."
+          type="s" ord="8">
+        <Valid perm="e" expr="aucune|toutes|même pièce" max="80"/>
+      </Attr>
+      <Attr num="146" name="Strategie" desc="Stratégie pour outillage auto" type="s" ord="22" value="N2">
+        <Valid perm="e" max="60"/>
+        <MC machine="psys_OptiplexFiber_10KW_McDB" value="N2"/>
+      </Attr>
+      <Attr num="160" name="Picking cluster"
+          desc="Whether to nest the part in clusters that are suitable for a part picker." type="s" ord="9">
+        <Valid perm="e" expr="oui|non" max="80"/>
+      </Attr>
+      <Attr num="164" name="Poids" desc="Poids de la piéce en kg" type="r" ord="5" value="0.09248192256">
+        <Valid perm="e" min="0"/>
+      </Attr>
+      <Attr num="181" name="Maximum CC group" desc="The maximum number of parts in a common cut group." type="i"
+          ord="10">
+        <Valid perm="e" min="2" max="999999"/>
+      </Attr>
+      <Attr num="186" name="Statut d'avancement" desc="Statut d'avancement de ce fichier." type="s" ord="29"
+          value="1 - OK">
+        <Valid perm="e" max="80"/>
+        <MC machine="psys_OptiplexFiber_10KW_McDB" value="1 - OK"/>
+      </Attr>
+      <Attr num="196" name="Kit de pièces" desc="le symbole est un kit de pièces." type="s" ord="12">
+        <Valid perm="e" expr="oui|non" max="80"/>
+      </Attr>
+    </Group>
+    <Group class="custom" name="Cost estimate" desc="These attributes are used to estimate costs." ord="11">
+      <Attr num="172" name="Last estimated cost" desc="The last estimated cost per item in run of quantity-off."
+          type="r" ord="1">
+        <Valid perm="e" min="0"/>
+      </Attr>
+      <Attr num="173" name="Setup cost" desc="The setting up component of the last cost estimate." type="r" ord="2">
+        <Valid perm="e" min="0"/>
+      </Attr>
+      <Attr num="174" name="Runtime cost" desc="The runtime component of the last cost estimate." type="r" ord="3">
+        <Valid perm="e" min="0"/>
+      </Attr>
+      <Attr num="175" name="Material cost" desc="The material component of the last cost estimate." type="r" ord="4">
+        <Valid perm="e" min="0"/>
+      </Attr>
+      <Attr num="176" name="Last estimate sheet cost" desc="The cost of the sheet used in the last cost estimate."
+          type="r" ord="5">
+        <Valid perm="e" min="0"/>
+      </Attr>
+      <Attr num="177" name="Last estimate quantity" desc="The quantity used to produce the last cost estimate." type="i"
+          ord="6">
+        <Valid perm="e" min="1"/>
+      </Attr>
+      <Attr num="178" name="Last estimate sheet X dimension"
+          desc="The X dimension of the sheet used in the last cost estimate." type="r" ord="7">
+        <Valid perm="e" min="0"/>
+      </Attr>
+      <Attr num="179" name="Last estimate sheet Y dimension"
+          desc="The Y dimension of the sheet used in the last cost estimate." type="r" ord="8">
+        <Valid perm="e" min="0"/>
+      </Attr>
+      <Attr num="180" name="Last estimate sheet units"
+          desc="The units of the dimensions of the sheet used in the last cost estimate." type="s" ord="9">
+        <Valid perm="e" expr="mm|inches" max="80"/>
+      </Attr>
+    </Group>
+    <Group class="custom" name="Radbend" desc="These attributes record the file's Radbend properties." ord="12">
+      <Attr num="197" name="3D encombrement X" desc="Valeur en X de l’encombrement de la pièce" type="r" ord="8">
+        <Valid perm="r"/>
+      </Attr>
+      <Attr num="198" name="3D encombrement Y" desc="Valeur en Y de l’encombrement de la pièce" type="r" ord="9">
+        <Valid perm="r"/>
+      </Attr>
+      <Attr num="199" name="3D encombrement Z" desc="Valeur en Z de l’encombrement de la pièce" type="r" ord="10">
+        <Valid perm="r"/>
+      </Attr>
+    </Group>
+    <Group class="custom" name="Utilisateur" desc="Vous pouvez utiliser ces attributs selon votre besoin." ord="14">
+      <Attr num="200" name="AKEROS" type="s" ord="1"
+          value="0.658967;-65.509657;0.5;2;2;4|0.658967;-47.509657;0.5;2;2;4|0.658967;-22.509657;0.5;2;2;4|0.658967;39.492236;0.5;2;2;4|0.658967;64.490343;0.5;2;2;4|">
+        <Valid perm="e" max="80"/>
+      </Attr>
+      <Attr num="300" name="Valeur entière" type="i" ord="101">
+        <Valid perm="e"/>
+      </Attr>
+      <Attr num="400" name="Date et heure" type="t" ord="201">
+        <Valid perm="e"/>
+      </Attr>
+      <Attr num="500" name="Nb de plis" desc="Nbre de pli de la piéce" type="r" ord="301">
+        <Valid perm="e"/>
+      </Attr>
+      <Attr num="501" name="Lg de soudure Mig" desc="Longueur de soudure en procédé Mig" type="r" ord="302">
+        <Valid perm="e"/>
+      </Attr>
+      <Attr num="502" name="Nb de points de soudure par point" desc="Nombre de point de soudure" type="r" ord="303">
+        <Valid perm="e"/>
+      </Attr>
+      <Attr num="503" name="Nombre de contour en dessin" type="r" ord="304">
+        <Valid perm="e"/>
+      </Attr>
+      <Attr num="504" name="Surface contour ext avec offset"
+          desc="Surface de la piéce depuis le contour exterieur plus un offset" type="r" ord="305">
+        <Valid perm="e"/>
+      </Attr>
+      <Attr num="505" name="Perimetre petit contour" desc="perimetre total en petit contour" type="r" ord="306">
+        <Valid perm="e"/>
+      </Attr>
+      <Attr num="506" name="perimetre moyen contour" desc="perimetre total en petit contour" type="r" ord="307">
+        <Valid perm="e"/>
+      </Attr>
+      <Attr num="507" name="perimetre grand contour" desc="perimetre total en grand contour" type="r" ord="308">
+        <Valid perm="e"/>
+      </Attr>
+      <Attr num="508" name="Lg de soudure Mig" desc="Longueur de soudure en procédé Tig" type="r" ord="309">
+        <Valid perm="e"/>
+      </Attr>
+      <Attr num="510" name="Lg de coupe laser" desc="Longueur de découpe incluant les longueurs d'amorçage" type="r"
+          ord="311">
+        <Valid perm="e"/>
+      </Attr>
+      <Attr num="511" name="Lg de marquage laser" desc="Longueur de marquage ou molette sur poinçonneuse" type="r"
+          ord="312">
+        <Valid perm="e"/>
+      </Attr>
+      <Attr num="512" name="Nb d'amorces laser" desc="Nre d'amorçage sur la pièce" type="r" ord="313">
+        <Valid perm="e"/>
+      </Attr>
+      <Attr num="513" name="Nb de coups de poinçons&#x09;" desc="Nbre de coups de poinçons hors formage et taraudage"
+          type="r" ord="314">
+        <Valid perm="e"/>
+      </Attr>
+      <Attr num="514" name="Nb de trappes" desc="Nbre d'évacuation par trappe" type="r" ord="315">
+        <Valid perm="e"/>
+      </Attr>
+      <Attr num="515" name="Nb de déchargements" desc="Nbre d'évacuation par picker" type="r" ord="316" value="0">
+        <Valid perm="e" def="0"/>
+      </Attr>
+      <Attr num="516" name="Nb de stops" desc="Nbre de stop" type="r" ord="317">
+        <Valid perm="e"/>
+      </Attr>
+      <Attr num="517" name="Nb de formages " desc="Nbre de formage (outil type 1 et 2)" type="r" ord="318">
+        <Valid perm="e"/>
+      </Attr>
+      <Attr num="518" name="Nb de taraudages" desc="Nbre de taraudage (type outil 14)" type="r" ord="319">
+        <Valid perm="e"/>
+      </Attr>
+      <Attr num="519" name="Nb d'outil de poinçonnage " desc="Nbre total d'outil (toutes orientations confondues)"
+          type="r" ord="320">
+        <Valid perm="e"/>
+      </Attr>
+      <Attr num="520" name="Nb de coups de cisaille" type="r" ord="321">
+        <Valid perm="e"/>
+      </Attr>
+      <Attr num="521" name="Nb de coups de poinçons Combiné Poinçonnage-Cisaillage" type="r" ord="322">
+        <Valid perm="e"/>
+      </Attr>
+      <Attr num="522" name="Lg de coupe en Combiné Laser-Poinçonnage" type="r" ord="323">
+        <Valid perm="e"/>
+      </Attr>
+      <Attr num="523" name="Lg de marquage en Combiné Laser-Poinçonnage" type="r" ord="324">
+        <Valid perm="e"/>
+      </Attr>
+      <Attr num="524" name="Nb d'amorces en Combiné Laser-Poinçonnage" type="r" ord="325">
+        <Valid perm="e"/>
+      </Attr>
+      <Attr num="525" name="Nb de coups de poinçons en Combiné Laser-Poinçonnage" type="r" ord="326">
+        <Valid perm="e"/>
+      </Attr>
+      <Attr num="526" name="nb petit contour" type="r" ord="327">
+        <Valid perm="e"/>
+      </Attr>
+      <Attr num="527" name="nb moyen contour" type="r" ord="328">
+        <Valid perm="e"/>
+      </Attr>
+      <Attr num="528" name="nb grand contour" type="r" ord="329">
+        <Valid perm="e"/>
+      </Attr>
+      <Attr num="529" name="Grand contour combi decoupe" desc="Longueur de coupe totale en grand contour" type="r"
+          ord="330">
+        <Valid perm="e"/>
+      </Attr>
+      <Attr num="530" name="Moyen contour combi decoupe" desc="Longueur de coupe totale en moyen contour" type="r"
+          ord="331">
+        <Valid perm="e"/>
+      </Attr>
+      <Attr num="531" name="Petit contour combi decoupe" desc="Longueur de coupe totale en petit contour" type="r"
+          ord="332">
+        <Valid perm="e"/>
+      </Attr>
+      <Attr num="600" name="Liste outils" desc="Listes des outils présent dans le symbole (séparateur |)" type="s"
+          ord="401">
+        <Valid perm="e" max="1000"/>
+      </Attr>
+    </Group>
+    <Group class="custom" name="Geometry" desc="These attributes are the geometry properties of the part." ord="5">
+      <Attr num="162" name="Surface" desc="Surface de la piece" type="r" ord="6" value="1976.109456">
+        <Valid perm="e" min="0"/>
+      </Attr>
+      <Attr num="163" name="Surface exter" desc="Surface de la pièce sans les trous (contour exter uniquement)" type="r"
+          ord="7" value="2155.032976">
+        <Valid perm="e" min="0"/>
+      </Attr>
+      <Attr num="165" name="Encombrement X" desc="Taille maximum en X du symbole" type="r" ord="2" value="15.125698">
+        <Valid perm="e" min="0"/>
+      </Attr>
+      <Attr num="166" name="Encombrement en Y" desc="Taille maximum en Y du symbole" type="r" ord="3" value="142.474944">
+        <Valid perm="e" min="0"/>
+      </Attr>
+      <Attr num="167" name="Périmetre exter"
+          desc="Longueur totale de toutes les entités géométriques composant l'exterieur du symbole." type="r" ord="5"
+          value="315.201284">
+        <Valid perm="e" min="0"/>
+      </Attr>
+      <Attr num="168" name="Perimetre"
+          desc="Longueur totale de toutes les entités géométriques composant le symbole (inter et exter)" type="r"
+          ord="4" value="421.2300361">
+        <Valid perm="e" min="0"/>
+      </Attr>
+      <Attr num="169" name="Unité géométrique" desc="Unités dans laquelle les attributs sont déclarés" type="s" ord="1"
+          value="mm">
+        <Valid perm="e" expr="mm|in|m|ft" max="80"/>
+      </Attr>
+    </Group>
+  </RadanAttributes>
+  <Thumbnail image-type="bmp" image-encoding="base64Binary">
+    <![CDATA[
+Qk2WHAAAAAAAAHYAAAAoAAAAeAAAAHgAAAABAAQAAAAAACAcAAAAAAAAAAAAAAAAAAAAAAAA////
+AAB//wAAAAAAAAD/AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A
+////AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEREREREQAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABEAAAAAABEAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEQAAAAAAAA
+AQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAA
+AAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAA
+IiIiIiIgABEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+ARAAIAADMAAgAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAQAAIAMiIgAgAAEQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAQAAIAIgAiAgAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAQAAIAIAACAgAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAQAAIAIAAiAgAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAQAAIAMiIjAgAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAQAAIAACIwAgAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAIAAAAAAgAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAIAAAAAAgAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAIAAAAAAgAAAQAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAIAAAAAAgAAAQAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAIAAAAAAgAAAQAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAIAAAAAAgAAAQAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAIAACIAAgAAAQAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAIAMiIgAgAAAQAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAIAIAAiAgAAAQ
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAREQAAIAIAACAg
+AAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAREQAAIAIg
+AiAgAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAREQAA
+IAMiIgAgAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AQAAIAADMAAgAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAQAAIAAAAAAgAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAQAAIAAAAAAgAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAQAAIAAAAAAgAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAQAAIAAAAAAgAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAQAAIAAAAAAgAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAQAAIAAAAAAgAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAIAAAAAAgAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAIAAAAAAgAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAIAAAAAAgAAAQAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAIAAAAAAgAAAQAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAIAADMAAgAAAQAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAIAMiIgAgAAAQAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAIAIgAiAgAAAQAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAIAIAACAgAAAQAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAIAIAAiAgAAAQ
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAIAMiIjAg
+AAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAIAAC
+MwAgAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA
+IAAAAAAgAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AQAAIAAAAAAgAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAQAAIAAAAAAgAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAQAAIAAAAAAgAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAQAAIAAAAAAgAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAQAAIAAAAAAgAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAQAAIAAAAAAgAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAQAAIAAAAAAgAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAIAAAAAAgAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAIAAAAAAgAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAIAAAAAAgAAAQAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAIAAAAAAgAAAQAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAIAAAAAAgAAAQAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAIAAAAAAgAAAQAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAIAAAAAAgAAAQAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAIAAAAAAgAAAQAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAIAAAAAAgAAAQ
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAIAAAAAAg
+AAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAIAAA
+AAAgAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA
+IAAAAAAgAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AQAAIAAAAAAgAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAQAAIAAAAAAgAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAQAAIAAAAAAgAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAQAAIAAAAAAgAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAQAAIAAAAAAgAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAQAAIAAAAAAgAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAQAAIAAAAAAgAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAIAAAAAAgAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAIAAAAAAgAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAIAAAAAAgAAAQAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAIAAAAAAgAAAQAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAIAAAAAAgAAAQAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAIAAAAAAgAAAQAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAIAAAAAAgAAAQAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAIAAAAAAgAAAQAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAIAAAAAAgAAAQ
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAIAAAAAAg
+AAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAIAMi
+IgAgAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA
+IAIgAgAgAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AQAAIAIAACAgAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAQAAIAIAAiAgAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAQAAIAIiIjAgAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAQAAIAACIwAgAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAQAAIAAAAAAgAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAQAAIAAAAAAgAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAQAAIAAAAAAgAAAREQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAIAAAAAAgAAAREQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAIAAAAAAgAAAREQAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAIAAAAAAgAAAQAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAIAAAAAAgAAAQAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAIAAAAAAgAAAQAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAIAAAAAAgAAAQAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAIAAAAAAgAAAQAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAIAAAAAAgAAAQAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAIAACIAAgAAAQ
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAIAIgIgAg
+AAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAIAIA
+AiAgAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA
+IAIAACAgAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AQAAIAIgAjAgAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAQAAIAMiIgAgAAEQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAARAAIAAAAAAgAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAABAAIiIiIiIgABEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAEAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAEQAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAABEAAAAAAREAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAREREREQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==
+]]>
+  </Thumbnail>
+  <RadanFile extension="ddc">
+    <![CDATA[A,8,
+B,D,>,,1,2,3,4,5,6,7,8,9,:,<,=,>,
+B,E,],?,@,E1,R1,A,B,C,D,E,F,G,k1,H,I,J,F1,;,K,L,:,M,N,O,P,Q,R,S,T,<,=,>,U,m1,n1,52,62,:2,>2,?2,U2,V2,e2,i2,j2,k2,
+B,F,],?,@,E1,R1,A,B,C,D,E,F,G,k1,H,I,J,F1,;,K,L,:,M,N,O,P,Q,R,S,T,<,=,>,U,m1,n1,52,62,:2,>2,?2,U2,V2,e2,i2,j2,k2,
+B,G,N,?,@,E1,R1,J,V,W,I,l1,O,P,Q,R,V1,W1,A2,B2,C2,D2,E2,F2,G2,H2,O2,P2,Q2,R2,W2,[2,\2,
+B,H,N,?,@,E1,R1,J,V,W,I,F,O,P,Q,R,S,T,X,Y,Z,[,V1,W1,A2,B2,C2,D2,E2,F2,G2,H2,W2,
+B,N,6,?,@,E1,R1,D,j,
+B,O,_,?,@,E1,R1,I,i,61,71,m1,81,91,:1,;1,<1,O,P,Q,R,52,62,72,82,92,Y2,Z2,:2,;2,<2,=2,>2,?2,@2,I2,J2,K2,L2,M2,S2,T2,U2,V2,f2,g2,h2,i2,j2,k2,
+B,P,b,?,@,E1,R1,I,i,=1,F,>1,71,m1,81,91,:1,;1,<1,O,P,Q,R,S,T,52,62,72,82,92,Y2,Z2,:2,;2,<2,=2,>2,?2,I2,J2,K2,L2,M2,S2,T2,X2,e2,f2,g2,h2,i2,j2,k2,
+D,-1,6,.=@1`GAM0KSm..<@973iBb2_i..=@1`GAM0KSm..<@973iBb2_i.o?0.o?0.o?0.$M662761F-calque2
+E,,-1,T,,,,,,,1,1,1,,,1,1,o?0...o?0.........o?0.o?0.$/
+C,$
+U,,$
+U,$
+U,,,,2,,,,,,,
+G,,1,3,,1,,,;,,3@Q?KA@hUh0.4@V^Nj^AEB0.n?6D[\SE`00.m?]V^TTlT00.............,.,,,
+H,,1,4,,1,,,;,1,3@PRaifFWP0.4@VmBAkcYj0.n?8daJ_MP00.m?9:OE];h00.m?1[cn:L@00.m?:ZecggL00.o?0...o?0...........,
+H,,1,5,,1,,,;,1,2@_R@^1_I@0.4@V`]2@m3n0.k?\X<LY?000.m?_gM>F;<00.o?WT^T0>D00.k?1`lEMeP00.o?0...o?0...........,
+H,,1,6,,1,,,;,,2@_`Td@2C`0.4@W0X`h7880.o?8WHWHRV00.m?S\C\DJD00.n?7XGXGN`00.m?S\C\DJD00.o?0...o?0...........,
+G,,1,7,,1,,,;,,2@\[Y_Dmo00.4@W:Nj^AEB0..3@S;Y^<^>40.............,.,,,
+H,,1,8,,1,,,;,1,2@\[Y_Dmo00.5@PH9hjD>:0.2@8.2@X.2@8..o?0...o?0...........,
+G,,1,9,,1,,,;,,0@R^VmCgl00.5@SH9hjD>:0.1@8..............,.,,,
+H,,1,:,,1,,,;,1,0@=AI2\8400.5@SH9hjD>90.2@7oooooo`0.2@7ooooooh0..2@7ooooooh0.o?0...o?0...........,
+G,,1,;,,1,,,;,,2@?DF@[2100.5@PH9hjD>:0..5@<PL6mYA60.............,.,,,
+G,,1,<,,1,,,;,,3@2SaQkjVh0.4@8Z:e]3\B0.n?VD[\SE`00.m?=V^Cc=400.............,.,,,
+H,,1,=,,1,,,;,1,3@1g8:QHXH0.4@8hn<jV0l0.n?XdaGP5D00.m?Y:OJ9^l00.m?Q[cg[@@00.m?ZZeh;;H00.o?0...o?0...........,
+H,,1,>,,1,,,;,1,3@15NW[i]X0.4@8\Hm?_Jn0.k?<X<LY?000.m??gM>F;<00.o?7T^T0>D00.k?Q`lEMeP00.o?0...o?0...........,
+H,,1,?,,1,,,;,,3@1<XZc3:h0.4@8lD[fiO80.o?XWHWHRV00.m?3\C\DJH00.n?WXGXGN`00.m?3\C\DJH00.o?0...o?0...........,
+G,,1,@,,1,,,;,,2@?DF@[2100.4@96:e]3\B0..2@<V5Qi?MX0.............,.,,,
+H,,1,A,,1,,,;,1,2@?DF@[21@0.5@07f75[af0.2@X000000@0.2@800000080.2@X000000@0..o?0...o?0...........,
+G,,1,B,,1,,,;,,0@=AI2\8400.5@37f75[af0.1@X..............,.,,,
+H,,1,C,,1,,,;,1,0@R^VmCgl00.5@37f75[ae0.2@Woooooo`0.2@Wooooooh0..2@Wooooooh0.o?0...o?0...........,
+G,,1,D,,1,,,;,,2@\[Y_Dmo00.5@07f75[af0..5@[BBGYWYC0.............,.,,,
+G,,1,E,,1,,,1,,1@^25DlYn00.5@1[Ja0oG:0..6@Qcc:m`VgP.............,.,,,
+G,,1,F,,1,,,1,,1@^25DlYn00.5@Ql;TjQfU0.2@>@5]loUP0..............,.,,,
+G,,1,G,,1,,,1,,1@>N66mE=00.5@Ql;TjQfU0..6@1cc:m`VgP.............,.,,,
+G,,1,H,,1,,,1,,1@>N66mE=00.5@1[Ja0oG:0.2@^@5]loUP0..............,.,,,
+H,,1,I,,2,,,2,1,1@2X\QF4200.5@PH9hjD>:0.0@T]HVJaC00.0@]lAlWTd00.1@P..o?0...o?0...........,
+H,,1,J,,2,,,2,1,1@2X\QF4200.4@W`CadXLD0.0@T]HVJaC00.0@]lAlWTd00.1@P..o?0...o?0...........,
+H,,1,K,,2,,,2,1,1@2X\QF4200.3@VPWSY@hX0.0@T]HVJaC00.0@]lAlWTd00.1@P..o?0...o?0...........,
+H,,1,L,,2,,,2,1,1@2X\QF4200.4@3_`6C0<J0.0@T]HVJaC00.0@]lAlWTd00.1@P..o?0...o?0...........,
+H,,1,M,,2,,,2,1,1@2X\QF4200.5@07f75[af0.0@T]HVJaC00.0@]lAlWTd00.1@P..o?0...o?0...........,
+H,,1,N,,1,,,1,1,1@08\QF4200.5@PH9hjD>:0...0@[..o?0...o?0...........,
+H,,1,O,,1,,,1,1,1@08\QF4200.4@W`CadXLD0...0@[..o?0...o?0...........,
+H,,1,P,,1,,,1,1,1@08\QF4200.3@VPWSY@hX0...0@[..o?0...o?0...........,
+H,,1,Q,,1,,,1,1,1@08\QF4200.4@3_`6C0<L0...0@[..o?0...o?0...........,
+H,,1,R,,1,,,1,1,1@08\QF4200.5@07f75[af0...0@[..o?0...o?0...........,
+N,,-1,T,,_,$2024-01-25.09-53-50 GMT
+E,,1,,,,,,,1,1,1,1,,,1,,n??ooooooon...o?0...<@Q`GAM0KSj.;@Y73iBb2_j.<@1`GAM0KSj.;@973iBb2_j.<@1`GAM0KSj.;@973iBb2_j.o?0.o?0.$/MC
+C,$
+U,,$
+U,$
+U,,,,2,,,,,,,
+E,,1,C1,,,,,,1,1,1,1,,,1,,n??ooooooon...o?0.........o?0.o?0.$/MC/optiplex
+C,$
+U,,$
+U,$
+U,,,,2,,,,,,,
+N,,1,Y,,O,$
+P,,2,Z,,4,1,,,,,1,1@0.k?9VIVIVIVJ....<@1`LO0?Mn;.;@8gQ_ID`]:...g?>^M=^H000.0@Zoo^Q5]00.$
+C,,,,,,,,,,,j?,1,....,,$
+C,,,,,,,1,1,
+O,,2,[,,4,1,,,1,1@0.k?9VIVIVIVJ....<@1`L>IQ5Hm.;@8f[@Un1?J.n??C\7Q6@00.n?7U_;[3400.$
+C,1,,,,,,1,,,,j?,1,,....,,$
+C,,,,,,,1,1,
+P,,2,\,,4,1,,1,,,1,1@0.k?9VIVIVIVJ....<@1`S^h0kGR.;@8ffTYZ9NU.n?\oO5eUL00.0@5UGeCWBP0.n?\hZ6M<l00.o?3:_j9d;00.$
+C,,,,,,,1,,,,j?,1,....,,$
+C,,,,,,,1,1,
+P,,2,],,4,1,,,,,1,1@0.k?9VIVIVIVJ....<@1`LOLNfan.;@8l1_ILEGV...g?;<R7@0000.0@ZoobCJk00.$
+C,,,,,,,,,,,k?,1,....,,$
+C,,,,,,,1,1,
+O,,2,^,,4,1,,,1,1@0.k?9VIVIVIVJ....<@1`L>I@nD;.;@8k;@VXbcW.n??D4bFKX00.n?7U>K^DL00.$
+C,1,,,,,,1,,,,k?,1,,....,,$
+C,,,,,,,1,1,
+P,,2,_,,4,1,,1,,,1,1@0.k?9VIVIVIVJ....<@1`S^m[JSC.;@8kFTJW^?].n?\n4b?5D00.0@5UOJCSl00.n?\h1oo?l00.o?3:o0bCP00.$
+C,,,,,,,1,,,,k?,1,....,,$
+C,,,,,,,1,1,
+P,,2,`,,4,1,,,,,1,1@0.k?9VIVIVIVJ....<@1`XRY^_<?.;@92<7P8g^3...o?WoWG?0R00.0@X<38TV9P0.$
+C,,,,,,,,,,,l?,1,....,,$
+C,,,,,,,1,1,
+O,,2,a,,4,1,,,1,1@0.k?9VIVIVIVJ....<@1`L9[1a`R.;@91KV5DmDL.o?3AL1bP200.l?<RjN\[H00.$
+C,1,,,,,,1,,,,l?,1,,....,,$
+C,,,,,,,1,1,
+P,,2,b,,4,1,,1,,,1,1@0.k?9VIVIVIVJ....<@1`UI>1E58.;@91O1861\U.m?9;M[@hh00.0@6S<1K0^P0.m?QNQ<@ih00.o?7VE@S]a00.$
+C,,,,,,,1,,,,l?,1,....,,$
+C,,,,,,,1,1,
+P,,2,c,,4,1,,,,,1,1@0.k?9VIVIVIVJ....<@1`LR<06V@.;@9@5aElTDf...e?51PRg0000.0@:oooO@Y00.$
+C,,,,,,,,,,,i?,1,....,,$
+C,,,,,,,1,1,
+O,,2,d,,4,1,,,1,1@0.k?9VIVIVIVJ....<@1`LgE97Ca.;@9@l@30gTS.n?_GW;Jk000.n?WPQ4gS400.$
+C,1,,,,,,1,,,,i?,1,,....,,$
+C,,,,,,,1,1,
+P,,2,e,,4,1,,1,,,1,1@0.k?9VIVIVIVJ....<@1`EEjL@<c.;@9@`nOS`QL.n?<a6?IUd00.0@UVTcV6C00.n?<b@oKQd00.o?S=9WYC900.$
+C,,,,,,,1,,,,i?,1,....,,$
+C,,,,,,,1,1,
+P,,2,f,,4,1,,,,,1,1@0.k?9VIVIVIVJ....<@1`LUWAJ]k.;@9FE_J9ib]...g?V9bH?X000.0@:oofjGQP0.$
+C,,,,,,,,,,,h?,1,....,,$
+C,,,,,,,1,1,
+O,,2,g,,4,1,,,1,1@0.k?9VIVIVIVJ....<@1`LgC<AJ1.;@9G<><9RSF.n?_DX0hQT00.n?WTOXe>P00.$
+C,1,,,,,,1,,,,h?,1,,....,,$
+C,,,,,,,1,1,
+P,,2,h,,4,1,,1,,,1,1@0.k?9VIVIVIVJ....<@1`EFVE<o\.;@9G0j^Vkm].n?<l3`fhl00.0@UUZ>Q5P00.n?<g8\aP800.o?S;DU7;K00.$
+C,,,,,,,1,,,,h?,1,....,,$
+C,,,,,,,1,1,
+O,,2,01,,;,,,,1,o?0.k?9VIVIVIVJ.j?9VIVIVIVJ.j?9VIVIVIVJ..<@1^TRf37[n.;@8kiM2>6hM..5@;BBGYWYC0.$
+C,2,,,,,,,,,,n?,1,,....,,$
+C,,,,,,,2,2,
+P,,2,11,,;,,,,,,1,o?0.k?9VIVIVIVJ....<@1^TRf37[n.;@9G;_Ig^Q`.2@8.2@7ooooooh0.2@8..$
+C,,,,,,,,,,,n?,1,....,,$
+C,,,,,,,2,2,
+O,,2,21,,;,,,,1,o?0.k?9VIVIVIVJ.j?9VIVIVIVJ.j?9VIVIVIVJ..<@1`4Rf37[n.;@9J;_Ig^Q`.1@8..$
+C,,,,,,,,,,,n?,1,,....,,$
+C,,,,,,,2,2,
+P,,2,31,,;,,,,,,1,o?0.k?9VIVIVIVJ....<@1`dRf37[n.;@9J;_Ig^Qb.2@8000000@0.2@X000000@0..2@X000000@0.$
+C,,,,,,,,,,,n?,1,....,,$
+C,,,,,,,2,2,
+O,,2,41,,;,,,,1,o?0.k?9VIVIVIVJ.j?9VIVIVIVJ.j?9VIVIVIVJ..<@1bDRf37[n.;@9G;_Ig^Q`..2@\V5Qi?MX0.$
+C,,,,,,,,,,,n?,1,,....,,$
+C,,,,,,,2,2,
+P,,2,51,,;,,,1,,,1,o?0.k?9VIVIVIVJ....<@1bDRf37[o.;@9CVn]XTV4.o?8WHWH`>00.m?S\C\BGT00.n?9VIVIVH00..$
+C,,,,,,,,,,,n?,1,....,,$
+C,,,,,,,2,2,
+P,,2,61,,;,,,,,,1,o?0.k?9VIVIVIVJ....<@1bPfRFd46.;@9CR3X]P0;.k?\X<2^?P00.m?_gMBb^800.o?5b=cAGJ00.n?R9f0Ka@00.$
+C,,,,,,,,,,,n?,1,....,,$
+C,,,,,,,2,2,
+P,,2,71,,;,,,,,,1,o?0.k?9VIVIVIVJ....<@1bOmAn^WW.;@9CJ5aHcDY.n?8daGP5H00.m?9:OJ9^l00.m??m^gDjP00.i?X5WPG7000.$
+C,,,,,,,,,,,n?,1,....,,$
+C,,,,,,,2,2,
+O,,2,81,,;,,,,1,o?0.k?9VIVIVIVJ.j?9VIVIVIVJ.j?9VIVIVIVJ..<@1bV:NDVXm.;@9CPHI?E`H.n?6D[]@o@00.m?]V^K4YD00.$
+C,,1,,,,,4,,,,n?,1,,....,,$
+C,,,,,,,2,2,
+O,,2,91,,;,,,,1,o?0.k?9VIVIVIVJ.j?9VIVIVIVJ.j?9VIVIVIVJ..<@1bDRf37[n.;@9C<;PeGbf..5@\PL6mYA60.$
+C,2,,,,,,,,,,o?,1,,....,,$
+C,,,,,,,2,2,
+P,,2,:1,,;,,,,,,1,o?0.k?9VIVIVIVJ....<@1bDRf37[n.;@8f[_Ig^Q`.2@X.2@Wooooooh0.2@X..$
+C,,,,,,,,,,,o?,1,....,,$
+C,,,,,,,2,2,
+O,,2,;1,,;,,,,1,o?0.k?9VIVIVIVJ.j?9VIVIVIVJ.j?9VIVIVIVJ..<@1`dRf37[n.;@8c[_Ig^Q`.1@X..$
+C,,,,,,,,,,,o?,1,,....,,$
+C,,,,,,,2,2,
+P,,2,<1,,;,,,,,,1,o?0.k?9VIVIVIVJ....<@1`4Rf37[n.;@8c[_Ig^Q`.2@X.2@8..2@8.$
+C,,,,,,,,,,,o?,1,....,,$
+C,,,,,,,2,2,
+O,,2,=1,,;,,,,1,o?0.k?9VIVIVIVJ.j?9VIVIVIVJ.j?9VIVIVIVJ..<@1^TRf37[n.;@8f[_Ig^Q`..3@3;Y^<^>40.$
+C,,,,,,,,,,,o?,1,,....,,$
+C,,,,,,,2,2,
+P,,2,>1,,;,,,1,,,1,o?0.k?9VIVIVIVJ....<@1^TRf37[m.;@8kNYeJj5A.o?XWHWH`>00.m?3\C\BGP00.n?YVIVIVH00..$
+C,,,,,,,,,,,o?,1,....,,$
+C,,,,,,,2,2,
+P,,2,?1,,;,,,,,,1,o?0.k?9VIVIVIVJ....<@1^H?9_KCf.;@8kSTjEn[9.k?<X<LY?P00.m??gM>F;800.o?Ub=b=YF00.n?29f9fd@00.$
+C,,,,,,,,,,,o?,1,....,,$
+C,,,,,,,2,2,
+P,,2,@1,,;,,,,,,1,o?0.k?9VIVIVIVJ....<@1^I8J8DVE.;@8k[RaYT=k.n?XdaJ_ML00.m?Y:OE];h00.m?_m^gDNX00.i?85WRZi000.$
+C,,,,,,,,,,,o?,1,....,,$
+C,,,,,,,2,2,
+O,,2,A1,,;,,,,1,o?0.k?9VIVIVIVJ.j?9VIVIVIVJ.j?9VIVIVIVJ..<@1^Bk=aX^n.;@8kU@9d8jm.n?VD[]@o<00.m?=V^K4Y@00.$
+C,,1,,,,,4,,,,o?,1,,....,,$
+C,,,,,,,2,2,
+N,,2,B1,,`,$2024-01-25.10-14-03 GMT
+N,,2,C1,,21,$0
+F,,2,W,,,,,,1,1,1,1,,,1,,j?97KFkRDgE...o?0...<@1b[_Y?jha.;@9CHn]XTV3.....o?0.o?0.$/MC/optiplex/ldatum
+C,$
+U,,$\\195.184.155.198\radan\system-symbols\ldatum.sym
+U,$
+U,,,,2,,,,,,,
+F,,2,X,,,,,,1,1,1,1,,,1,,j?97KFkRDgE...o?0...<@1^=F2fDO;.;@8k\YeJj5A.....o?0.o?0.$/MC/optiplex/ldatum
+C,$
+U,,$\\195.184.155.198\radan\system-symbols\ldatum.sym
+U,$
+U,,,,2,,,,,,,
+]]>
+  </RadanFile>
+  <History>
+    <![CDATA[_UUk
+CF:F)hv B5CEmX#B4u6c<G|Qlr_YYa?IlOH<y{DO[w
+=G>(<2.R1aXp4"!3.DrCf%mT8AuHU=i93u3i,}pS/P
+]]>
+    <![CDATA[
+UEsDBBQACQAIANZZOVgAAAAAAAAAAAoEAAAJABEAQ2FjaGUueG1sVVQNAAejQrJlo0KyZaNCsmWY
+8nNRPphUY2EazvWt8BWe+8LmpgO04AbYGtHjQNZfUrU+hCrNge4bN+MxHUR+AOnqoh9n9U+c+0h1
+huUpeeZypsaeP7Befws6vHLbpYyrUrbr6EV57TMbDptXbE+4XtYqzpVOnsVMJDF90C59XjTleBBC
+DxoyRAqApeh6T+Rff9wlxV5AQJXDp3kmTlVxuBZx8iaY+NSXMvWY+Ag+m61Lwd86O+fSjhU1hKna
+/KLBSQwzjVySuscbuSL0TQSYuoemwlH1zy//PFOqV/wTTIfdMH9YCQNQ47rx7pwfOyzQGzSTkqLM
+5AMj4XTN2WeOtWYdSURpls/FXhZ5+mw1OdmkpCEeqVvLcRa2AwOevxTImi3UJrVN+sHuksAYgDL9
+IM0RRyJpTJCESZFW4gt6qhvgK+oDiaBJNYY2Su5kdZE59FLWQKNQxxvE3ibww9Bp0aolxF/Jcoe/
+nWODD8jrTPAe7GCjiEQS+7kjdYTwPXotwviyvjfMdbCRNTFk6cSNp28nCOzOh+qJxYXT/dBzBRiN
+VcD7hNqP3kAOtwXM4On0GWoIj0tYcwTVP9OqR1WDA6CAE3OitSEGigL9JtT9T6LqMiyc5rYgSa9M
+FhGXFwUxaNzAXSGaP9pUASwrMVsiMLu9J65mA87LUvLMzeofuzNv83Zg7xjoTH++Rqknx+5E7McK
+O5lCwU7iXJexiBoTitiCY3Mszf43udlDV2WkSvczFZv7tBIkQsEumcM4Hb6DsR6YoUiyZcSQjy1Q
+UEsHCAEng2s7AgAACgQAAFBLAQIXCxQACQAIANZZOVgBJ4NrOwIAAAoEAAAJAAkAAAAAAAAAAAAA
+gAAAAABDYWNoZS54bWxVVAUAB6NCsmVQSwUGAAAAAAEAAQBAAAAAgwIAAAAA
+]]>
+  </History>
+  <QuotationInfo>
+    <Info num="0" name="Number of Loops" value="6"/>
+    <Info num="5" name="Number of Tools">
+      <MC machine="psys_OptiplexFiber_10KW_McDB" value="2"/>
+    </Info>
+    <Info num="6" name="Tools">
+      <MC machine="psys_OptiplexFiber_10KW_McDB">
+        <Tool name="TN4" length="130.8894386" cutoutArea="178.9235191"/>
+        <Tool name="TN1" length="370.5360355"/>
+      </MC>
+    </Info>
+    <Info num="9" name="Number of Lead-ins">
+      <MC machine="psys_OptiplexFiber_10KW_McDB" value="7"/>
+    </Info>
+    <Info num="21" name="Cutting Conditions">
+      <MC machine="psys_OptiplexFiber_10KW_McDB">
+        <CutCond num="1" name="TN1" description="Large (FAST)" length="370.5360355"/>
+        <CutCond num="4" name="TN4" description="Small" length="130.8894386"/>
+      </MC>
+    </Info>
+  </QuotationInfo>
+</RadanCompoundDocument>

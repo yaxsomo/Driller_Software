@@ -129,6 +129,7 @@ std::vector<SymValue> extractSymData(const std::string& symFilePath);
 std::vector<SymValueGroup> sortAndGroupByType(const std::vector<SymValue>& inputValues, const std::vector<int>& typeOrder);
 bool sortByRayonAndDistance(const SymValue& a, const SymValue& b);
 void printStructure(const std::vector<SymValue>& values);
+int countDecimalPlaces(double value);
 SymValue transformation_repere_rad(const SymValue& point, const Coordinates& repere);
 std::string generatePercageCommand(const PercageParams& params);
 std::string generateFraisurageCommand(const FraisurageParams& params);

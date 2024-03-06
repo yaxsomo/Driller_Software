@@ -32,32 +32,32 @@ std::string epaisseur_tole;
 std::vector<int> customTypeOrder = {1, 4, 2, 3, 5};
 
 // BANQUE D'OUTILS
-std::vector<Outil> toolBank = {
-    // Perçage (Classe D)
-    {800.0, 5.0, 100.0, "D", 5.0, 60.0, 45.0, 0},
-    {800.0, 5.0, 100.0, "D", 6.0, 60.0, 45.0, 0},
-    {800.0, 5.0, 100.0, "D", 7.0, 60.0, 45.0, 0},
-    {800.0, 5.0, 100.0, "D", 8.0, 60.0, 45.0, 0},
-    {800.0, 5.0, 100.0, "D", 8.5, 60.0, 45.0, 0},
-    {1500.0, 8.0, 200.0, "D", 9.0, 75.0, 90.0, 0},
-    {1500.0, 8.0, 200.0, "D", 10.0, 75.0, 90.0, 0},
-    {1200.0, 6.0, 200.0, "D", 12.0, 75.0, 60.0, 0},
-    {1200.0, 6.0, 200.0, "D", 14.0, 75.0, 60.0, 0},
-    // Fraisurage (Classe C)
-    {1000.0, 5.0, 100.0, "C", 10.0, 50.0, 90.0, 0, 0.0},
-    {1500.0, 7.0, 200.0, "C", 20.0, 75.0, 60.0, 0, 10.0},
-    // Taraudage (Classe T)
-    {800.0, 5.0, 125.0, "T", 6.0, 60.0, 45.0, 0},
-    {1000.0, 6.0, 200.0, "T", 8.0, 75.0, 60.0, 0},
-    {1500.0, 8.0, 200.0, "T", 10.0, 75.0, 90.0, 0},
-    // Lamage (Classe S)
-    {800.0, 5.0, 100.0, "S", 6.0, 60.0, 45.0, 0},
-    {1000.0, 6.0, 200.0, "S", 8.0, 75.0, 60.0, 0},
-    {1200.0, 8.0, 200.0, "S", 10.0, 75.0, 90.0, 0},
-    {800.0, 5.0, 100.0, "S", 7.0, 60.0, 45.0, 0},
-    {1000.0, 6.0, 200.0, "S", 9.0, 75.0, 60.0, 0},
-    {1200.0, 8.0, 200.0, "S", 11.0, 75.0, 90.0, 0},
-};
+// std::vector<Outil> toolBank = {
+//     // Perçage (Classe D)
+//     {800.0, 5.0, 100.0, "D", 5.0, 60.0, 45.0, 0},
+//     {800.0, 5.0, 100.0, "D", 6.0, 60.0, 45.0, 0},
+//     {800.0, 5.0, 100.0, "D", 7.0, 60.0, 45.0, 0},
+//     {800.0, 5.0, 100.0, "D", 8.0, 60.0, 45.0, 0},
+//     {800.0, 5.0, 100.0, "D", 8.5, 60.0, 45.0, 0},
+//     {1500.0, 8.0, 200.0, "D", 9.0, 75.0, 90.0, 0},
+//     {1500.0, 8.0, 200.0, "D", 10.0, 75.0, 90.0, 0},
+//     {1200.0, 6.0, 200.0, "D", 12.0, 75.0, 60.0, 0},
+//     {1200.0, 6.0, 200.0, "D", 14.0, 75.0, 60.0, 0},
+//     // Fraisurage (Classe C)
+//     {1000.0, 5.0, 100.0, "C", 10.0, 50.0, 90.0, 0, 0.0},
+//     {1500.0, 7.0, 200.0, "C", 20.0, 75.0, 60.0, 0, 10.0},
+//     // Taraudage (Classe T)
+//     {800.0, 5.0, 125.0, "T", 6.0, 60.0, 45.0, 0},
+//     {1000.0, 6.0, 200.0, "T", 8.0, 75.0, 60.0, 0},
+//     {1500.0, 8.0, 200.0, "T", 10.0, 75.0, 90.0, 0},
+//     // Lamage (Classe S)
+//     {800.0, 5.0, 100.0, "S", 6.0, 60.0, 45.0, 0},
+//     {1000.0, 6.0, 200.0, "S", 8.0, 75.0, 60.0, 0},
+//     {1200.0, 8.0, 200.0, "S", 10.0, 75.0, 90.0, 0},
+//     {800.0, 5.0, 100.0, "S", 7.0, 60.0, 45.0, 0},
+//     {1000.0, 6.0, 200.0, "S", 9.0, 75.0, 60.0, 0},
+//     {1200.0, 8.0, 200.0, "S", 11.0, 75.0, 90.0, 0},
+// };
 
 std::string get_epaisseur_tole()
 {
@@ -502,13 +502,13 @@ void printPathCoordinates(std::vector<PathCoordinates> &pathCoordinatesList)
         }
 
         // Affiche le numéro de pièce et le chemin
-        // std::cout << "Pièce " << pathCount << " : " << pathCoordinates.path << std::endl;
-        // std::cout << "Coordonnées des exemplaires (pièce " << pathCount << ") : " << std::endl;
+        std::cout << "Pièce " << pathCount << " : " << pathCoordinates.path << std::endl;
+        std::cout << "Coordonnées des exemplaires (pièce " << pathCount << ") : " << std::endl;
 
         // Itère sur les coordonnées de pathCoordinates.coordinates (un vecteur de Coordinates)
         for (const Coordinates &coord : pathCoordinates.coordinates)
         {
-            // std::cout << "x: " << coord.x << ", y: " << coord.y << ", theta: " << coord.theta << std::endl;
+            std::cout << "x: " << coord.x << ", y: " << coord.y << ", theta: " << coord.theta << std::endl;
         }
 
         pathCount++;
@@ -608,7 +608,7 @@ std::vector<SymValue> extractSymData(const std::string &symFilePath)
         // Boucle for utilisée pour afficher les valeurs (commentée car elle est en cours de développement)
         // for (const SymValue& value : parsedValues) {
         //    std::cout << "[" + std::to_string(value.x)+ "," + std::to_string(value.y) + "," + std::to_string(value.z) + "," + std::to_string(value.type) + "," + std::to_string(value.couleur) + "," + std::to_string(value.rayon) + "]" << std::endl;
-        //}
+        // }
     }
     else
     {
@@ -746,6 +746,20 @@ void printStructure(const std::vector<SymValue> &values)
     }
 }
 
+int countDecimalPlaces(double value) {
+    std::ostringstream oss;
+    oss << value;
+    std::string str = oss.str();
+
+    size_t decimalPos = str.find('.');
+    if (decimalPos != std::string::npos) {
+        return str.length() - decimalPos - 1;
+    } else {
+        return 0; // No decimal point found
+    }
+}
+
+
 // FONCTIONS DE TRANSFORMATION (1 ET 2)
 // ANGLE -> Theta des pièces
 // POINT -> Coordonnées de l'opération de chaque exemplaire de la pièce
@@ -812,8 +826,12 @@ std::string generate_single_command(const SymValue &operation, int opType, const
 
     // Common parameters
     CommonParams commonParams;
-    commonParams.coordX = formatNumber((operation.x * 100), 6); // Convert to mm
-    commonParams.coordY = formatNumber((operation.y * 100), 6); // Convert to mm
+    double opXtemp = std::floor(operation.x * 100) / 100;
+    double opYtemp = std::floor(operation.y * 100) / 100;
+    int decimalPlaces_X = countDecimalPlaces(opXtemp);
+    int decimalPlaces_Y = countDecimalPlaces(opYtemp);
+    commonParams.coordX = formatNumber((opXtemp * std::pow(10, decimalPlaces_X)), 6); // Convert to mm
+    commonParams.coordY = formatNumber((opYtemp * std::pow(10, decimalPlaces_Y)), 6); // Convert to mm
     commonParams.epaisseurTole = epaisseur_tole;
 
     // Generate commands based on operation type
@@ -957,7 +975,7 @@ std::string generate_single_command(const SymValue &operation, int opType, const
 SymValueVariant driller_frames_execute(std::string filename, int operational_mode)
 {
 
-    std::vector<SymValue> Transformation_Repere_Tole, Transformation_Repere_Robot, pre_final_values;
+    std::vector<SymValue> Transformation_Repere_Tole, Transformation_Repere_Robot, pre_final_values, raw_holes_all;
     std::vector<SymValueGroup> final_values_groups;
     std::vector<SymValueSections> final_values_sections;
     Outil currentTool = {};
@@ -966,29 +984,29 @@ SymValueVariant driller_frames_execute(std::string filename, int operational_mod
 
     // Création d'une structure de coordonnées pour le repère de la tôle
     Coordinates repere_tole;
-    repere_tole.x = 4000.0;
-    repere_tole.y = 2000.0;
-    repere_tole.theta = 180.0;
+    repere_tole.x = 1086.18;
+    repere_tole.y = 1981.08;
+    repere_tole.theta = 180.801743;
 
     // Affichage banque d'outils
     // for (const auto& tool : toolBank_json) {
     //    std::cout << "Tool: " << tool.classe << ", Diameter: " << tool.diametre << std::endl;
     //}
 
-    std::vector<Outil> toolMagasine;
+    // std::vector<Outil> toolMagasine = readToolBank("tool_bank.json");
 
-    // Check s'il y a au moins 20 outils dans la banque
-    if (toolBank.size() >= 20)
-    {
-        // Recupere les 20 premiers outils dans la banque
-        toolMagasine.assign(toolBank.begin(), toolBank.begin() + 20);
-    }
-    else
-    {
-        // Pas assez d'outils dans la banque d'outils
-        std::cerr << "Error: Not enough tools in the toolBank." << std::endl;
-        return {}; // Return an empty vector
-    }
+    // // Check s'il y a au moins 20 outils dans la banque
+    // if (toolBank.size() >= 20)
+    // {
+    //     // Recupere les 20 premiers outils dans la banque
+    //     toolMagasine.assign(toolBank.begin(), toolBank.begin() + 20);
+    // }
+    // else
+    // {
+    //     // Pas assez d'outils dans la banque d'outils
+    //     std::cerr << "Error: Not enough tools in the toolBank." << std::endl;
+    //     return {}; // Return an empty vector
+    // }
 
     // Ouverture du fichier en lecture
     std::ifstream file(filename);
@@ -1023,22 +1041,34 @@ SymValueVariant driller_frames_execute(std::string filename, int operational_mod
     }
 
     // Affichage des chemins et des coordonnées
-    // printPathCoordinates(pathCoordinatesList);
+    //printPathCoordinates(pathCoordinatesList);
+    // for (auto &pathCoordinatesTest : pathCoordinatesList){
+    //     std::cout << "Element: "<< pathCoordinatesTest.path << std::endl;
+    // }
 
+    //int count = 0;
+    //std::cout << pathCoordinatesList.size() << std::endl;
     // Boucle pour gérer les fichiers .sym
-    for (const PathCoordinates &pathCoordinates : pathCoordinatesList)
+    for (auto &pathCoordinates : pathCoordinatesList)
     {
+        //std::cout << "ELEMENT : "<<  pathCoordinates.path << std::endl;
         // Vérifie si le chemin se termine par ".sym"
-        if (pathCoordinates.path.substr(pathCoordinates.path.size() - 4) == ".sym")
-        {
+        //if (pathCoordinates.path.substr(pathCoordinates.path.size() - 4) == ".sym")
+        //{
+
+            //std::cout <<  count++ << std::endl;
             // Extraction des données brutes du fichier .sym
             std::vector<SymValue> raw_holes_data = extractSymData(pathCoordinates.path);
+            //auto insertion_point = raw_holes_all.end();
 
+            // Inserting vector1 into vector2 without erasing existing data
+            //raw_holes_all.insert(insertion_point, raw_holes_data.begin(), raw_holes_data.end());
+            // raw_holes_all.push_back(raw_holes_data);
             // for (SymValue hole : raw_holes_data)
-            //{
+            // {
             //     std::cout << "Type : " << hole.type << " | Diametre : " << hole.rayon*2 << std::endl;
             // }
-
+    
             // Vérifie si les données brutes ne sont pas vides
             if (!raw_holes_data.empty())
             {
@@ -1046,24 +1076,33 @@ SymValueVariant driller_frames_execute(std::string filename, int operational_mod
                 // Transformation 1 : Transformation des coordonnées dans le repère de la tôle
                 for (const Coordinates &coordinate : pathCoordinates.coordinates)
                 {
+                    std::cout << "REF = X: "<< coordinate.x << "| Y: "<< coordinate.y << std::endl;
+
                     for (const SymValue &value : raw_holes_data)
                     {
+                    std::cout << "BRUT = X: "<< value.x << "| Y: "<< value.y << std::endl;
+
                         // Applique la transformation dans le repère de la tôle
                         SymValue transformedValue = transformation_repere_rad(value, coordinate);
+                        std::cout << "REPERE TOLE = X: "<< transformedValue.x << "| Y: "<< transformedValue.y << std::endl;
                         // Ajoute les coordonnées transformées au vecteur Transformation_Repere_Tole
                         Transformation_Repere_Tole.push_back(transformedValue);
                     }
                 }
-
+                
+                Transformation_Repere_Robot.clear();
                 // Transformation 2 : Transformation des coordonnées dans le repère du robot
                 for (const SymValue &value : Transformation_Repere_Tole)
                 {
                     // Applique la transformation dans le repère du robot
                     SymValue transformedValue = transformation_repere_rad(value, repere_tole);
+                    std::cout << "REPERE ROBOT = X: "<< transformedValue.x << "| Y: "<< transformedValue.y << std::endl;
+
                     // Ajoute les coordonnées transformées au vecteur Transformation_Repere_Robot
                     Transformation_Repere_Robot.push_back(transformedValue);
                 }
-
+                //
+                Transformation_Repere_Tole.clear();
                 // Tri des données transformées dans le repère robot
                 switch (operational_mode)
                 {
@@ -1074,7 +1113,7 @@ SymValueVariant driller_frames_execute(std::string filename, int operational_mod
                         std::sort(group.values.begin(), group.values.end(), sortByRayonAndDistance);
                     }
 
-                    return final_values_groups;
+                    //return final_values_groups;
                     break;
                 case 1:
                     final_values_sections = sortAndGroupBySection(Transformation_Repere_Robot, customTypeOrder);
@@ -1086,7 +1125,7 @@ SymValueVariant driller_frames_execute(std::string filename, int operational_mod
                             std::sort(group.values.begin(), group.values.end(), sortByRayonAndDistance);
                         }
                     }
-                    return final_values_sections;
+                    //return final_values_sections;
                     break;
                 default:
                     std::cout << "OPERATIONAL MODE ERROR" << std::endl;
@@ -1098,9 +1137,18 @@ SymValueVariant driller_frames_execute(std::string filename, int operational_mod
                 // printStructure(group.values);
                 //}
             }
-        }
+
+
+        //} 
+ 
     }
 
+            if (!final_values_groups.empty())
+            {
+                return final_values_groups;
+            } else {
+                return final_values_sections;
+            }
     // return liste_trames; // Quitte le programme avec un code de succès
     // return final_values;
     return {};

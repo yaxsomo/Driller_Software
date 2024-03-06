@@ -327,7 +327,80 @@ void texte_alarme_get(opcua::Client &client)
     }
 }
 
-void trame_out_get(opcua::Client &client)
+std::stringstream trame_out_get(opcua::Client &client)
+{
+    try
+    {
+
+        opcua::NodeId trame_out(4, "|var|UHX65A.Application.User_PRG.Trame_OUT_Akeros");
+        opcua::Variant variantValue = client.getNode(trame_out).readValue();
+
+        if (!variantValue.isEmpty())
+        {
+            if (variantValue.isScalar())
+            {
+                // std::cout << "Value is scalar" << std::endl;
+                // std::cout << "Data Type Kind: " << variantValue.getDataType()->typeKind << std::endl;
+
+                if (variantValue.getDataType()->typeKind == UA_DATATYPEKIND_STRING)
+                {
+                    // std::cout << "Value is string" << std::endl;
+                    if (variantValue.isEmpty())
+                    {
+                        std::cout << "The Trame_OUT is empty" << std::endl;
+                    }
+
+                    opcua::String valueString = *static_cast<opcua::String *>(variantValue.data());
+                    std::string_view valueString_view = *static_cast<std::string_view *>(variantValue.data());
+
+                    // std::cout << "Value converted to string" << std::endl;
+
+                    // std::cout << "Value String OPCUA: " << valueString << std::endl;
+                    // std::cout << "Value String View: " << valueString_view << std::endl;
+
+                    std::stringstream logMessage;
+                    logMessage << valueString_view;
+                    return logMessage;
+                }
+                else
+                {
+                    std::stringstream logMessage;
+                    logMessage << "La réponse n'est sous le format String";
+                    log(client, opcua::LogLevel::Error, opcua::LogCategory::Server, logMessage.str());
+                }
+            }
+            else
+            {
+                std::stringstream logMessage;
+                logMessage << "Type de donnée pas scalaire.";
+                log(client, opcua::LogLevel::Error, opcua::LogCategory::Server, logMessage.str());
+            }
+        }
+        else
+        {
+            std::stringstream logMessage;
+            logMessage << "Pas de trame presente";
+            log(client, opcua::LogLevel::Warning, opcua::LogCategory::Server, logMessage.str());
+        }
+    }
+    catch (const opcua::BadStatus &e)
+    {
+        std::cerr << "OPC UA BadStatus error: " << e.what() << std::endl;
+    }
+    catch (const std::bad_alloc &e)
+    {
+        std::cerr << "Memory allocation error: " << e.what() << std::endl;
+    }
+    catch (const std::exception &e)
+    {
+        std::cerr << "Error: " << e.what() << std::endl;
+    }
+    std::stringstream logMessage;
+    logMessage << "ERROR";
+    return logMessage;
+}
+
+void trame_out_print(opcua::Client &client)
 {
     try
     {
@@ -496,11 +569,22 @@ void position_robot_get(opcua::Client &client)
     }
 }
 
+std::string check_trame_out(std::stringstream& ss) {
+    std::string content = ss.str();
+    if (content.find("EX") != std::string::npos && content.rfind("EX") == content.size() - 2) {
+        // "EX" found at the end of the string, return error message
+        return "TERMINE AVEC ERREUR";
+    } else {
+        // "EX" not found at the end of the string, return confirmation message
+        return "TERMINE SANS ERREUR";
+    }
+}
+
 void mission_lancement(opcua::Client &client)
 {
     opcua::NodeId trame_in(4, "|var|UHX65A.Application.User_PRG.Trame_IN_Akeros");
     opcua::NodeId mission_go(4, "|var|UHX65A.Application.User_PRG.RAZ_Trame_IN_Akeros");
-    int mission_counter = 0;
+    int mission_counter = 1;
     std::string epaisseur_tole = get_epaisseur_tole();
     std::string trame;
 
@@ -514,61 +598,74 @@ void mission_lancement(opcua::Client &client)
                 trame = generate_single_command(operation, group.type, epaisseur_tole, toolBank_json);
                 std::stringstream logMessage;
                 std::cout << "------------------------------------------------------------" << std::endl;
-                // Check for the abort signal
-                if (abortMission)
-                {
-                    logMessage << "Ensemble des missions anullés!" << std::endl;
-                    log(client, opcua::LogLevel::Warning, opcua::LogCategory::SecureChannel, logMessage.str());
-                    break;
-                }
+                std::cout << "MISSION N." << mission_counter << ": "<< std::endl;
+ 
                 // Assuming you want to use trame as the input for each iteration
                 opcua::String trameInputString(trame);
 
                 opcua::Variant trameVariant;
                 trameVariant.setScalarCopy(trameInputString);
 
+                // Add a delay between state checks (adjust as needed)
+                    std::this_thread::sleep_for(std::chrono::seconds(1));
                 // Write the trame to trame_in Node
                 client.getNode(trame_in).writeValueScalar(trameInputString);
+                logMessage << "Trame IN : "<< trame << std::endl;
+                log(client, opcua::LogLevel::Debug, opcua::LogCategory::Client, logMessage.str());
+                logMessage.str("");
                 logMessage << "Trame envoyée correctement!" << std::endl;
                 log(client, opcua::LogLevel::Debug, opcua::LogCategory::Server, logMessage.str());
+                logMessage.str("");
+
 
                 // Set mission_go (Bit)
                 bool missionGoValue = false; // Set this value based on your logic (0 or 1)
                 opcua::Variant missionGoVariant = opcua::Variant::fromScalar(missionGoValue);
                 client.getNode(mission_go).writeValue(missionGoVariant);
 
-                std::cout << "MISSION N." << mission_counter << ": " << trame << std::endl;
+                // Add a delay between state checks (adjust as needed)
+                std::this_thread::sleep_for(std::chrono::seconds(2));
 
+
+                std::stringstream trame_o = trame_out_get(client);
+                log(client, opcua::LogLevel::Info, opcua::LogCategory::Server, trame_o.str());
+                logMessage.str("");
+
+                etat_robot_get(client);
                 // std::stringstream logMessage;
                 logMessage << "État du robot: " << EN_Robot_State[current_robot_state] << std::endl;
                 log(client, opcua::LogLevel::Debug, opcua::LogCategory::Server, logMessage.str());
+                logMessage.str("");
 
                 // Wait until the robot finishes its mission (state becomes "Wait")
                 while (true)
                 {
-                    // Check for the abort signal
-                    if (abortMission)
-                    {
-                        logMessage << "Mission Anullée!" << std::endl;
-                        log(client, opcua::LogLevel::Warning, opcua::LogCategory::SecureChannel, logMessage.str());
-                        break;
-                    }
-
                     // Get the current robot state
                     etat_robot_get(client);
 
                     // Add a delay between state checks (adjust as needed)
-                    std::this_thread::sleep_for(std::chrono::milliseconds(1));
+                    std::this_thread::sleep_for(std::chrono::seconds(1));
 
                     // Check if the robot is in the "Wait" state (state 5)
                     if (current_robot_state == 5)
                     {
-                        std::cout << "MISSION N." << mission_counter << ": TERMINÉ" << std::endl;
                         break;
                     }
-                }
 
-                trame_out_get(client);
+                }
+                trame_o = trame_out_get(client);
+                std::string result =  check_trame_out(trame_o);
+                std::stringstream mess;
+                mess << result << std::endl;
+                log(client, opcua::LogLevel::Info, opcua::LogCategory::Server, mess.str());
+
+                // Set mission_go (Bit)
+                missionGoValue = true; // Set this value based on your logic (0 or 1)
+                missionGoVariant = opcua::Variant::fromScalar(missionGoValue);
+                client.getNode(mission_go).writeValue(missionGoVariant);
+                std::this_thread::sleep_for(std::chrono::seconds(1));
+                // std::cout << "MISSION N." << mission_counter << ": TERMINÉ" << std::endl;
+
 
                 // Increment the mission counter
                 mission_counter++;
@@ -588,6 +685,7 @@ void mission_lancement(opcua::Client &client)
                     trame = generate_single_command(operation, operation.type, epaisseur_tole, toolBank_json);
                     std::stringstream logMessage;
                     std::cout << "------------------------------------------------------------" << std::endl;
+                    std::cout << "MISSION N." << mission_counter << ": "<< std::endl;
                     // Check for the abort signal
                     if (abortMission)
                     {
@@ -603,6 +701,8 @@ void mission_lancement(opcua::Client &client)
 
                     // Write the trame to trame_in Node
                     client.getNode(trame_in).writeValueScalar(trameInputString);
+                    logMessage << "Trame IN : "<< trame << std::endl;
+                    log(client, opcua::LogLevel::Debug, opcua::LogCategory::Client, logMessage.str());
                     logMessage << "Trame envoyée correctement!" << std::endl;
                     log(client, opcua::LogLevel::Debug, opcua::LogCategory::Server, logMessage.str());
 
@@ -884,6 +984,7 @@ void print_frames(opcua::Client &client)
                 logMessage << "    OPERATION: " << OPERATIONS_TYPES[value.type] << " {"
                            << "X: " << value.x
                            << ", Y: " << value.y
+                           << ", Z: " << value.z
                            << ", Couleur: " << value.couleur
                            << ", Diametre: " << value.rayon * 2
                            << "}" << std::endl;
@@ -1022,7 +1123,7 @@ int runMenu(opcua::Client &client)
         [&]
         { mission_lancement_une_trame(client); },
         [&]
-        { trame_out_get(client); },
+        { trame_out_print(client); },
         [&]
         { rangement_robot(client); }};
 
@@ -1153,14 +1254,15 @@ int main(int argc, char *argv[])
 
     // COMMENT THOSE LINES IF IN TEST MODE
 
-    // client.connect("opc.tcp://192.168.100.14:4840");
+    client.connect("opc.tcp://192.168.100.14:4840");
+    //client.connect("opc.tcp://MOVI-C-ENG:4840");
 
-    // // client.connect("opc.tcp://192.168.10.4:4840");
+    
 
-    // opcua::Node node = client.getNode(opcua::VariableId::Server_ServerStatus_CurrentTime);
-    // const auto dt = node.readValueScalar<opcua::DateTime>();
+    opcua::Node node = client.getNode(opcua::VariableId::Server_ServerStatus_CurrentTime);
+    const auto dt = node.readValueScalar<opcua::DateTime>();
 
-    // std::cout << "Server date (UTC): " << dt.format("%Y-%m-%d %H:%M:%S") << std::endl;
+    std::cout << "Server date (UTC): " << dt.format("%Y-%m-%d %H:%M:%S") << std::endl;
 
     // END COMMENT THOSE LINES IF IN TEST MODE
 
