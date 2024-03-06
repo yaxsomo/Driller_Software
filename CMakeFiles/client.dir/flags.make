@@ -4,7 +4,7 @@
 # compile CXX with /usr/bin/c++
 CXX_DEFINES = -DUA_ARCHITECTURE_POSIX
 
-CXX_INCLUDES = -I/home/yaxsomo/Workspace/Driller_Software -I/usr/include/python3.10
+CXX_INCLUDES = -I/mnt/c/Users/yohan/Documents/Driller_Software -I/usr/include/python3.10
 
 CXX_FLAGS = 
 

@@ -127,18 +127,23 @@ std::string cleanString(const std::string &input)
 }
 
 // Function to extract all <Image> sections with image-type="png"
-std::vector<std::string> extractAllImageSections(const std::string& content) {
+std::vector<std::string> extractAllImageSections(const std::string &content)
+{
     std::vector<std::string> imageSections;
     size_t pos = 0;
 
-    while ((pos = content.find("<Image image-type=\"png\"", pos)) != std::string::npos) {
+    while ((pos = content.find("<Image image-type=\"png\"", pos)) != std::string::npos)
+    {
         // Find the end of the current <Image> section
         size_t endPos = content.find("</Image>", pos);
-        if (endPos != std::string::npos) {
+        if (endPos != std::string::npos)
+        {
             // Extract the <Image> section including attributes and CDATA content
             imageSections.push_back(content.substr(pos, endPos - pos + 9)); // +9 to include </Image>
-            pos = endPos + 9; // Move pos to the end of the current <Image> section
-        } else {
+            pos = endPos + 9;                                               // Move pos to the end of the current <Image> section
+        }
+        else
+        {
             break; // No more <Image> sections found
         }
     }
@@ -746,19 +751,22 @@ void printStructure(const std::vector<SymValue> &values)
     }
 }
 
-int countDecimalPlaces(double value) {
+int countDecimalPlaces(double value)
+{
     std::ostringstream oss;
     oss << value;
     std::string str = oss.str();
 
     size_t decimalPos = str.find('.');
-    if (decimalPos != std::string::npos) {
+    if (decimalPos != std::string::npos)
+    {
         return str.length() - decimalPos - 1;
-    } else {
+    }
+    else
+    {
         return 0; // No decimal point found
     }
 }
-
 
 // FONCTIONS DE TRANSFORMATION (1 ET 2)
 // ANGLE -> Theta des pièces
@@ -839,7 +847,10 @@ std::string generate_single_command(const SymValue &operation, int opType, const
     {
     case 1: // Percage (OP. 1)
         outil = selectTool(operation.rayon, "D", tool_bank);
+        std::cout << "Classe: " << outil.classe << std::endl;
         tool_pos_int = findToolPosition(outil, tool_bank);
+        std::cout << "Position: " << tool_pos_int << std::endl;
+
         if (tool_pos_int == 0)
         {
             tool_pos = "00";
@@ -980,7 +991,6 @@ SymValueVariant driller_frames_execute(std::string filename, int operational_mod
     std::vector<SymValueSections> final_values_sections;
     Outil currentTool = {};
     std::vector<std::string> liste_trames;
-   
 
     // Création d'une structure de coordonnées pour le repère de la tôle
     Coordinates repere_tole;
@@ -1026,10 +1036,6 @@ SymValueVariant driller_frames_execute(std::string filename, int operational_mod
     // Lecture du contenu complet du fichier dans une chaîne de caractères
     std::string fileContent((std::istreambuf_iterator<char>(file)), std::istreambuf_iterator<char>());
 
-
-
-    
-
     // Extraction des chemins et des coordonnées à partir du contenu du fichier
     std::vector<PathCoordinates> pathCoordinatesList = extractPathAndCoordinates(fileContent);
 
@@ -1041,122 +1047,121 @@ SymValueVariant driller_frames_execute(std::string filename, int operational_mod
     }
 
     // Affichage des chemins et des coordonnées
-    //printPathCoordinates(pathCoordinatesList);
+    // printPathCoordinates(pathCoordinatesList);
     // for (auto &pathCoordinatesTest : pathCoordinatesList){
     //     std::cout << "Element: "<< pathCoordinatesTest.path << std::endl;
     // }
 
-    //int count = 0;
-    //std::cout << pathCoordinatesList.size() << std::endl;
-    // Boucle pour gérer les fichiers .sym
+    // int count = 0;
+    // std::cout << pathCoordinatesList.size() << std::endl;
+    //  Boucle pour gérer les fichiers .sym
     for (auto &pathCoordinates : pathCoordinatesList)
     {
-        //std::cout << "ELEMENT : "<<  pathCoordinates.path << std::endl;
-        // Vérifie si le chemin se termine par ".sym"
-        //if (pathCoordinates.path.substr(pathCoordinates.path.size() - 4) == ".sym")
+        // std::cout << "ELEMENT : "<<  pathCoordinates.path << std::endl;
+        //  Vérifie si le chemin se termine par ".sym"
+        // if (pathCoordinates.path.substr(pathCoordinates.path.size() - 4) == ".sym")
         //{
 
-            //std::cout <<  count++ << std::endl;
-            // Extraction des données brutes du fichier .sym
-            std::vector<SymValue> raw_holes_data = extractSymData(pathCoordinates.path);
-            //auto insertion_point = raw_holes_all.end();
+        // std::cout <<  count++ << std::endl;
+        //  Extraction des données brutes du fichier .sym
+        std::vector<SymValue> raw_holes_data = extractSymData(pathCoordinates.path);
+        // auto insertion_point = raw_holes_all.end();
 
-            // Inserting vector1 into vector2 without erasing existing data
-            //raw_holes_all.insert(insertion_point, raw_holes_data.begin(), raw_holes_data.end());
-            // raw_holes_all.push_back(raw_holes_data);
-            // for (SymValue hole : raw_holes_data)
-            // {
-            //     std::cout << "Type : " << hole.type << " | Diametre : " << hole.rayon*2 << std::endl;
-            // }
-    
-            // Vérifie si les données brutes ne sont pas vides
-            if (!raw_holes_data.empty())
+        // Inserting vector1 into vector2 without erasing existing data
+        // raw_holes_all.insert(insertion_point, raw_holes_data.begin(), raw_holes_data.end());
+        // raw_holes_all.push_back(raw_holes_data);
+        // for (SymValue hole : raw_holes_data)
+        // {
+        //     std::cout << "Type : " << hole.type << " | Diametre : " << hole.rayon*2 << std::endl;
+        // }
+
+        // Vérifie si les données brutes ne sont pas vides
+        if (!raw_holes_data.empty())
+        {
+
+            // Transformation 1 : Transformation des coordonnées dans le repère de la tôle
+            for (const Coordinates &coordinate : pathCoordinates.coordinates)
             {
+                std::cout << "REF = X: " << coordinate.x << "| Y: " << coordinate.y << std::endl;
 
-                // Transformation 1 : Transformation des coordonnées dans le repère de la tôle
-                for (const Coordinates &coordinate : pathCoordinates.coordinates)
+                for (const SymValue &value : raw_holes_data)
                 {
-                    std::cout << "REF = X: "<< coordinate.x << "| Y: "<< coordinate.y << std::endl;
+                    std::cout << "BRUT = X: " << value.x << "| Y: " << value.y << std::endl;
 
-                    for (const SymValue &value : raw_holes_data)
-                    {
-                    std::cout << "BRUT = X: "<< value.x << "| Y: "<< value.y << std::endl;
-
-                        // Applique la transformation dans le repère de la tôle
-                        SymValue transformedValue = transformation_repere_rad(value, coordinate);
-                        std::cout << "REPERE TOLE = X: "<< transformedValue.x << "| Y: "<< transformedValue.y << std::endl;
-                        // Ajoute les coordonnées transformées au vecteur Transformation_Repere_Tole
-                        Transformation_Repere_Tole.push_back(transformedValue);
-                    }
+                    // Applique la transformation dans le repère de la tôle
+                    SymValue transformedValue = transformation_repere_rad(value, coordinate);
+                    std::cout << "REPERE TOLE = X: " << transformedValue.x << "| Y: " << transformedValue.y << std::endl;
+                    // Ajoute les coordonnées transformées au vecteur Transformation_Repere_Tole
+                    Transformation_Repere_Tole.push_back(transformedValue);
                 }
-                
-                Transformation_Repere_Robot.clear();
-                // Transformation 2 : Transformation des coordonnées dans le repère du robot
-                for (const SymValue &value : Transformation_Repere_Tole)
-                {
-                    // Applique la transformation dans le repère du robot
-                    SymValue transformedValue = transformation_repere_rad(value, repere_tole);
-                    std::cout << "REPERE ROBOT = X: "<< transformedValue.x << "| Y: "<< transformedValue.y << std::endl;
+            }
 
-                    // Ajoute les coordonnées transformées au vecteur Transformation_Repere_Robot
-                    Transformation_Repere_Robot.push_back(transformedValue);
-                }
-                //
-                Transformation_Repere_Tole.clear();
-                // Tri des données transformées dans le repère robot
-                switch (operational_mode)
+            Transformation_Repere_Robot.clear();
+            // Transformation 2 : Transformation des coordonnées dans le repère du robot
+            for (const SymValue &value : Transformation_Repere_Tole)
+            {
+                // Applique la transformation dans le repère du robot
+                SymValue transformedValue = transformation_repere_rad(value, repere_tole);
+                std::cout << "REPERE ROBOT = X: " << transformedValue.x << "| Y: " << transformedValue.y << std::endl;
+
+                // Ajoute les coordonnées transformées au vecteur Transformation_Repere_Robot
+                Transformation_Repere_Robot.push_back(transformedValue);
+            }
+            //
+            //Transformation_Repere_Tole.clear();
+            // Tri des données transformées dans le repère robot
+            switch (operational_mode)
+            {
+            case 0:
+                final_values_groups = sortAndGroupByType(Transformation_Repere_Robot, customTypeOrder);
+                for (SymValueGroup &group : final_values_groups)
                 {
-                case 0:
-                    final_values_groups = sortAndGroupByType(Transformation_Repere_Robot, customTypeOrder);
-                    for (SymValueGroup &group : final_values_groups)
+                    std::sort(group.values.begin(), group.values.end(), sortByRayonAndDistance);
+                }
+
+                // return final_values_groups;
+                break;
+            case 1:
+                final_values_sections = sortAndGroupBySection(Transformation_Repere_Robot, customTypeOrder);
+
+                for (SymValueSections &section : final_values_sections)
+                {
+                    for (SymValueGroup &group : section.groups)
                     {
                         std::sort(group.values.begin(), group.values.end(), sortByRayonAndDistance);
                     }
-
-                    //return final_values_groups;
-                    break;
-                case 1:
-                    final_values_sections = sortAndGroupBySection(Transformation_Repere_Robot, customTypeOrder);
-
-                    for (SymValueSections &section : final_values_sections)
-                    {
-                        for (SymValueGroup &group : section.groups)
-                        {
-                            std::sort(group.values.begin(), group.values.end(), sortByRayonAndDistance);
-                        }
-                    }
-                    //return final_values_sections;
-                    break;
-                default:
-                    std::cout << "OPERATIONAL MODE ERROR" << std::endl;
-                    return {};
                 }
-
-                // Affichage des données transformées (test)
-                // for (SymValueGroup& group : final_values) {
-                // printStructure(group.values);
-                //}
+                // return final_values_sections;
+                break;
+            default:
+                std::cout << "OPERATIONAL MODE ERROR" << std::endl;
+                return {};
             }
 
+            // Affichage des données transformées (test)
+            // for (SymValueGroup& group : final_values) {
+            // printStructure(group.values);
+            //}
+        }
 
-        //} 
- 
+        //}
     }
 
-            if (!final_values_groups.empty())
-            {
-                return final_values_groups;
-            } else {
-                return final_values_sections;
-            }
+    if (!final_values_groups.empty())
+    {
+        return final_values_groups;
+    }
+    else
+    {
+        return final_values_sections;
+    }
     // return liste_trames; // Quitte le programme avec un code de succès
     // return final_values;
     return {};
 }
 
-
-
-void extract_images(std::string filename){
+void extract_images(std::string filename)
+{
     // Initialize Python
     Py_Initialize();
 
@@ -1195,18 +1200,21 @@ void extract_images(std::string filename){
     std::vector<std::string> imageSections = extractAllImageSections(fileContent);
 
     // Iterate through each extracted image section
-    for (const auto& imageSection : imageSections) {
+    for (const auto &imageSection : imageSections)
+    {
         // Extract the CDATA content from the current image section
         std::string imageData = extractImageData(imageSection);
 
-        if (!imageData.empty()) {
+        if (!imageData.empty())
+        {
             // Clean the CDATA content (remove white spaces and empty characters)
             std::string imageDataCleaned = cleanString(imageData);
 
             // Prepare Python code to decode base64 and save the image
             std::string pythonCode = "data = '''" + imageDataCleaned + "'''\n"
-                                    "im = Image.open(BytesIO(base64.b64decode(data)))\n"
-                                    "im.save('" + folderPath + "/image-" + std::to_string(img_count) +".png', 'PNG')\n";
+                                                                       "im = Image.open(BytesIO(base64.b64decode(data)))\n"
+                                                                       "im.save('" +
+                                     folderPath + "/image-" + std::to_string(img_count) + ".png', 'PNG')\n";
 
             // Execute Python code
             PyRun_SimpleString(pythonCode.c_str());
@@ -1215,7 +1223,9 @@ void extract_images(std::string filename){
 
             // std::cout << "Image Data Length: " << imageDataCleaned.length() << std::endl;
             // std::cout << "Image Data: " << imageDataCleaned << std::endl;
-        } else {
+        }
+        else
+        {
             std::cout << "No CDATA content found in the Image section." << std::endl;
         }
     }

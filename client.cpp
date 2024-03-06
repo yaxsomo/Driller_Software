@@ -569,12 +569,17 @@ void position_robot_get(opcua::Client &client)
     }
 }
 
-std::string check_trame_out(std::stringstream& ss) {
+std::string check_trame_out(std::stringstream &ss)
+{
     std::string content = ss.str();
-    if (content.find("EX") != std::string::npos && content.rfind("EX") == content.size() - 2) {
+    std::cout << content << std::endl;
+    if (content.find("EX") != std::string::npos && content.rfind("EX") == content.size() - 2)
+    {
         // "EX" found at the end of the string, return error message
         return "TERMINE AVEC ERREUR";
-    } else {
+    }
+    else
+    {
         // "EX" not found at the end of the string, return confirmation message
         return "TERMINE SANS ERREUR";
     }
@@ -598,8 +603,8 @@ void mission_lancement(opcua::Client &client)
                 trame = generate_single_command(operation, group.type, epaisseur_tole, toolBank_json);
                 std::stringstream logMessage;
                 std::cout << "------------------------------------------------------------" << std::endl;
-                std::cout << "MISSION N." << mission_counter << ": "<< std::endl;
- 
+                std::cout << "MISSION N." << mission_counter << ": " << std::endl;
+
                 // Assuming you want to use trame as the input for each iteration
                 opcua::String trameInputString(trame);
 
@@ -607,16 +612,15 @@ void mission_lancement(opcua::Client &client)
                 trameVariant.setScalarCopy(trameInputString);
 
                 // Add a delay between state checks (adjust as needed)
-                    std::this_thread::sleep_for(std::chrono::seconds(1));
+                std::this_thread::sleep_for(std::chrono::seconds(1));
                 // Write the trame to trame_in Node
                 client.getNode(trame_in).writeValueScalar(trameInputString);
-                logMessage << "Trame IN : "<< trame << std::endl;
+                logMessage << "Trame IN : " << trame << std::endl;
                 log(client, opcua::LogLevel::Debug, opcua::LogCategory::Client, logMessage.str());
                 logMessage.str("");
                 logMessage << "Trame envoyée correctement!" << std::endl;
                 log(client, opcua::LogLevel::Debug, opcua::LogCategory::Server, logMessage.str());
                 logMessage.str("");
-
 
                 // Set mission_go (Bit)
                 bool missionGoValue = false; // Set this value based on your logic (0 or 1)
@@ -625,7 +629,6 @@ void mission_lancement(opcua::Client &client)
 
                 // Add a delay between state checks (adjust as needed)
                 std::this_thread::sleep_for(std::chrono::seconds(2));
-
 
                 std::stringstream trame_o = trame_out_get(client);
                 log(client, opcua::LogLevel::Info, opcua::LogCategory::Server, trame_o.str());
@@ -651,21 +654,20 @@ void mission_lancement(opcua::Client &client)
                     {
                         break;
                     }
-
                 }
                 trame_o = trame_out_get(client);
-                std::string result =  check_trame_out(trame_o);
+                std::string result = check_trame_out(trame_o);
                 std::stringstream mess;
                 mess << result << std::endl;
                 log(client, opcua::LogLevel::Info, opcua::LogCategory::Server, mess.str());
-
+                mess.str("");
+                trame_o.str("");
                 // Set mission_go (Bit)
                 missionGoValue = true; // Set this value based on your logic (0 or 1)
                 missionGoVariant = opcua::Variant::fromScalar(missionGoValue);
                 client.getNode(mission_go).writeValue(missionGoVariant);
                 std::this_thread::sleep_for(std::chrono::seconds(1));
                 // std::cout << "MISSION N." << mission_counter << ": TERMINÉ" << std::endl;
-
 
                 // Increment the mission counter
                 mission_counter++;
@@ -685,7 +687,7 @@ void mission_lancement(opcua::Client &client)
                     trame = generate_single_command(operation, operation.type, epaisseur_tole, toolBank_json);
                     std::stringstream logMessage;
                     std::cout << "------------------------------------------------------------" << std::endl;
-                    std::cout << "MISSION N." << mission_counter << ": "<< std::endl;
+                    std::cout << "MISSION N." << mission_counter << ": " << std::endl;
                     // Check for the abort signal
                     if (abortMission)
                     {
@@ -701,7 +703,7 @@ void mission_lancement(opcua::Client &client)
 
                     // Write the trame to trame_in Node
                     client.getNode(trame_in).writeValueScalar(trameInputString);
-                    logMessage << "Trame IN : "<< trame << std::endl;
+                    logMessage << "Trame IN : " << trame << std::endl;
                     log(client, opcua::LogLevel::Debug, opcua::LogCategory::Client, logMessage.str());
                     logMessage << "Trame envoyée correctement!" << std::endl;
                     log(client, opcua::LogLevel::Debug, opcua::LogCategory::Server, logMessage.str());
@@ -1033,7 +1035,7 @@ void switch_operational_mode()
     if (it != OPERATIONAL_MODE.end())
     {
         currentOperationalMode = newMode;
-        
+
         SymValueVariant result = driller_frames_execute(filename, currentOperationalMode);
         // Access the result based on its type
         if (std::holds_alternative<std::vector<SymValueGroup>>(result))
@@ -1041,7 +1043,8 @@ void switch_operational_mode()
             // Handle SymValueGroup vector
             holes_groups = std::get<std::vector<SymValueGroup>>(result);
             // Process SymValueGroup...
-            if (holes_groups.size() > 1){
+            if (holes_groups.size() > 1)
+            {
                 switched = true;
             }
         }
@@ -1049,10 +1052,13 @@ void switch_operational_mode()
         {
             // Handle SymValueSections vector
             holes_sections = std::get<std::vector<SymValueSections>>(result);
-            if (holes_sections.size() <= 1){
-                 switched = true;
+            if (holes_sections.size() <= 1)
+            {
+                switched = true;
             }
-        } else {
+        }
+        else
+        {
             std::cout << "ERROR! Data is not coherent " << std::endl;
         }
     }
@@ -1064,10 +1070,11 @@ void switch_operational_mode()
     if (switched)
     {
         std::cout << "Operational mode switched to: " << OPERATIONAL_MODE[currentOperationalMode] << std::endl;
-    } else {
+    }
+    else
+    {
         std::cout << "Operational mode switch error." << std::endl;
     }
-    
 }
 // A PRENDRE EN CHARGE (PAS URGENT) ------------------------
 void vitesse_robot_get(opcua::Client &client)
@@ -1255,9 +1262,6 @@ int main(int argc, char *argv[])
     // COMMENT THOSE LINES IF IN TEST MODE
 
     client.connect("opc.tcp://192.168.100.14:4840");
-    //client.connect("opc.tcp://MOVI-C-ENG:4840");
-
-    
 
     opcua::Node node = client.getNode(opcua::VariableId::Server_ServerStatus_CurrentTime);
     const auto dt = node.readValueScalar<opcua::DateTime>();
@@ -1267,23 +1271,22 @@ int main(int argc, char *argv[])
     // END COMMENT THOSE LINES IF IN TEST MODE
 
     //------------------------------------------- END OPCUA CONFIG AND CONNECTION -----------------------
-    
+
     int menu_exit_code = runMenu(client); // Lancement du menu DRILLER
 
     //------------------------------------------- END TEST ENV FOR FUNCTIONS -----------------------
-  
-        switch (menu_exit_code)
-        {
-        case 0:
-            logMessage << "Sortie du programme | CODE : " << menu_exit_code << std::endl;
-            log(client, opcua::LogLevel::Info, opcua::LogCategory::Client, logMessage.str());
-            break;
-        default:
-            logMessage << "Erreur en sortie du programme | CODE : " << menu_exit_code << std::endl;
-            log(client, opcua::LogLevel::Error, opcua::LogCategory::Session, logMessage.str());
-            break;
-        }
 
-        return menu_exit_code;
+    switch (menu_exit_code)
+    {
+    case 0:
+        logMessage << "Sortie du programme | CODE : " << menu_exit_code << std::endl;
+        log(client, opcua::LogLevel::Info, opcua::LogCategory::Client, logMessage.str());
+        break;
+    default:
+        logMessage << "Erreur en sortie du programme | CODE : " << menu_exit_code << std::endl;
+        log(client, opcua::LogLevel::Error, opcua::LogCategory::Session, logMessage.str());
+        break;
+    }
 
+    return menu_exit_code;
 }
