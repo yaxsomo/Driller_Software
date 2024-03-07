@@ -1,0 +1,9 @@
+prefix=/usr/local
+libdir=${prefix}/lib
+includedir=${prefix}/include
+
+Name: msgpack11
+Description: msgpack11 is a tiny MessagePack library for C++11, providing MessagePack parsing and serialization.
+Version: 0.0.9
+Libs: -L${libdir} -lmsgpack11
+Cflags: -I${includedir}

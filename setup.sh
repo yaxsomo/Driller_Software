@@ -5,6 +5,8 @@ sudo apt update && sudo apt upgrade -y
 
 #install dependencies related to C++
 sudo apt install build-essential make cmake -y
+sudo apt-get install openssl libssl-dev -y
+sudo apt-get install libboost-all-dev -y
 
 # Add open62541pp library
 git clone --recursive https://github.com/open62541pp/open62541pp.git
@@ -19,6 +21,11 @@ sudo cmake --install .
 cd ..
 rm -f CMakeCache.txt && rm -rf CMakeFiles
 
+cd libs/
+git clone git@github.com:nats-io/nats.c.git 
+cd nats.c/ && mkdir build && cd build/
+cmake .. -DNATS_BUILD_STREAMING=OFF && make && sudo make install
+cd ../../..
 
 # Build the project
 cmake .
